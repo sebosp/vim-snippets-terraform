@@ -1,3 +1,116 @@
+snippet svar "Short variable definition" b
+variable "${1:name}" {
+  description = ""
+  type        = ""
+  default     = ""
+}
+endsnippet
+
+snippet fvar "Full variable definition" b
+variable "${1:name}" {
+  description = ""
+  type        = ""
+  default     = ""
+}
+endsnippet
+
+snippet varString "String variable definition" b
+variable "${1:name}" {
+  description = ""
+  type        = ""
+  default     = ""
+}
+endsnippet
+
+snippet varList "List variable definition" b
+variable "${1:name}" {
+  description = ""
+  type        = "list"
+  default     = [""]
+}
+endsnippet
+
+snippet varMap "Variable definition" b
+variable "${1:name}" {
+  description = ""
+  type        = "map"
+  default     = {
+    "key" = "val"
+  }
+}
+endsnippet
+
+snippet output "Output definition" b
+output "${1:name}" {
+  value = ""
+}
+endsnippet
+
+snippet module "Module definition" b
+module "${1:name}" {
+  source    = "../modules/"
+  modparam  = "val"
+}
+endsnippet
+
+snippet gitSsh "Private Git SSH reference with tag ref" i
+git::ssh://git@privGitServer/account/example.git//subdir?ref=0.0.1
+endsnippet
+
+snippet gitHub "Git SSH reference" i
+git@github.com:account/example.git//subdir
+endsnippet
+
+snippet gitHttp "Git HTTP(s) reference" i
+github.com/account/example.git//subdir
+endsnippet
+
+snippet spaws "Provider AWS" b
+provider "aws" {
+  region     = "${var.aws_region}"
+}
+endsnippet
+
+snippet fpaws "Provider AWS" b
+provider "aws" {
+  access_key                  = "${var.aws_access_key}"
+  secret_key                  = "${var.aws_secret_key}"
+  region                      = "${var.aws_region}"
+  profile                     = ""
+  assume_role {
+    role_arn     = "arn:aws:iam::ACCOUNT_ID:role/ROLE_NAME"
+    session_name = "SESSION_NAME"
+    external_id  = "EXTERNAL_ID"
+    policy       = ""
+  }
+  shared_credentials_file     = ""
+  token                       = ""
+  max_retries                 = 11
+  allowed_account_ids         = ""
+  forbidden_account_ids       = "" # Conflicts with allowed_account_ids
+  dynamodb_endpoint           = ""
+  kinesis_endpoint            = ""
+  endpoints {
+    dynamodb = ""
+    iam      = ""
+    ec2      = ""
+    elb      = ""
+    kinesis  = ""
+    s3       = ""
+  }
+  insecure                    = false
+  skip_credentials_validation = false
+  skip_region_validation      = false
+  skip_requesting_account_id  = false
+  skip_metadata_api_check     = false
+  s3_force_path_style         = false
+}
+endsnippet
+
+snippet var "Depends on explicit dependency" w
+depends_on = [""]
+endsnippet
+
 snippet sdAwsAcm "Certificate Manager ARN" b
 data "aws_acm_certificate" "${1:name}" {
   domain = ""
@@ -442,7 +555,8 @@ endsnippet
 # XXX: Use either zone_id or name
 snippet fdAwsRoute53Zone "HostedZoneId for a Route53 Hosted Zone" b
 data "aws_route53_zone" "${1:name}" {
-  zone_id|name = ""
+  zone_id      = ""
+  name         = "" # Conflicts with zone_id
   private_zone = true|false
   vpc_id       = ""
   tags {
@@ -791,7 +905,8 @@ resource "aws_alb_target_group" "${1:name}" {
   port                 = 1
   protocol             = ""
   vpc_id               = ""
-  name|name_prefix     = ""
+  name                 = ""
+  name_prefix          = "" # Conflicts with name
   deregistration_delay = 300
   stickiness {
     enabled          = true|false
@@ -984,7 +1099,7 @@ resource "aws_api_gateway_api_key" "${1:name}" {
 }
 endsnippet
 
-snippet srAwsApiGatewayAuthorizer
+snippet srAwsApiGatewayAuthorizer "API Gateway Authorizer" b
 resource "aws_api_gateway_authorizer" "${1:name}" {
   authorizer_uri = ""
   name           = ""
@@ -992,7 +1107,7 @@ resource "aws_api_gateway_authorizer" "${1:name}" {
 }
 endsnippet
 
-snippet frAwsApiGatewayAuthorizer
+snippet frAwsApiGatewayAuthorizer "API Gateway Authorizer" b
 resource "aws_api_gateway_authorizer" "${1:name}" {
   authorizer_uri                   = ""
   name                             = ""
@@ -1000,19 +1115,19 @@ resource "aws_api_gateway_authorizer" "${1:name}" {
   identity_source                  = ""
   type                             = ""
   authorizer_credentials           = ""
-  authorizer_result_ttl_in_seconds = 1
+  authorizer_result_ttl_in_seconds = 300
   identity_validation_expression   = ""
 }
 endsnippet
 
-snippet srAwsApiGatewayBasePathMapping
+snippet srAwsApiGatewayBasePathMapping "DNS to deployed API Mapping" b
 resource "aws_api_gateway_base_path_mapping" "${1:name}" {
   api_id      = ""
   domain_name = ""
 }
 endsnippet
 
-snippet frAwsApiGatewayBasePathMapping
+snippet frAwsApiGatewayBasePathMapping "DNS to deployed API Mapping" b
 resource "aws_api_gateway_base_path_mapping" "${1:name}" {
   api_id      = ""
   domain_name = ""
@@ -1021,25 +1136,25 @@ resource "aws_api_gateway_base_path_mapping" "${1:name}" {
 }
 endsnippet
 
-snippet srAwsApiGatewayClientCertificate
+snippet srAwsApiGatewayClientCertificate "API Gateway Client Certificate" b
 resource "aws_api_gateway_client_certificate" "${1:name}" {
 }
 endsnippet
 
-snippet frAwsApiGatewayClientCertificate
+snippet frAwsApiGatewayClientCertificate "API Gateway Client Certificate" b
 resource "aws_api_gateway_client_certificate" "${1:name}" {
   description             = ""
 }
 endsnippet
 
-snippet srAwsApiGatewayDeployment
+snippet srAwsApiGatewayDeployment "API Gateway Deployment" b
 resource "aws_api_gateway_deployment" "${1:name}" {
   rest_api_id = ""
   stage_name  = ""
 }
 endsnippet
 
-snippet frAwsApiGatewayDeployment
+snippet frAwsApiGatewayDeployment "API Gateway Deployment" b
 resource "aws_api_gateway_deployment" "${1:name}" {
   rest_api_id       = ""
   stage_name        = ""
