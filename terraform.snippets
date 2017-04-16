@@ -1,54 +1,54 @@
 snippet svar "Short variable definition" b
-variable "${1:name}" {
+variable "${1:name}" \{
   default     = ""
-}
+\}
 endsnippet
 
 snippet fvar "Full variable definition" b
-variable "${1:name}" {
+variable "${1:name}" \{
   description = ""
   type        = ""
   default     = ""
-}
+\}
 endsnippet
 
 snippet varString "String variable definition" b
-variable "${1:name}" {
+variable "${1:name}" \{
   description = ""
   type        = "string"
   default     = ""
-}
+\}
 endsnippet
 
 snippet varList "List variable definition" b
-variable "${1:name}" {
+variable "${1:name}" \{
   description = ""
   type        = "list"
   default     = [""]
-}
+\}
 endsnippet
 
 snippet varMap "Variable definition" b
-variable "${1:name}" {
+variable "${1:name}" \{
   description = ""
   type        = "map"
-  default     = {
+  default     = \{
     "key" = "val"
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet output "Output definition" b
-output "${1:name}" {
+output "${1:name}" \{
   value = ""
-}
+\}
 endsnippet
 
 snippet module "Module definition" b
-module "${1:name}" {
+module "${1:name}" \{
   source    = "../modules/"
   modparam  = "val"
-}
+\}
 endsnippet
 
 snippet gitSsh "Private Git SSH reference with tag ref" i
@@ -64,24 +64,24 @@ github.com/account/example.git//subdir
 endsnippet
 
 snippet spaws "Provider AWS" b
-provider "aws" {
-  region     = "${var.aws_region}"
-}
+provider "aws" \{
+  region     = "\$\{var.aws_region\}"
+\}
 endsnippet
 
 snippet fpaws "Provider AWS" b
-provider "aws" {
-  access_key                  = "${var.aws_access_key}"
-  secret_key                  = "${var.aws_secret_key}"
-  region                      = "${var.aws_region}"
+provider "aws" \{
+  access_key                  = "\$\{var.aws_access_key\}"
+  secret_key                  = "\$\{var.aws_secret_key\}"
+  region                      = "\$\{var.aws_region\}"
   profile                     = ""
   alias                       = ""
-  assume_role {
+  assume_role \{
     role_arn     = "arn:aws:iam::ACCOUNT_ID:role/ROLE_NAME"
     session_name = "SESSION_NAME"
     external_id  = "EXTERNAL_ID"
     policy       = ""
-  }
+  \}
   shared_credentials_file     = ""
   token                       = ""
   max_retries                 = 11
@@ -89,658 +89,658 @@ provider "aws" {
   forbidden_account_ids       = "" # Conflicts with allowed_account_ids
   dynamodb_endpoint           = ""
   kinesis_endpoint            = ""
-  endpoints {
+  endpoints \{
     dynamodb = ""
     iam      = ""
     ec2      = ""
     elb      = ""
     kinesis  = ""
     s3       = ""
-  }
+  \}
   insecure                    = false
   skip_credentials_validation = false
   skip_region_validation      = false
   skip_requesting_account_id  = false
   skip_metadata_api_check     = false
   s3_force_path_style         = false
-}
+\}
 endsnippet
 
 # Meta parameters available to all resources 
 snippet depends "Explicit dependency" w
-depends_on = ["${1:dependency}"]
+depends_on = ["\$\{1:dependency\}"]
 endsnippet
 
 snippet provider "Provider alias reference" w
-provider = ["${1:provider.alias}"]
+provider = ["\$\{1:provider.alias\}"]
 endsnippet
 
 # Pretty pointless...
 snippet count "Count" w
-count = ${1:count}
+count = \$\{1:count\}
 endsnippet
 
 snippet lifecycle "Lifecycle control" b
-lifecycle {
+lifecycle \{
   create_before_destroy = true|false
   prevent_destroy       = true|false
   ignore_changes        = [""]
-}
+\}
 endsnippet
 # XXX: Add connector
 
 # Data source section
 snippet sdAwsAcm "Certificate Manager ARN" b
-data "aws_acm_certificate" "${1:name}" {
+data "aws_acm_certificate" "${1:name}" \{
   domain = ""
-}
+\}
 endsnippet
 
 snippet fdAwsAcm "Certificate Manager ARN" b
-data "aws_acm_certificate" "${1:name}" {
+data "aws_acm_certificate" "${1:name}" \{
   domain   = ""
   statuses = [""]
-}
+\}
 endsnippet
 
 snippet sdAwsAlb "Application Load Balancer" b
-data "aws_alb" "${1:name}" {
-}
+data "aws_alb" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsAlb "Application Load Balancer" b
-data "aws_alb" "${1:name}" {
+data "aws_alb" "${1:name}" \{
   arn  = ""
   name = ""
-}
+\}
 endsnippet
 
 snippet sdAwsAlbListener "Application Load Balancer Listener" b
-data "aws_alb_listener" "${1:name}" {
+data "aws_alb_listener" "${1:name}" \{
   arn = ""
-}
+\}
 endsnippet
 
 snippet fdAwsAlbListener "Application Load Balancer Listener" b
-data "aws_alb_listener" "${1:name}" {
+data "aws_alb_listener" "${1:name}" \{
   arn = ""
-}
+\}
 endsnippet
 
 snippet sdAwsAmi "Machine Images" b
-data "aws_ami" "${1:name}" {
-}
+data "aws_ami" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsAmi "Machine Images" b
-data "aws_ami" "${1:name}" {
+data "aws_ami" "${1:name}" \{
   executable_users = [""]
   name_regex       = ""
   most_recent      = true|false
   owners           = [""]
-  filter {
+  filter \{
     name   = ""
     values = [""]
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet sdAwsASG "AutoScaling Groups on the current region" b
-data "aws_autoscaling_groups" "${1:name}" {
-}
+data "aws_autoscaling_groups" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsASG "AutoScaling Groups on the current region" b
-data "aws_autoscaling_groups" "${1:name}" {
-}
+data "aws_autoscaling_groups" "${1:name}" \{
+\}
 endsnippet
 
 snippet sdAwsAZ "Availability Zone in the current region" b
-data "aws_availability_zone" "${1:name}" {
-}
+data "aws_availability_zone" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsAZ "Availability Zone in the current region" b
-data "aws_availability_zone" "${1:name}" {
+data "aws_availability_zone" "${1:name}" \{
   name  = ""
   state = ""
-}
+\}
 endsnippet
 
 snippet sdAwsAZs "List of AZs in the configured region" b
-data "aws_availability_zones" "${1:name}" {
-}
+data "aws_availability_zones" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsAZs "List of AZs in the configured region" b
-data "aws_availability_zones" "${1:name}" {
+data "aws_availability_zones" "${1:name}" \{
   state = ""
-}
+\}
 endsnippet
 
 snippet sdAwsBillingServiceAccount "ARN for the Billing Service Account" b
-data "aws_billing_service_account" "${1:name}" {
-}
+data "aws_billing_service_account" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsBillingServiceAccount "ARN for the Billing Service Account" b
-data "aws_billing_service_account" "${1:name}" {
-}
+data "aws_billing_service_account" "${1:name}" \{
+\}
 endsnippet
 
 snippet sdAwsCallerIdentity "Caller identity used by terraform" b
-data "aws_caller_identity" "${1:name}" {
-}
+data "aws_caller_identity" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsCallerIdentity "Caller identity used by terraform" b
-data "aws_caller_identity" "${1:name}" {
-}
+data "aws_caller_identity" "${1:name}" \{
+\}
 endsnippet
 
 snippet sdAwsCanonicalUserId "Canonical userID used by terraform" b
-data "aws_canonical_user_id" "${1:name}" {
-}
+data "aws_canonical_user_id" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsCanonicalUserId "Canonical userID used by terraform" b
-data "aws_canonical_user_id" "${1:name}" {
-}
+data "aws_canonical_user_id" "${1:name}" \{
+\}
 endsnippet
 
 snippet sdAwsCloudFormationStack "CloudFormation stack" b
-data "aws_cloud_formation_stack" "${1:name}" {
+data "aws_cloud_formation_stack" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet fdAwsCloudFormationStack "CloudFormation stack" b
-data "aws_cloud_formation_stack" "${1:name}" {
+data "aws_cloud_formation_stack" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet sdAwsDbInstance "RDS instance" b
-data "aws_db_instance" "${1:name}" {
+data "aws_db_instance" "${1:name}" \{
   db_instance_identifier = ""
-}
+\}
 endsnippet
 
 snippet fdAwsDbInstance "RDS instance" b
-data "aws_db_instance" "${1:name}" {
+data "aws_db_instance" "${1:name}" \{
   db_instance_identifier = ""
-}
+\}
 endsnippet
 
 snippet sdAwsEbsSnapshot "EBS snapshot" b
-data "aws_ebs_snapshot" "${1:name}" {
-}
+data "aws_ebs_snapshot" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsEbsSnapshot "EBS snapshot" b
-data "aws_ebs_snapshot" "${1:name}" {
+data "aws_ebs_snapshot" "${1:name}" \{
   most_recent            = true|false
   owners                 = [""]
   snapshot_ids           = [""]
   restorable_by_user_ids = [""]
-  filter {
+  filter \{
     name   = ""
     values = [""]
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet sdAwsEbsVolume "EBS volume" b
-data "aws_ebs_volume" "${1:name}" {
-}
+data "aws_ebs_volume" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsEbsVolume "EBS volume" b
-data "aws_ebs_volume" "${1:name}" {
+data "aws_ebs_volume" "${1:name}" \{
   most_recent       = true|false
-  filter {
+  filter \{
     name   = ""
     values = [""]
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet sdAwsEcsCluster "ECS cluster" b
-data "aws_ecs_cluster" "${1:name}" {
+data "aws_ecs_cluster" "${1:name}" \{
   cluster_name = ""
-}
+\}
 endsnippet
 
 snippet fdAwsEcsCluster "ECS cluster" b
-data "aws_ecs_cluster" "${1:name}" {
+data "aws_ecs_cluster" "${1:name}" \{
   cluster_name = ""
-}
+\}
 endsnippet
 
 snippet sdAwsEcsContainer "ECS Specific container Definition" b
-data "aws_ecs_container_definition" "${1:name}" {
+data "aws_ecs_container_definition" "${1:name}" \{
   task_definition = ""
   container_name  = ""
-}
+\}
 endsnippet
 
 snippet fdAwsEcsContainer "ECS Specific container Definition" b
-data "aws_ecs_container_definition" "${1:name}" {
+data "aws_ecs_container_definition" "${1:name}" \{
   task_definition = ""
   container_name  = ""
-}
+\}
 endsnippet
 
 snippet sdAwsEcsTask "Specific ECS Task Definition" b
-data "aws_ecs_task_definition" "${1:name}" {
+data "aws_ecs_task_definition" "${1:name}" \{
   task_definition = ""
-}
+\}
 endsnippet
 
 snippet fdAwsEcsTask "Specific ECS Task Definition" b
-data "aws_ecs_task_definition" "${1:name}" {
+data "aws_ecs_task_definition" "${1:name}" \{
   task_definition = ""
-}
+\}
 endsnippet
 
 snippet sdAwsEip "Elastic IP" b
-data "aws_eip" "${1:name}" {
-}
+data "aws_eip" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsEip "Elastic IP" b
-data "aws_eip" "${1:name}" {
+data "aws_eip" "${1:name}" \{
   id        = ""
   public_ip = ""
-}
+\}
 endsnippet
 
 snippet sdAwsElbHostedZoneId "HostedZoneId of the Elastic Load Balancer" b
-data "aws_elb_hosted_zone_id" "${1:name}" {
-}
+data "aws_elb_hosted_zone_id" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsElbHostedZoneId "HostedZoneId of the Elastic Load Balancer" b
-data "aws_elb_hosted_zone_id" "${1:name}" {
+data "aws_elb_hosted_zone_id" "${1:name}" \{
   region = ""
-}
+\}
 endsnippet
 
 snippet sdAwsElbServiceAccount "AccountID of the Elastic Load Balancer Service Account" b
-data "aws_elb_service_account" "${1:name}" {
-}
+data "aws_elb_service_account" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsElbServiceAccount "AccountID of the Elastic Load Balancer Service Account" b
-data "aws_elb_service_account" "${1:name}" {
+data "aws_elb_service_account" "${1:name}" \{
   region = ""
-}
+\}
 endsnippet
 
 snippet sdAwsIamAccountAlias "Identity Access Management alias used by terraform" b
-data "aws_iam_account_alias" "${1:name}" {
-}
+data "aws_iam_account_alias" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsIamAccountAlias "Identity Access Management alias used by terraform" b
-data "aws_iam_account_alias" "${1:name}" {
-}
+data "aws_iam_account_alias" "${1:name}" \{
+\}
 endsnippet
 
 snippet sdAwsIamPolicyDocument "Construct a JSON of the IAM policy document" b
-data "aws_iam_policy_document" "${1:name}" {
-  statement {
+data "aws_iam_policy_document" "${1:name}" \{
+  statement \{
     sid     = ""
     actions = [""]
     effect  = ""
-    principals {
+    principals \{
       type        = ""
       identifiers = [""]
-    }
-  }
-  statement {
+    \}
+  \}
+  statement \{
     actions  = [""]
     resource = [""]
-    not_principals {
+    not_principals \{
       type        = ""
       identifiers = [""]
-    }
-    condition {
+    \}
+    condition \{
       test     = ""
       variable = ""
       values   = [""]
-    }
-  }
-}
+    \}
+  \}
+\}
 endsnippet
 
 snippet fdAwsIamPolicyDocument "Construct a JSON of the IAM policy document" b
-data "aws_iam_policy_document" "${1:name}" {
-  statement {
+data "aws_iam_policy_document" "${1:name}" \{
+  statement \{
     sid     = ""
     actions = [""]
     effect  = ""
-    principals {
+    principals \{
       type        = ""
       identifiers = [""]
-    }
-  }
-  statement {
+    \}
+  \}
+  statement \{
     actions  = [""]
     resource = [""]
-    not_principals {
+    not_principals \{
       type        = ""
       identifiers = [""]
-    }
-    condition {
+    \}
+    condition \{
       test     = ""
       variable = ""
       values   = [""]
-    }
-  }
+    \}
+  \}
   policy_id = ""
-}
+\}
 endsnippet
 
 snippet sdAwsIAMRole "Identity Access Management used by terraform" b
-data "aws_iam_role" "${1:name}" {
+data "aws_iam_role" "${1:name}" \{
   role_name = ""
-}
+\}
 endsnippet
 
 snippet fdAwsIAMRole "Identity Access Management used by terraform" b
-data "aws_iam_role" "${1:name}" {
+data "aws_iam_role" "${1:name}" \{
   role_name = ""
-}
+\}
 endsnippet
 
 snippet sdAwsIAMServerCertificate "AWS IAM Certificates" b
-data "aws_iam_server_certificate" "${1:name}" {
-}
+data "aws_iam_server_certificate" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsIAMServerCertificate "AWS IAM Certificates" b
-data "aws_iam_server_certificate" "${1:name}" {
+data "aws_iam_server_certificate" "${1:name}" \{
   name            = ""
   name_prefix     = ""
   latest          = true|false
-}
+\}
 endsnippet
 
 snippet sdAwsInstance "ID of an EC2 instance" b
-data "aws_instance" "${1:name}" {
-}
+data "aws_instance" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsInstance "ID of an EC2 instance" b
-data "aws_instance" "${1:name}" {
+data "aws_instance" "${1:name}" \{
   instance_id                 = ""
-  filter {
+  filter \{
     name    = ""
     values  = [""]
-  }
-  instance_tags {
+  \}
+  instance_tags \{
     TagName = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet sdAwsIPRanges "IP Ranges of products or services" b
-data "aws_ip_ranges" "${1:name}" {
+data "aws_ip_ranges" "${1:name}" \{
   services = [""]
-}
+\}
 endsnippet
 
 snippet fdAwsIPRanges "IP Ranges of products or services" b
-data "aws_ip_ranges" "${1:name}" {
+data "aws_ip_ranges" "${1:name}" \{
   services    = [""]
   regions     = [""]
-}
+\}
 endsnippet
 
 snippet sdAwsKmsSecret "Key Management Service secret for data encryption" b
-data "aws_kms_secret" "${1:name}" {
-  secret {
+data "aws_kms_secret" "${1:name}" \{
+  secret \{
     name          = ""
     payload       = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet fdAwsKmsSecret "Key Management Service secret for data encryption" b
-data "aws_kms_secret" "${1:name}" {
-  secret {
+data "aws_kms_secret" "${1:name}" \{
+  secret \{
     name          = ""
     payload       = ""
-    context {
-        key = "${var.SOMEVAL}"
-    }
+    context \{
+        key = "\$\{var.SOMEVAL\}"
+    \}
     grant_tokens  = [""]
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet sdAwsPartition "Current AWS partition used by terraform" b
-data "aws_partition" "${1:name}" {
-}
+data "aws_partition" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsPartition "Current AWS partition used by terraform" b
-data "aws_partition" "${1:name}" {
-}
+data "aws_partition" "${1:name}" \{
+\}
 endsnippet
 
 snippet sdAwsPL "Prefix List in the current region" b
-data "aws_prefix_list" "${1:name}" {
-}
+data "aws_prefix_list" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsPL "Prefix List in the current region" b
-data "aws_prefix_list" "${1:name}" {
+data "aws_prefix_list" "${1:name}" \{
   prefix_list_id = ""
   name           = ""
-}
+\}
 endsnippet
 
 snippet sdAwsRedshiftServiceAccount "Service Account ID of the Redshift Account" b
-data "aws_redshift_service_account" "${1:name}" {
-}
+data "aws_redshift_service_account" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsRedshiftServiceAccount "Service Account ID of the Redshift Account" b
-data "aws_redshift_service_account" "${1:name}" {
+data "aws_redshift_service_account" "${1:name}" \{
   region = ""
-}
+\}
 endsnippet
 
 snippet sdAwsRegion "Region" b
-data "aws_region" "${1:name}" {
-}
+data "aws_region" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsRegion "Region" b
-data "aws_region" "${1:name}" {
+data "aws_region" "${1:name}" \{
   name     = ""
   current  = true|false
   endpoint = ""
-}
+\}
 endsnippet
 
 snippet sdAwsRoute53Zone "HostedZoneId for a Route53 Hosted Zone" b
-data "aws_route53_zone" "${1:name}" {
-}
+data "aws_route53_zone" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsRoute53Zone "HostedZoneId for a Route53 Hosted Zone" b
-data "aws_route53_zone" "${1:name}" {
+data "aws_route53_zone" "${1:name}" \{
   zone_id      = ""
   name         = "" # Conflicts with zone_id
   private_zone = true|false
   vpc_id       = ""
-  tags {
+  tags \{
     TagName = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet sdAwsRouteTable "Route Table" b
-data "aws_route_table" "${1:name}" {
-}
+data "aws_route_table" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsRouteTable "Route Table" b
-data "aws_route_table" "${1:name}" {
+data "aws_route_table" "${1:name}" \{
   subnet_id      = ""
   route_table_id = ""
   vpc_id         = ""
-  tags {
+  tags \{
     TagName = ""
-  }
-  filter {
+  \}
+  filter \{
     name   = ""
     values = [""]
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet sdAwsS3BucketObject "Metadata for S3 Bucket Object" b
-data "aws_s3_bucket_object" "${1:name}" {
+data "aws_s3_bucket_object" "${1:name}" \{
   bucket = ""
   key    = ""
-}
+\}
 endsnippet
 
 snippet fdAwsS3BucketObject "Metadata for S3 Bucketi Object" b
-data "aws_s3_bucket_object" "${1:name}" {
+data "aws_s3_bucket_object" "${1:name}" \{
   bucket     = ""
   key        = ""
   range      = ""
   version_id = ""
-}
+\}
 endsnippet
 
 snippet sdAwsSecurityGroup "Security Group" b
-data "aws_security_group" "${1:name}" {
-}
+data "aws_security_group" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsSecurityGroup "Security Group" b
-data "aws_security_group" "${1:name}" {
+data "aws_security_group" "${1:name}" \{
   vpc_id = ""
   name   = ""
   id     = ""
-  tags {
+  tags \{
     TagName = ""
-  }
-  filter {
+  \}
+  filter \{
     name   = ""
     values = [""]
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet sdAwsSnsTopic "Simple Notification Service ARN Topic" b
-data "aws_sns_topic" "${1:name}" {
+data "aws_sns_topic" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet fdAwsSnsTopic "Simple Notification Service ARN Topic" b
-data "aws_sns_topic" "${1:name}" {
+data "aws_sns_topic" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet sdAwsSubnet "VPC subnet" b
-data "aws_subnet" "${1:name}" {
-}
+data "aws_subnet" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsSubnet "VPC subnet" b
-data "aws_subnet" "${1:name}" {
+data "aws_subnet" "${1:name}" \{
   availability_zone = ""
   cidr_block        = ""
   default_for_az    = true|false
   id                = ""
   state             = ""
   vpc_id            = ""
-  filter {
+  filter \{
     name   = ""
     values = [""]
-  }
-  tags {
+  \}
+  tags \{
     TagName = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet sdAwsSubnetIDs "List of Subnets for a VPC" b
-data "aws_subnet_i_ds" "${1:name}" {
+data "aws_subnet_i_ds" "${1:name}" \{
   vpc_id = ""
-}
+\}
 endsnippet
 
 snippet fdAwsSubnetIDs "List of Subnets for a VPC" b
-data "aws_subnet_i_ds" "${1:name}" {
+data "aws_subnet_i_ds" "${1:name}" \{
   vpc_id = ""
-}
+\}
 endsnippet
 
 snippet sdAwsVpc "Virtual Private Cloud" b
-data "aws_vpc" "${1:name}" {
-}
+data "aws_vpc" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsVpc "Virtual Private Cloud" b
-data "aws_vpc" "${1:name}" {
+data "aws_vpc" "${1:name}" \{
   cidr_block      = ""
   dhcp_options_id = ""
   default         = true|false
   id              = ""
   state           = ""
-  filter {
+  filter \{
     name   = ""
     values = [""]
-  }
-  tags {
+  \}
+  tags \{
     TagName = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet sdAwsVpcEndpoin "VPC Endpoint" b
-data "aws_vpc_endpoint" "${1:name}" {
-}
+data "aws_vpc_endpoint" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsVpcEndpoin "VPC Endpoint" b
-data "aws_vpc_endpoint" "${1:name}" {
+data "aws_vpc_endpoint" "${1:name}" \{
   id           = ""
   state        = ""
   vpc_id       = ""
   service_name = ""
-}
+\}
 endsnippet
 
 snippet sdAwsVpcEndpointService "VPC Endpoint Service" b
-data "aws_vpc_endpoint_service" "${1:name}" {
+data "aws_vpc_endpoint_service" "${1:name}" \{
   service = ""
-}
+\}
 endsnippet
 
 snippet fdAwsVpcEndpointService "VPC Endpoint Service" b
-data "aws_vpc_endpoint_service" "${1:name}" {
+data "aws_vpc_endpoint_service" "${1:name}" \{
   service = ""
-}
+\}
 endsnippet
 
 snippet sdAwsVpcPeeringConnection "VPC Peering Connection" b
-data "aws_vpc_peering_connection" "${1:name}" {
-}
+data "aws_vpc_peering_connection" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsVpcPeeringConnection "VPC Peering Connection" b
-data "aws_vpc_peering_connection" "${1:name}" {
+data "aws_vpc_peering_connection" "${1:name}" \{
   id              = ""
   status          = ""
   vpc_id          = ""
@@ -749,190 +749,190 @@ data "aws_vpc_peering_connection" "${1:name}" {
   peer_vpc_id     = ""
   peer_owner_id   = ""
   peer_cidr_block = ""
-  filter {
+  filter \{
     name   = ""
     values = [""]
-  }
-  tags {
+  \}
+  tags \{
     TagName = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet sdAwsVpnGateway "VPN Gateway" b
-data "aws_vpn_gateway" "${1:name}" {
-}
+data "aws_vpn_gateway" "${1:name}" \{
+\}
 endsnippet
 
 snippet fdAwsVpnGateway "VPN Gateway" b
-data "aws_vpn_gateway" "${1:name}" {
+data "aws_vpn_gateway" "${1:name}" \{
   id                = ""
   state             = ""
   attached_vpc_id   = ""
   availability_zone = ""
-  filter {
+  filter \{
     name   = ""
     values = [""]
-  }
-  tags {
+  \}
+  tags \{
     TagName = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 # Resource snippets
 snippet srAWSInspectorAssessmentTarget "Inspector Assessment Target" b
-resource "aws_inspector_assessment_target" "${1:name}" {
-  name               = ""
-  resource_group_arn = ""
-}
+resource "aws_inspector_assessment_target" "${1:name}" \{
+  name               = "${1:name}"
+  resource_group_arn = "\$\{aws_inspector_resource_group.${2:foo}.arn\}"
+\}
 endsnippet
 
 snippet frAWSInspectorAssessmentTarget "Inspector Assessment Target" b
-resource "aws_inspector_assessment_target" "${1:name}" {
-  name               = ""
-  resource_group_arn = ""
-}
+resource "aws_inspector_assessment_target" "${1:name}" \{
+  name               = "${1:name}"
+  resource_group_arn = "\$\{aws_inspector_resource_group.${2:foo}.arn\}"
+\}
 endsnippet
 
 snippet srAWSInspectorAssessmentTemplate "Inspector Assessment Template" b
-resource "aws_inspector_assessment_template" "${1:name}" {
-  name               = ""
-  target_arn         = ""
-  duration           = 1
-  rules_package_arns = [""]
-}
+resource "aws_inspector_assessment_template" "${1:name}" \{
+  name               = "${1:name}"
+  target_arn         = "\$\{aws_inspector_assessment_target.${2:foo}.arn\}"
+  duration           = 3600
+  rules_package_arns = ["arn:aws:inspector:us-east-1:XXX:XXX/0-XXX"]
+\}
 endsnippet
 
 snippet frAWSInspectorAssessmentTemplate "Inspector Assessment Template" b
-resource "aws_inspector_assessment_template" "${1:name}" {
-  name               = ""
-  target_arn         = ""
-  duration           = 1
-  rules_package_arns = [""]
-}
+resource "aws_inspector_assessment_template" "${1:name}" \{
+  name               = "${1:name}"
+  target_arn         = "\$\{aws_inspector_assessment_target.${2:foo}.arn\}"
+  duration           = 3600
+  rules_package_arns = ["arn:aws:inspector:us-east-1:XXX:XXX/0-XXX"]
+\}
 endsnippet
 
 snippet srAWSInspectorResourceGroup "Inspector Assessment Resource Group" b
-resource "aws_inspector_resource_group" "${1:name}" {
-  tags {
-      key = "${var.SOMEVAL}"
-  }
-}
+resource "aws_inspector_resource_group" "${1:name}" \{
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
+\}
 endsnippet
 
 snippet frAWSInspectorResourceGroup "Inspector Assessment Resource Group" b
-resource "aws_inspector_resource_group" "${1:name}" {
-  tags {
-      key = "${var.SOMEVAL}"
-  }
-}
+resource "aws_inspector_resource_group" "${1:name}" \{
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
+\}
 endsnippet
 
 snippet srAwsAlb "Application Load Balancer" b
-resource "aws_alb" "${1:name}" {
-  subnets = [""]
-}
+resource "aws_alb" "${1:name}" \{
+  subnets = ["\$\{aws_subnet.${2:foo}.id\}"]
+\}
 endsnippet
 
 snippet frAwsAlb "Application Load Balancer" b
-resource "aws_alb" "${1:name}" {
-  subnets                    = [""]
-  name                       = ""
-  name_prefix                = ""
+resource "aws_alb" "${1:name}" \{
+  subnets                    = ["\$\{aws_subnet.${2:foo}.id\}"]
+  name                       = "${1:name}"
+  name_prefix                = "" # Conflicts with name_prefix
   internal                   = true|false
-  security_groups            = [""]
-  access_logs {
-    bucket   = ""
+  security_groups            = ["\$\{aws_security_group.${3:bar}.id\}"]
+  access_logs \{
+    bucket   = "\$\{aws_s3_bucket.alb_logs.bucket\}"
     prefix   = ""
     enabled  = true|false
-  }
+  \}
   enable_deletion_protection = true|false
   idle_timeout               = 1
   ip_address_type            = ""
-  tags {
+  tags \{
     TagName = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsAlbListener "Application Load Balancer Listener" b
-resource "aws_alb_listener" "${1:name}" {
-  load_balancer_arn = ""
-  port              = 1
-  default_action {
+resource "aws_alb_listener" "${1:name}" \{
+  load_balancer_arn = "\$\{aws_alb.${2:foo}.arn\}"
+  port              = 443
+  default_action \{
     target_group_arn  = ""
     type              = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet frAwsAlbListener "Application Load Balancer Listener" b
-resource "aws_alb_listener" "${1:name}" {
-  load_balancer_arn = ""
-  port              = 1
-  default_action {
-    target_group_arn  = ""
+resource "aws_alb_listener" "${1:name}" \{
+  load_balancer_arn = "\$\{aws_alb.${2:foo}.arn\}"
+  port              = 443
+  default_action \{
+    target_group_arn  = "\$\{aws_alb_target_group.${3:bar}.arn\}"
     type              = ""
-  }
+  \}
   protocol          = ""
   ssl_policy        = ""
-  certificate_arn   = ""
-}
+  certificate_arn   = "arn:aws:iam::XXX:server-certificate/XXX"
+\}
 endsnippet
 
 snippet srAwsAlbListenerRule "Application Load Balancer Listener rule" b
-resource "aws_alb_listener_rule" "${1:name}" {
-  listener_arn = ""
+resource "aws_alb_listener_rule" "${1:name}" \{
+  listener_arn = "\$\{aws_alb_listener.${2:foo}.arn\}"
   priority     = 1
-  action {
-    target_group_arn  = ""
+  action \{
+    target_group_arn  = "\$\{aws_alb_target_group.${3:bar}.arn\}"
     type              = ""
-  }
-  condition {
+  \}
+  condition \{
     field   = ""
     values  = [""]
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet frAwsAlbListenerRule "Application Load Balancer Listener rule" b
-resource "aws_alb_listener_rule" "${1:name}" {
-  listener_arn = ""
+resource "aws_alb_listener_rule" "${1:name}" \{
+  listener_arn = "\$\{aws_alb_listener.${2:foo}.arn\}"
   priority     = 1
-  action {
-    target_group_arn  = ""
+  action \{
+    target_group_arn  = "\$\{aws_alb_target_group.${3:bar}.arn\}"
     type              = ""
-  }
-  condition {
+  \}
+  condition \{
     field   = ""
     values  = [""]
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsAlbTargetGroup "Application Load Balancer Target Group" b
-resource "aws_alb_target_group" "${1:name}" {
-  port     = 1
+resource "aws_alb_target_group" "${1:name}" \{
+  port     = 80
   protocol = ""
-  vpc_id   = ""
-}
+  vpc_id   = "\$\{aws_vpc.${2:foo}.id\}"
+\}
 endsnippet
 
 snippet frAwsAlbTargetGroup "Application Load Balancer Target Group" b
-resource "aws_alb_target_group" "${1:name}" {
-  port                 = 1
+resource "aws_alb_target_group" "${1:name}" \{
+  port                 = 80
   protocol             = ""
-  vpc_id               = ""
-  name                 = ""
+  vpc_id               = "\$\{aws_vpc.${2:foo}.id\}"
+  name                 = "${1:name}"
   name_prefix          = "" # Conflicts with name
   deregistration_delay = 300
-  stickiness {
+  stickiness \{
     enabled          = true|false
     type             = "lb_cookie"
     cookie_duration  = 1
-  }
-  health_check {
+  \}
+  health_check \{
     interval             = 30
     path                 = "/"
     port                 = ""
@@ -941,486 +941,545 @@ resource "aws_alb_target_group" "${1:name}" {
     healthy_threshold    = 5
     matcher              = "200"
     unhealthy_threshold  = 2
-  }
-  tags {
+  \}
+  tags \{
     TagName = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsAlbTargetGroupAttachment "Register Instances and Containers with an ALB" b
-resource "aws_alb_target_group_attachment" "${1:name}" {
-  target_group_arn = ""
-  target_id        = ""
-}
+resource "aws_alb_target_group_attachment" "${1:name}" \{
+  target_group_arn = "\$\{aws_alb_target_group.${2:foo}.arn\}"
+  target_id        = "\$\{aws_instance.${3:bar}.id\}"
+\}
 endsnippet
 
 snippet frAwsAlbTargetGroupAttachment "Register Instances and Containers with an ALB" b
-resource "aws_alb_target_group_attachment" "${1:name}" {
-  target_group_arn = ""
-  target_id        = ""
-  port             = 1
-}
+resource "aws_alb_target_group_attachment" "${1:name}" \{
+  target_group_arn = "\$\{aws_alb_target_group.${2:foo}.arn\}"
+  target_id        = "\$\{aws_instance.${3:bar}.id\}"
+  port             = 80
+\}
 endsnippet
 
 snippet srAwsAmi "Creates Amazon Machine Image" b
-resource "aws_ami" "${1:name}" {
-  name = ""
-}
+resource "aws_ami" "${1:name}" \{
+  name = "${1:name}"
+\}
 endsnippet
 snippet frAwsAmi "Creates Amazon Machine Image" b
-resource "aws_ami" "${1:name}" {
-  name                = ""
+resource "aws_ami" "${1:name}" \{
+  name                = "${1:name}"
   description         = ""
   virtualization_type = ""
   architecture        = "x86_64"
-  ebs_block_device {
+  ebs_block_device \{
     device_name           = "/dev/xvda"
     delete_on_termination = true|false
     encrypted             = true|false
     iops                  = ""
-    snapshot_id           = ""
+    snapshot_id           = "snap-XXX" # Conflicts with encrypted
     volume_size           = 8
     volume_type           = ""
     kms_key_id            = ""
-  }
-  ephemeral_block_device {
+  \}
+  ephemeral_block_device \{
     device_name  = ""
     virtual_name = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet frAwsAmiHvm "Creates Amazon Machine Image" b
-resource "aws_ami" "${1:name}" {
-  name                = ""
+resource "aws_ami" "${1:name}" \{
+  name                = "${1:name}"
   description         = ""
   virtualization_type = "hvm"
   architecture        = "x86_64"
   sriov_net_support   = "simple"
-  ebs_block_device {
+  ebs_block_device \{
     device_name           = "/dev/xvda"
     delete_on_termination = true|false
     encrypted             = true|false
     iops                  = ""
-    snapshot_id           = ""
+    snapshot_id           = "snap-XXX" # Conflicts with encrypted
     volume_size           = 8
     volume_type           = ""
     kms_key_id            = ""
-  }
-  ephemeral_block_device {
+  \}
+  ephemeral_block_device \{
     device_name  = ""
     virtual_name = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet frAwsAmiPv "Creates Amazon Machine Image" b
-resource "aws_ami" "${1:name}" {
-  name                = ""
+resource "aws_ami" "${1:name}" \{
+  name                = "${1:name}"
   description         = ""
   virtualization_type = "paravirtual"
   architecture        = "x86_64"
   image_location      = ""
   kernel_id           = ""
   ramdisk_id          = ""
-  ebs_block_device {
+  ebs_block_device \{
     device_name           = "/dev/xvda"
     delete_on_termination = true|false
     encrypted             = true|false
     iops                  = ""
-    snapshot_id           = ""
+    snapshot_id           = "snap-XXX"
     volume_size           = 8
     volume_type           = ""
     kms_key_id            = ""
-  }
-  ephemeral_block_device {
+  \}
+  ephemeral_block_device \{
     device_name  = ""
     virtual_name = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsAmiCopy "Copies Amazon Machine Image including cross-region" b
-resource "aws_ami_copy" "${1:name}" {
-  name              = ""
-  source_ami_id     = ""
-  source_ami_region = ""
-}
+resource "aws_ami_copy" "${1:name}" \{
+  name              = "${1:name}"
+  source_ami_id     = "ami-${2:id}"
+  source_ami_region = "us-west-1"
+\}
 endsnippet
 
 snippet frAwsAmiCopy "Copies Amazon Machine Image including cross-region" b
-resource "aws_ami_copy" "${1:name}" {
-  name              = ""
-  source_ami_id     = ""
-  source_ami_region = ""
+resource "aws_ami_copy" "${1:name}" \{
+  name              = "${1:name}"
+  source_ami_id     = "ami-${2:id}"
+  source_ami_region = "us-west-1"
   encrypted         = true|false
-  kms_key_id        = ""
-}
+  kms_key_id        = "arn:aws:kms:region:account-id:key/key-id"
+\}
 endsnippet
 
 snippet srAwsAmiFromInstance "Creates AMI from existing EBS-backed EC2 instance" b
-resource "aws_ami_from_instance" "${1:name}" {
-  name               = ""
-  source_instance_id = ""
-}
+resource "aws_ami_from_instance" "${1:name}" \{
+  name               = "${1:name}"
+  source_instance_id = "i-XXX"
+\}
 endsnippet
 
 snippet frAwsAmiFromInstance "Creates AMI from existing EBS-backed EC2 instance" b
-resource "aws_ami_from_instance" "${1:name}" {
-  name                    = ""
-  source_instance_id      = ""
+resource "aws_ami_from_instance" "${1:name}" \{
+  name                    = "${1:name}"
+  source_instance_id      = "i-XXX"
   snapshot_without_reboot = true|false
-}
+\}
 endsnippet
 
 snippet srAwsAmiLaunchPermission "Adds launch permission to AMI" b
-resource "aws_ami_launch_permission" "${1:name}" {
-  image_id   = ""
+resource "aws_ami_launch_permission" "${1:name}" \{
+  image_id   = "ami-XXX"
   account_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsAmiLaunchPermission "Adds launch permission to AMI" b
-resource "aws_ami_launch_permission" "${1:name}" {
-  image_id   = ""
+resource "aws_ami_launch_permission" "${1:name}" \{
+  image_id   = "ami-XXX"
   account_id = ""
-}
+\}
 endsnippet
 
 snippet srAwsApiGatewayAccount "API Gateway Account" b
-resource "aws_api_gateway_account" "${1:name}" {
-}
+resource "aws_api_gateway_account" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsApiGatewayAccount "API Gateway Account" b
-resource "aws_api_gateway_account" "${1:name}" {
-  cloudwatch_role_arn = ""
-}
+resource "aws_api_gateway_account" "${1:name}" \{
+  cloudwatch_role_arn = "\$\{aws_iam_role.${2:foo}.arn\}"
+\}
 endsnippet
 
 snippet srAwsApiGatewayApiKey "API Gateway API Key" b
-resource "aws_api_gateway_api_key" "${1:name}" {
-  name = ""
-}
+resource "aws_api_gateway_api_key" "${1:name}" \{
+  name = "${1:name}"
+\}
 endsnippet
 
 snippet frAwsApiGatewayApiKey "API Gateway API Key" b
-resource "aws_api_gateway_api_key" "${1:name}" {
-  name              = ""
+resource "aws_api_gateway_api_key" "${1:name}" \{
+  name              = "${1:name}"
   description       = ""
   enabled           = true|false
-  stage_key {
-    rest_api_id  = ""
-    stage_name   = ""
-  }
+  stage_key \{
+    rest_api_id  = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+    stage_name   = "\$\{aws_api_gateway_deployment.${3:bar}.stage_name\}"
+  \}
   value             = ""
-}
+\}
 endsnippet
 
 snippet srAwsApiGatewayAuthorizer "API Gateway Authorizer" b
-resource "aws_api_gateway_authorizer" "${1:name}" {
+resource "aws_api_gateway_authorizer" "${1:name}" \{
   authorizer_uri = ""
-  name           = ""
-  rest_api_id    = ""
-}
+  name           = "${1:name}"
+  rest_api_id    = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+\}
 endsnippet
 
 snippet frAwsApiGatewayAuthorizer "API Gateway Authorizer" b
-resource "aws_api_gateway_authorizer" "${1:name}" {
+resource "aws_api_gateway_authorizer" "${1:name}" \{
   authorizer_uri                   = ""
-  name                             = ""
-  rest_api_id                      = ""
+  name                             = "${1:name}"
+  rest_api_id                      = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
   identity_source                  = ""
   type                             = ""
   authorizer_credentials           = ""
   authorizer_result_ttl_in_seconds = 300
   identity_validation_expression   = ""
-}
+\}
 endsnippet
 
 snippet srAwsApiGatewayBasePathMapping "DNS to deployed API Mapping" b
-resource "aws_api_gateway_base_path_mapping" "${1:name}" {
-  api_id      = ""
+resource "aws_api_gateway_base_path_mapping" "${1:name}" \{
+  api_id      = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
   domain_name = ""
-}
+\}
 endsnippet
 
 snippet frAwsApiGatewayBasePathMapping "DNS to deployed API Mapping" b
-resource "aws_api_gateway_base_path_mapping" "${1:name}" {
-  api_id      = ""
+resource "aws_api_gateway_base_path_mapping" "${1:name}" \{
+  api_id      = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
   domain_name = ""
-  base_path   = ""
+  base_path   = "\$\{aws_api_gateway_deployment.${3:bar}.stage_name\}"
   stage_name  = ""
-}
+\}
 endsnippet
 
 snippet srAwsApiGatewayClientCertificate "API Gateway Client Certificate" b
-resource "aws_api_gateway_client_certificate" "${1:name}" {
-}
+resource "aws_api_gateway_client_certificate" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsApiGatewayClientCertificate "API Gateway Client Certificate" b
-resource "aws_api_gateway_client_certificate" "${1:name}" {
-  description             = ""
-}
+resource "aws_api_gateway_client_certificate" "${1:name}" \{
+  description = ""
+\}
 endsnippet
 
 snippet srAwsApiGatewayDeployment "API Gateway Deployment" b
-resource "aws_api_gateway_deployment" "${1:name}" {
-  rest_api_id = ""
+resource "aws_api_gateway_deployment" "${1:name}" \{
+  depends_on  = ["aws_api_gateway_method.${2:foo}"] # Suggested on docs
+  rest_api_id = "\$\{aws_api_gateway_rest_api.${3:bar}.id\}"
   stage_name  = ""
-}
+\}
 endsnippet
 
 snippet frAwsApiGatewayDeployment "API Gateway Deployment" b
-resource "aws_api_gateway_deployment" "${1:name}" {
-  rest_api_id       = ""
+resource "aws_api_gateway_deployment" "${1:name}" \{
+  depends_on        = ["aws_api_gateway_method.${2:foo}"] # Suggested on docs
+  rest_api_id       = "\$\{aws_api_gateway_rest_api.${3:bar}.id\}"
   stage_name        = ""
   description       = ""
   stage_description = ""
-  variables {
-      key = "${var.SOMEVAL}"
-  }
-}
+  variables \{
+      key = "\$\{var.SOMEVAL\}"
+  \}
+\}
 endsnippet
 
 snippet srAwsApiGatewayDomainName "Custom DNS for API Gateway" b
-resource "aws_api_gateway_domain_name" "${1:name}" {
+resource "aws_api_gateway_domain_name" "${1:name}" \{
   domain_name = ""
-}
+\}
 endsnippet
 
 snippet frAwsApiGatewayDomainName "Custom DNS for API Gateway" b
-resource "aws_api_gateway_domain_name" "${1:name}" {
-  domain_name             = ""
-  certificate_arn         = ""
-  certificate_name        = "" # Conflicts with certificate_arn
-  certificate_body        = "${file("example.com/example.crt")}" # Conflicts with certificate_arn
-  certificate_chain       = "${file("example.com/example.ca")}" # Conflicts with certificate_arn
-  certificate_private_key = "${file("example.com/example.key")}" # Conflicts with certificate_arn
-}
+resource "aws_api_gateway_domain_name" "${1:name}" \{
+  domain_name             = "${2:fqdn}"
+  certificate_arn         = "arn:aws:iam::XXX:server-certificate/XXX"
+  certificate_name        = "${3:foo}" # Conflicts with certificate_arn
+  certificate_body        = "\$\{file("example.com/example.crt")\}" # Conflicts with certificate_arn
+  certificate_chain       = "\$\{file("example.com/example.ca")\}" # Conflicts with certificate_arn
+  certificate_private_key = "\$\{file("example.com/example.key")\}" # Conflicts with certificate_arn
+\}
 endsnippet
 
 snippet srAwsApiGatewayIntegration "HTTP method Integration for API Gateway" b
-resource "aws_api_gateway_integration" "${1:name}" {
-  rest_api_id = ""
-  resource_id = ""
-  http_method = ""
+resource "aws_api_gateway_integration" "${1:name}" \{
+  rest_api_id = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+  resource_id = "\$\{aws_api_gateway_resource.${3:bar}.id\}"
+  http_method = "\$\{aws_api_gateway_method.${4:baz}.http_method\}"
   type        = ""
-}
+\}
 endsnippet
 
 snippet frAwsApiGatewayIntegration "HTTP method Integration for API Gateway" b
-resource "aws_api_gateway_integration" "${1:name}" {
-  rest_api_id             = ""
-  resource_id             = ""
-  http_method             = ""
+resource "aws_api_gateway_integration" "${1:name}" \{
+  rest_api_id             = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+  resource_id             = "\$\{aws_api_gateway_resource.${3:bar}.id\}"
+  http_method             = "\$\{aws_api_gateway_method.${4:baz}.http_method\}"
   type                    = ""
   uri                     = ""
   credentials             = ""
   integration_http_method = ""
-  request_templates {
-      key = "${var.SOMEVAL}"
-  }
+  request_templates \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
   content_handling        = ""
   passthrough_behavior    = ""
-  request_parameters {
-      key = "${var.SOMEVAL}"
-  }
-}
+  request_parameters \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
+\}
 endsnippet
 
 snippet srAwsApiGatewayIntegrationResponse "HTTP method Integration Response for API Gateway" b
-resource "aws_api_gateway_integration_response" "${1:name}" {
-  rest_api_id = ""
-  resource_id = ""
-  http_method = ""
-  status_code = ""
-}
+resource "aws_api_gateway_integration_response" "${1:name}" \{
+  rest_api_id = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+  resource_id = "\\${aws_api_gateway_resource.${3:bar}.id\}"
+  http_method = "\$\{aws_api_gateway_method.${4:baz}.http_method\}"
+  status_code = "\$\{aws_api_gateway_method_response.${5:qux}.status_code\}"
+\}
 endsnippet
 
 snippet frAwsApiGatewayIntegrationResponse "HTTP method Integration Response for API Gateway" b
-resource "aws_api_gateway_integration_response" "${1:name}" {
-  rest_api_id       = ""
-  resource_id       = ""
-  http_method       = ""
-  status_code       = ""
+resource "aws_api_gateway_integration_response" "${1:name}" \{
+  rest_api_id       = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+  resource_id       = "\\${aws_api_gateway_resource.${3:bar}.id\}"
+  http_method       = "\$\{aws_api_gateway_method.${4:baz}.http_method\}"
+  status_code       = "\$\{aws_api_gateway_method_response.${5:qux}.status_code\}"
   selection_pattern = ""
-  response_templates {
-      key = "${var.SOMEVAL}"
-  }
+  response_templates \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
   content_handling  = ""
-  response_parameters {
-      key = "${var.SOMEVAL}"
-  }
-}
+  response_parameters \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
+\}
 endsnippet
 
 snippet srAwsApiGatewayMethod "HTTP method for API Gateway" b
-resource "aws_api_gateway_method" "${1:name}" {
-  rest_api_id   = ""
-  resource_id   = ""
-  http_method   = ""
+resource "aws_api_gateway_method" "${1:name}" \{
+  rest_api_id   = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+  resource_id   = "\$\{aws_api_gateway_resource.${3:bar}.id\}"
+  http_method   = "\$\{aws_api_gateway_method.${4:baz}.http_method\}"
   authorization = ""
-}
+\}
 endsnippet
 
 snippet frAwsApiGatewayMethod "HTTP method for API Gateway" b
-resource "aws_api_gateway_method" "${1:name}" {
-  rest_api_id      = ""
-  resource_id      = ""
-  http_method      = ""
+resource "aws_api_gateway_method" "${1:name}" \{
+  rest_api_id      = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+  resource_id      = "\$\{aws_api_gateway_resource.${3:bar}.id\}"
+  http_method      = "\$\{aws_api_gateway_method.${4:baz}.http_method\}"
   authorization    = ""
   authorizer_id    = ""
   api_key_required = true|false
-  request_models {
-      key = "${var.SOMEVAL}"
-  }
-  request_parameters {
-      key = "${var.SOMEVAL}"
-  }
-}
+  request_models \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
+  request_parameters \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
+\}
 endsnippet
 
 snippet srAwsApiGatewayMethodResponse "HTTP method response for API Gateway" b
-resource "aws_api_gateway_method_response" "${1:name}" {
-  rest_api_id = ""
-  resource_id = ""
-  http_method = ""
+resource "aws_api_gateway_method_response" "${1:name}" \{
+  rest_api_id = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+  resource_id = "\$\{aws_api_gateway_resource.${3:bar}.id\}"
+  http_method = "\$\{aws_api_gateway_method.${4:baz}.http_method\}"
   status_code = ""
-}
+\}
 endsnippet
 
 snippet frAwsApiGatewayMethodResponse "HTTP method response for API Gateway" b
-resource "aws_api_gateway_method_response" "${1:name}" {
-  rest_api_id = ""
-  resource_id = ""
-  http_method = ""
+resource "aws_api_gateway_method_response" "${1:name}" \{
+  rest_api_id = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+  resource_id = "\$\{aws_api_gateway_resource.${3:bar}.id\}"
+  http_method = "\$\{aws_api_gateway_method.${4:baz}.http_method\}"
   status_code = ""
-  response_models {
-      key = "${var.SOMEVAL}"
-  }
-  response_parameters {
-      key = "${var.SOMEVAL}"
-  }
-}
+  response_models \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
+  response_parameters \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
+\}
 endsnippet
 
-# XXX: continue.
-snippet srAwsApiGatewayMethodSetting "Method setting for API Gateway" b
-resource "aws_api_gateway_method_setting" "${1:name}" {
-}
+snippet srAwsApiGatewayMethodSettings "Method setting for API Gateway" b
+resource "aws_api_gateway_method_settings" "${1:name}" \{
+  rest_api_id  = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+  stage_name   = "\$\{aws_api_gateway_stage.${3:bar}.stage_name\}"
+  method_path  = "\$\{aws_api_gateway_resource.${4:baz}.path_part\}/\$\{aws_api_gateway_method.${5:qux}.http_method\}"
+  settings \{
+    metrics_enabled                         = true|false
+    logging_level                           = ""
+    data_trace_enabled                      = true|false
+    throttling_burst_limit                  = 1
+    throttling_rate_limit                   = 1
+    caching_enabled                         = true|false
+    cache_ttl_in_seconds                    = 60
+    cache_data_encrypted                    = true|false
+    require_authorization_for_cache_control = true|false
+  \}
+\}
 endsnippet
 
-snippet srAwsApiGatewayModel
-resource "aws_api_gateway_model" "${1:name}" {
-  rest_api_id  = ""
-  name         = ""
+snippet frAwsApiGatewayMethodSettings "Method setting for API Gateway" b
+resource "aws_api_gateway_method_settings" "${1:name}" \{
+  rest_api_id  = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+  stage_name   = "\$\{aws_api_gateway_stage.${3:bar}.stage_name\}"
+  method_path  = "\$\{aws_api_gateway_resource.${4:baz}.path_part\}/\$\{aws_api_gateway_method.${5:qux}.http_method\}"
+  settings \{
+    metrics_enabled                         = true|false
+    logging_level                           = ""
+    data_trace_enabled                      = true|false
+    throttling_burst_limit                  = 1
+    throttling_rate_limit                   = 1
+    caching_enabled                         = true|false
+    cache_ttl_in_seconds                    = 60
+    cache_data_encrypted                    = true|false
+    require_authorization_for_cache_control = true|false
+  \}
+\}
+endsnippet
+
+snippet srAwsApiGatewayModel "Model for API Gateway" b
+resource "aws_api_gateway_model" "${1:name}" \{
+  rest_api_id  = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+  name         = "${1:name}"
   content_type = ""
-}
+\}
 endsnippet
 
-snippet frAwsApiGatewayModel
-resource "aws_api_gateway_model" "${1:name}" {
-  rest_api_id  = ""
-  name         = ""
+snippet frAwsApiGatewayModel "Model for API Gateway" b
+resource "aws_api_gateway_model" "${1:name}" \{
+  rest_api_id  = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+  name         = "${1:name}"
   content_type = ""
   description  = ""
   schema       = ""
-}
+\}
 endsnippet
 
-snippet srAwsApiGatewayResource
-resource "aws_api_gateway_resource" "${1:name}" {
-  rest_api_id = ""
-  parent_id   = ""
+snippet srAwsApiGatewayResource "API Gateway Resource" b
+resource "aws_api_gateway_resource" "${1:name}" \{
+  rest_api_id = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+  parent_id   = "\$\{aws_api_gateway_rest_api.${3:bar}.root_resource_id\}"
   path_part   = ""
-}
+\}
 endsnippet
 
-snippet frAwsApiGatewayResource
-resource "aws_api_gateway_resource" "${1:name}" {
-  rest_api_id = ""
-  parent_id   = ""
+snippet frAwsApiGatewayResource "API Gateway Resource" b
+resource "aws_api_gateway_resource" "${1:name}" \{
+  rest_api_id = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+  parent_id   = "\$\{aws_api_gateway_rest_api.${3:bar}.root_resource_id\}"
   path_part   = ""
-}
+\}
 endsnippet
 
-snippet srAwsApiGatewayRestApi
-resource "aws_api_gateway_rest_api" "${1:name}" {
-  name = ""
-}
+snippet srAwsApiGatewayRestApi "API Gateway Rest API" b
+resource "aws_api_gateway_rest_api" "${1:name}" \{
+  name = "${1:name}"
+\}
 endsnippet
 
-snippet frAwsApiGatewayRestApi
-resource "aws_api_gateway_rest_api" "${1:name}" {
-  name               = ""
+snippet frAwsApiGatewayRestApi "API Gateway Rest API" b
+resource "aws_api_gateway_rest_api" "${1:name}" \{
+  name               = "${1:name}"
   description        = ""
   binary_media_types = [""]
+\}
+endsnippet
+
+snippet srAwsApiGatewayStage "API Gateway Stage" b
+resource "aws_api_gateway_stage" "${1:name}" {
+  stage_name    = "${1:name}"
+  deployment_id = "\$\{aws_api_gateway_deployment.${2:foo}.id\}"
+  rest_api_id   = "\$\{aws_api_gateway_rest_api.${3:bar}.id\}"
 }
 endsnippet
 
-snippet srAwsApiGatewayUsagePlan
-resource "aws_api_gateway_usage_plan" "${1:name}" {
-}
-endsnippet
-
-snippet frAwsApiGatewayUsagePlan
-resource "aws_api_gateway_usage_plan" "${1:name}" {
-  api_stages {
-    api_id  = ""
-    stage   = ""
+snippet frAwsApiGatewayStage "API Gateway Stage" b
+resource "aws_api_gateway_stage" "${1:name}" {
+  stage_name            = "${1:name}"
+  deployment_id         = "\$\{aws_api_gateway_deployment.${2:foo}.id\}"
+  rest_api_id           = "\$\{aws_api_gateway_rest_api.${3:bar}.id\}"
+  cache_cluster_enabled = true|false
+  cache_cluster_size    = ""
+  client_certificate_id = ""
+  description           = ""
+  documentation_version = ""
+  variables {
+    key = "\$\{var.SOMEVAL\}"
   }
-  quota_settings {
+}
+endsnippet
+
+snippet srAwsApiGatewayUsagePlan "API Gateway Usage Plan" b
+resource "aws_api_gateway_usage_plan" "${1:name}" \{
+  name = "${1:name}"
+\}
+endsnippet
+
+snippet frAwsApiGatewayUsagePlan "API Gateway Usage Plan" b
+resource "aws_api_gateway_usage_plan" "${1:name}" \{
+  name         = "${1:name}"
+  api_stages \{
+    api_id  = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
+    stage   = "\$\{aws_api_gateway_deployment.${3:bar}.stage_name\}"
+  \}
+  quota_settings \{
     limit   = 1
     period  = ""
-  }
-  throttle_settings {
+  \}
+  throttle_settings \{
     burst_limit  = 1
     rate_limit   = 1
-  }
-  product_code      = ""
-  name              = ""
-}
+  \}
+  product_code = ""
+\}
 endsnippet
 
-snippet srAwsApiGatewayUsagePlanKey
-resource "aws_api_gateway_usage_plan_key" "${1:name}" {
-  key_id        = ""
+snippet srAwsApiGatewayUsagePlanKey "API Gateway Usage Plan Key" b
+resource "aws_api_gateway_usage_plan_key" "${1:name}" \{
+  key_id        = "\$\{aws_api_gateway_api_key.${2:foo}.id\}"
   key_type      = ""
-  usage_plan_id = ""
-}
+  usage_plan_id = "\$\{aws_api_gateway_usage_plan.${3:bar}.id\}"
+\}
 endsnippet
 
-snippet frAwsApiGatewayUsagePlanKey
-resource "aws_api_gateway_usage_plan_key" "${1:name}" {
-  key_id        = ""
+snippet frAwsApiGatewayUsagePlanKey "API Gateway Usage Plan Key" b
+resource "aws_api_gateway_usage_plan_key" "${1:name}" \{
+  key_id        = "\$\{aws_api_gateway_api_key.${2:foo}.id\}"
   key_type      = ""
-  usage_plan_id = ""
-}
+  usage_plan_id = "\$\{aws_api_gateway_usage_plan.${3:bar}.id\}"
+\}
 endsnippet
 
 snippet srAwsAppCookieStickinessPolicy
-resource "aws_app_cookie_stickiness_policy" "${1:name}" {
+resource "aws_app_cookie_stickiness_policy" "${1:name}" \{
   name          = ""
   load_balancer = ""
   lb_port       = 1
   cookie_name   = ""
-}
+\}
 endsnippet
 
 snippet frAwsAppCookieStickinessPolicy
-resource "aws_app_cookie_stickiness_policy" "${1:name}" {
+resource "aws_app_cookie_stickiness_policy" "${1:name}" \{
   name          = ""
   load_balancer = ""
   lb_port       = 1
   cookie_name   = ""
-}
+\}
 endsnippet
 
 snippet srAwsAppautoscalingPolicy
-resource "aws_appautoscaling_policy" "${1:name}" {
+resource "aws_appautoscaling_policy" "${1:name}" \{
   name                    = ""
   resource_id             = ""
   scalable_dimension      = ""
@@ -1428,11 +1487,11 @@ resource "aws_appautoscaling_policy" "${1:name}" {
   adjustment_type         = ""
   cooldown                = 1
   metric_aggregation_type = ""
-}
+\}
 endsnippet
 
 snippet frAwsAppautoscalingPolicy
-resource "aws_appautoscaling_policy" "${1:name}" {
+resource "aws_appautoscaling_policy" "${1:name}" \{
   name                     = ""
   resource_id              = ""
   scalable_dimension       = ""
@@ -1443,60 +1502,60 @@ resource "aws_appautoscaling_policy" "${1:name}" {
   policy_type              = ""
   min_adjustment_magnitude = 1
   alarms                   = [""]
-  step_adjustment {
+  step_adjustment \{
     metric_interval_lower_bound  = ""
     metric_interval_upper_bound  = ""
     scaling_adjustment           = 1
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsAppautoscalingTarget
-resource "aws_appautoscaling_target" "${1:name}" {
+resource "aws_appautoscaling_target" "${1:name}" \{
   max_capacity       = 1
   min_capacity       = 1
   resource_id        = ""
   role_arn           = ""
   scalable_dimension = ""
   service_namespace  = ""
-}
+\}
 endsnippet
 
 snippet frAwsAppautoscalingTarget
-resource "aws_appautoscaling_target" "${1:name}" {
+resource "aws_appautoscaling_target" "${1:name}" \{
   max_capacity       = 1
   min_capacity       = 1
   resource_id        = ""
   role_arn           = ""
   scalable_dimension = ""
   service_namespace  = ""
-}
+\}
 endsnippet
 
 snippet srAwsAutoscalingAttachment
-resource "aws_autoscaling_attachment" "${1:name}" {
+resource "aws_autoscaling_attachment" "${1:name}" \{
   autoscaling_group_name = ""
-}
+\}
 endsnippet
 
 snippet frAwsAutoscalingAttachment
-resource "aws_autoscaling_attachment" "${1:name}" {
+resource "aws_autoscaling_attachment" "${1:name}" \{
   autoscaling_group_name = ""
   elb                    = ""
   alb_target_group_arn   = ""
-}
+\}
 endsnippet
 
 snippet srAwsAutoscalingGroup
-resource "aws_autoscaling_group" "${1:name}" {
+resource "aws_autoscaling_group" "${1:name}" \{
   launch_configuration = ""
   min_size             = 1
   max_size             = 1
-}
+\}
 endsnippet
 
 snippet frAwsAutoscalingGroup
-resource "aws_autoscaling_group" "${1:name}" {
+resource "aws_autoscaling_group" "${1:name}" \{
   launch_configuration      = ""
   min_size                  = 1
   max_size                  = 1
@@ -1520,7 +1579,7 @@ resource "aws_autoscaling_group" "${1:name}" {
   metrics_granularity       = ""
   protect_from_scale_in     = true|false
   target_group_arns         = [""]
-  initial_lifecycle_hook {
+  initial_lifecycle_hook \{
     name                     = ""
     default_result           = ""
     heartbeat_timeout        = 1
@@ -1528,25 +1587,25 @@ resource "aws_autoscaling_group" "${1:name}" {
     notification_metadata    = ""
     notification_target_arn  = ""
     role_arn                 = ""
-  }
-  tag {
+  \}
+  tag \{
     key                  = ""
     value                = ""
     propagate_at_launch  = true|false
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsAutoscalingLifecycleHook
-resource "aws_autoscaling_lifecycle_hook" "${1:name}" {
+resource "aws_autoscaling_lifecycle_hook" "${1:name}" \{
   name                   = ""
   autoscaling_group_name = ""
   lifecycle_transition   = ""
-}
+\}
 endsnippet
 
 snippet frAwsAutoscalingLifecycleHook
-resource "aws_autoscaling_lifecycle_hook" "${1:name}" {
+resource "aws_autoscaling_lifecycle_hook" "${1:name}" \{
   name                    = ""
   autoscaling_group_name  = ""
   lifecycle_transition    = ""
@@ -1555,35 +1614,35 @@ resource "aws_autoscaling_lifecycle_hook" "${1:name}" {
   notification_metadata   = ""
   notification_target_arn = ""
   role_arn                = ""
-}
+\}
 endsnippet
 
 snippet srAwsAutoscalingNotification
-resource "aws_autoscaling_notification" "${1:name}" {
+resource "aws_autoscaling_notification" "${1:name}" \{
   topic_arn     = ""
   group_names   = [""]
   notifications = [""]
-}
+\}
 endsnippet
 
 snippet frAwsAutoscalingNotification
-resource "aws_autoscaling_notification" "${1:name}" {
+resource "aws_autoscaling_notification" "${1:name}" \{
   topic_arn     = ""
   group_names   = [""]
   notifications = [""]
-}
+\}
 endsnippet
 
 snippet srAwsAutoscalingPolicy
-resource "aws_autoscaling_policy" "${1:name}" {
+resource "aws_autoscaling_policy" "${1:name}" \{
   name                   = ""
   adjustment_type        = ""
   autoscaling_group_name = ""
-}
+\}
 endsnippet
 
 snippet frAwsAutoscalingPolicy
-resource "aws_autoscaling_policy" "${1:name}" {
+resource "aws_autoscaling_policy" "${1:name}" \{
   name                      = ""
   adjustment_type           = ""
   autoscaling_group_name    = ""
@@ -1593,23 +1652,23 @@ resource "aws_autoscaling_policy" "${1:name}" {
   min_adjustment_magnitude  = 1
   min_adjustment_step       = 1
   scaling_adjustment        = 1
-  step_adjustment {
+  step_adjustment \{
     metric_interval_lower_bound  = ""
     metric_interval_upper_bound  = ""
     scaling_adjustment           = 1
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsAutoscalingSchedule
-resource "aws_autoscaling_schedule" "${1:name}" {
+resource "aws_autoscaling_schedule" "${1:name}" \{
   scheduled_action_name  = ""
   autoscaling_group_name = ""
-}
+\}
 endsnippet
 
 snippet frAwsAutoscalingSchedule
-resource "aws_autoscaling_schedule" "${1:name}" {
+resource "aws_autoscaling_schedule" "${1:name}" \{
   scheduled_action_name  = ""
   autoscaling_group_name = ""
   start_time             = ""
@@ -1618,17 +1677,17 @@ resource "aws_autoscaling_schedule" "${1:name}" {
   min_size               = 1
   max_size               = 1
   desired_capacity       = 1
-}
+\}
 endsnippet
 
 snippet srAwsCloudFormationStack
-resource "aws_cloud_formation_stack" "${1:name}" {
+resource "aws_cloud_formation_stack" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsCloudFormationStack
-resource "aws_cloud_formation_stack" "${1:name}" {
+resource "aws_cloud_formation_stack" "${1:name}" \{
   name               = ""
   template_body      = ""
   template_url       = ""
@@ -1636,159 +1695,159 @@ resource "aws_cloud_formation_stack" "${1:name}" {
   disable_rollback   = true|false
   notification_arns  = [""]
   on_failure         = ""
-  parameters {
-      key = "${var.SOMEVAL}"
-  }
+  parameters \{
+      key = "\$\{var.SOMEVAL\}"
+  \}
   policy_body        = ""
   policy_url         = ""
   timeout_in_minutes = 1
-  tags {
-      key = "${var.SOMEVAL}"
-  }
+  tags \{
+      key = "\$\{var.SOMEVAL\}"
+  \}
   iam_role_arn       = ""
-}
+\}
 endsnippet
 
 snippet srAwsCloudFrontDistribution
-resource "aws_cloud_front_distribution" "${1:name}" {
-  default_cache_behavior {
+resource "aws_cloud_front_distribution" "${1:name}" \{
+  default_cache_behavior \{
     allowed_methods              = [""]
     cached_methods               = [""]
     compress                     = true|false
     default_ttl                  = 1
-    forwarded_values {
-      cookies {
+    forwarded_values \{
+      cookies \{
         forward              = ""
         whitelisted_names    = [""]
-      }
+      \}
       headers                   = [""]
       query_string              = true|false
       query_string_cache_keys   = [""]
-    }
-    lambda_function_association {
+    \}
+    lambda_function_association \{
       event_type   = ""
       lambda_arn   = ""
-    }
+    \}
     max_ttl                      = 1
     min_ttl                      = 1
     smooth_streaming             = true|false
     target_origin_id             = ""
     trusted_signers              = [""]
     viewer_protocol_policy       = ""
-  }
+  \}
   enabled                = true|false
-  origin {
-    custom_origin_config {
+  origin \{
+    custom_origin_config \{
       http_port                = 1
       https_port               = 1
       origin_protocol_policy   = ""
       origin_ssl_protocols     = [""]
-    }
+    \}
     domain_name           = ""
-    custom_header {
+    custom_header \{
       name    = ""
       value   = ""
-    }
+    \}
     origin_id             = ""
     origin_path           = ""
-    s3_origin_config {
+    s3_origin_config \{
       origin_access_identity   = ""
-    }
-  }
-  restrictions {
-    geo_restriction {
+    \}
+  \}
+  restrictions \{
+    geo_restriction \{
       locations          = [""]
       restriction_type   = ""
-    }
-  }
-  viewer_certificate {
+    \}
+  \}
+  viewer_certificate \{
     acm_certificate_arn             = ""
     cloudfront_default_certificate  = true|false
     iam_certificate_id              = ""
     minimum_protocol_version        = ""
     ssl_support_method              = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet frAwsCloudFrontDistribution
-resource "aws_cloud_front_distribution" "${1:name}" {
-  default_cache_behavior {
+resource "aws_cloud_front_distribution" "${1:name}" \{
+  default_cache_behavior \{
     allowed_methods              = [""]
     cached_methods               = [""]
     compress                     = true|false
     default_ttl                  = 1
-    forwarded_values {
-      cookies {
+    forwarded_values \{
+      cookies \{
         forward              = ""
         whitelisted_names    = [""]
-      }
+      \}
       headers                   = [""]
       query_string              = true|false
       query_string_cache_keys   = [""]
-    }
-    lambda_function_association {
+    \}
+    lambda_function_association \{
       event_type   = ""
       lambda_arn   = ""
-    }
+    \}
     max_ttl                      = 1
     min_ttl                      = 1
     smooth_streaming             = true|false
     target_origin_id             = ""
     trusted_signers              = [""]
     viewer_protocol_policy       = ""
-  }
+  \}
   enabled                        = true|false
-  origin {
-    custom_origin_config {
+  origin \{
+    custom_origin_config \{
       http_port                = 1
       https_port               = 1
       origin_protocol_policy   = ""
       origin_ssl_protocols     = [""]
-    }
+    \}
     domain_name           = ""
-    custom_header {
+    custom_header \{
       name    = ""
       value   = ""
-    }
+    \}
     origin_id             = ""
     origin_path           = ""
-    s3_origin_config {
+    s3_origin_config \{
       origin_access_identity   = ""
-    }
-  }
-  restrictions {
-    geo_restriction {
+    \}
+  \}
+  restrictions \{
+    geo_restriction \{
       locations          = [""]
       restriction_type   = ""
-    }
-  }
-  viewer_certificate {
+    \}
+  \}
+  viewer_certificate \{
     acm_certificate_arn             = ""
     cloudfront_default_certificate  = true|false
     iam_certificate_id              = ""
     minimum_protocol_version        = ""
     ssl_support_method              = ""
-  }
+  \}
   aliases                        = [""]
-  cache_behavior {
+  cache_behavior \{
     allowed_methods              = [""]
     cached_methods               = [""]
     compress                     = true|false
     default_ttl                  = 1
-    forwarded_values {
-      cookies {
+    forwarded_values \{
+      cookies \{
         forward              = ""
         whitelisted_names    = [""]
-      }
+      \}
       headers                   = [""]
       query_string              = true|false
       query_string_cache_keys   = [""]
-    }
-    lambda_function_association {
+    \}
+    lambda_function_association \{
       event_type   = ""
       lambda_arn   = ""
-    }
+    \}
     max_ttl                      = 1
     min_ttl                      = 1
     path_pattern                 = ""
@@ -1796,48 +1855,48 @@ resource "aws_cloud_front_distribution" "${1:name}" {
     target_origin_id             = ""
     trusted_signers              = [""]
     viewer_protocol_policy       = ""
-  }
+  \}
   comment                        = ""
-  custom_error_response {
+  custom_error_response \{
     error_caching_min_ttl  = 1
     error_code             = 1
     response_code          = 1
     response_page_path     = ""
-  }
+  \}
   default_root_object            = ""
   http_version                   = ""
-  logging_config {
+  logging_config \{
     bucket           = ""
     include_cookies  = true|false
     prefix           = ""
-  }
+  \}
   price_class                    = ""
   web_acl_id                     = ""
   retain_on_delete               = true|false
   is_ipv6_enabled                = true|false
-}
+\}
 endsnippet
 
 snippet srAwsCloudFrontOriginAccessIdentity
-resource "aws_cloud_front_origin_access_identity" "${1:name}" {
-}
+resource "aws_cloud_front_origin_access_identity" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsCloudFrontOriginAccessIdentity
-resource "aws_cloud_front_origin_access_identity" "${1:name}" {
+resource "aws_cloud_front_origin_access_identity" "${1:name}" \{
   comment                         = ""
-}
+\}
 endsnippet
 
 snippet srAwsCloudTrail
-resource "aws_cloud_trail" "${1:name}" {
+resource "aws_cloud_trail" "${1:name}" \{
   name           = ""
   s3_bucket_name = ""
-}
+\}
 endsnippet
 
 snippet frAwsCloudTrail
-resource "aws_cloud_trail" "${1:name}" {
+resource "aws_cloud_trail" "${1:name}" \{
   name                          = ""
   s3_bucket_name                = ""
   enable_logging                = true|false
@@ -1849,128 +1908,128 @@ resource "aws_cloud_trail" "${1:name}" {
   sns_topic_name                = ""
   enable_log_file_validation    = true|false
   kms_key_id                    = ""
-}
+\}
 endsnippet
 
 snippet srAwsCloudWatchEventRule
-resource "aws_cloud_watch_event_rule" "${1:name}" {
+resource "aws_cloud_watch_event_rule" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsCloudWatchEventRule
-resource "aws_cloud_watch_event_rule" "${1:name}" {
+resource "aws_cloud_watch_event_rule" "${1:name}" \{
   name                = ""
   schedule_expression = ""
   event_pattern       = ""
   description         = ""
   role_arn            = ""
   is_enabled          = true|false
-}
+\}
 endsnippet
 
 snippet srAwsCloudWatchEventTarget
-resource "aws_cloud_watch_event_target" "${1:name}" {
+resource "aws_cloud_watch_event_target" "${1:name}" \{
   rule = ""
   arn  = ""
-}
+\}
 endsnippet
 
 snippet frAwsCloudWatchEventTarget
-resource "aws_cloud_watch_event_target" "${1:name}" {
+resource "aws_cloud_watch_event_target" "${1:name}" \{
   rule       = ""
   arn        = ""
   target_id  = ""
   input      = ""
   input_path = ""
-}
+\}
 endsnippet
 
 snippet srAwsCloudWatchLogDestination
-resource "aws_cloud_watch_log_destination" "${1:name}" {
+resource "aws_cloud_watch_log_destination" "${1:name}" \{
   name       = ""
   role_arn   = ""
   target_arn = ""
-}
+\}
 endsnippet
 
 snippet frAwsCloudWatchLogDestination
-resource "aws_cloud_watch_log_destination" "${1:name}" {
+resource "aws_cloud_watch_log_destination" "${1:name}" \{
   name       = ""
   role_arn   = ""
   target_arn = ""
-}
+\}
 endsnippet
 
 snippet srAwsCloudWatchLogDestinationPolicy
-resource "aws_cloud_watch_log_destination_policy" "${1:name}" {
+resource "aws_cloud_watch_log_destination_policy" "${1:name}" \{
   destination_name = ""
   access_policy    = ""
-}
+\}
 endsnippet
 
 snippet frAwsCloudWatchLogDestinationPolicy
-resource "aws_cloud_watch_log_destination_policy" "${1:name}" {
+resource "aws_cloud_watch_log_destination_policy" "${1:name}" \{
   destination_name = ""
   access_policy    = ""
-}
+\}
 endsnippet
 
 snippet srAwsCloudWatchLogGroup
-resource "aws_cloud_watch_log_group" "${1:name}" {
+resource "aws_cloud_watch_log_group" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsCloudWatchLogGroup
-resource "aws_cloud_watch_log_group" "${1:name}" {
+resource "aws_cloud_watch_log_group" "${1:name}" \{
   name              = ""
   retention_in_days = 1
-}
+\}
 endsnippet
 
 snippet srAwsCloudWatchLogMetricFilter
-resource "aws_cloud_watch_log_metric_filter" "${1:name}" {
+resource "aws_cloud_watch_log_metric_filter" "${1:name}" \{
   name                  = ""
   pattern               = ""
   log_group_name        = ""
-  metric_transformation {
+  metric_transformation \{
     name       = ""
     namespace  = ""
     value      = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet frAwsCloudWatchLogMetricFilter
-resource "aws_cloud_watch_log_metric_filter" "${1:name}" {
+resource "aws_cloud_watch_log_metric_filter" "${1:name}" \{
   name                  = ""
   pattern               = ""
   log_group_name        = ""
-  metric_transformation {
+  metric_transformation \{
     name       = ""
     namespace  = ""
     value      = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsCloudWatchLogStream
-resource "aws_cloud_watch_log_stream" "${1:name}" {
+resource "aws_cloud_watch_log_stream" "${1:name}" \{
   name           = ""
   log_group_name = ""
-}
+\}
 endsnippet
 
 snippet frAwsCloudWatchLogStream
-resource "aws_cloud_watch_log_stream" "${1:name}" {
+resource "aws_cloud_watch_log_stream" "${1:name}" \{
   name           = ""
   log_group_name = ""
-}
+\}
 endsnippet
 
 snippet srAwsCloudWatchMetricAlarm
-resource "aws_cloud_watch_metric_alarm" "${1:name}" {
+resource "aws_cloud_watch_metric_alarm" "${1:name}" \{
   alarm_name          = ""
   comparison_operator = ""
   evaluation_periods  = 1
@@ -1978,11 +2037,11 @@ resource "aws_cloud_watch_metric_alarm" "${1:name}" {
   namespace           = ""
   period              = 1
   threshold           = 1.0
-}
+\}
 endsnippet
 
 snippet frAwsCloudWatchMetricAlarm
-resource "aws_cloud_watch_metric_alarm" "${1:name}" {
+resource "aws_cloud_watch_metric_alarm" "${1:name}" \{
   alarm_name                            = ""
   comparison_operator                   = ""
   evaluation_periods                    = 1
@@ -1994,238 +2053,238 @@ resource "aws_cloud_watch_metric_alarm" "${1:name}" {
   actions_enabled                       = true|false
   alarm_actions                         = [""]
   alarm_description                     = ""
-  dimensions {
-      key = "${var.SOMEVAL}"
-  }
+  dimensions \{
+      key = "\$\{var.SOMEVAL\}"
+  \}
   insufficient_data_actions             = [""]
   ok_actions                            = [""]
   unit                                  = ""
   extended_statistic                    = ""
   treat_missing_data                    = ""
   evaluate_low_sample_count_percentiles = ""
-}
+\}
 endsnippet
 
 snippet srAwsCloudwatchLogSubscriptionFilter
-resource "aws_cloudwatch_log_subscription_filter" "${1:name}" {
+resource "aws_cloudwatch_log_subscription_filter" "${1:name}" \{
   name            = ""
   destination_arn = ""
   filter_pattern  = ""
   log_group_name  = ""
-}
+\}
 endsnippet
 
 snippet frAwsCloudwatchLogSubscriptionFilter
-resource "aws_cloudwatch_log_subscription_filter" "${1:name}" {
+resource "aws_cloudwatch_log_subscription_filter" "${1:name}" \{
   name            = ""
   destination_arn = ""
   filter_pattern  = ""
   log_group_name  = ""
   role_arn        = ""
-}
+\}
 endsnippet
 
 snippet srAwsCodeBuildProject
-resource "aws_code_build_project" "${1:name}" {
-  artifacts {
+resource "aws_code_build_project" "${1:name}" \{
+  artifacts \{
     name            = ""
     location        = ""
     namespace_type  = ""
     packaging       = ""
     path            = ""
     type            = ""
-  }
-  environment {
+  \}
+  environment \{
     compute_type          = ""
-    environment_variable {
+    environment_variable \{
       name    = ""
       value   = ""
-    }
+    \}
     image                 = ""
     type                  = ""
-  }
+  \}
   name        = ""
-  source {
-    auth {
+  source \{
+    auth \{
       resource   = ""
       type       = ""
-    }
+    \}
     buildspec  = ""
     location   = ""
     type       = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet frAwsCodeBuildProject
-resource "aws_code_build_project" "${1:name}" {
-  artifacts {
+resource "aws_code_build_project" "${1:name}" \{
+  artifacts \{
     name            = ""
     location        = ""
     namespace_type  = ""
     packaging       = ""
     path            = ""
     type            = ""
-  }
-  environment {
+  \}
+  environment \{
     compute_type          = ""
-    environment_variable {
+    environment_variable \{
       name    = ""
       value   = ""
-    }
+    \}
     image                 = ""
     type                  = ""
-  }
+  \}
   name           = ""
-  source {
-    auth {
+  source \{
+    auth \{
       resource   = ""
       type       = ""
-    }
+    \}
     buildspec  = ""
     location   = ""
     type       = ""
-  }
+  \}
   description    = ""
   encryption_key = ""
   service_role   = ""
   build_timeout  = 1
-}
+\}
 endsnippet
 
 snippet srAwsCodeCommitRepository
-resource "aws_code_commit_repository" "${1:name}" {
+resource "aws_code_commit_repository" "${1:name}" \{
   repository_name = ""
-}
+\}
 endsnippet
 
 snippet frAwsCodeCommitRepository
-resource "aws_code_commit_repository" "${1:name}" {
+resource "aws_code_commit_repository" "${1:name}" \{
   repository_name = ""
   description     = ""
   default_branch  = ""
-}
+\}
 endsnippet
 
 snippet srAwsCodeCommitTrigger
-resource "aws_code_commit_trigger" "${1:name}" {
+resource "aws_code_commit_trigger" "${1:name}" \{
   repository_name = ""
-  trigger {
+  trigger \{
     name             = ""
     destination_arn  = ""
     custom_data      = ""
     branches         = [""]
     events           = [""]
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet frAwsCodeCommitTrigger
-resource "aws_code_commit_trigger" "${1:name}" {
+resource "aws_code_commit_trigger" "${1:name}" \{
   repository_name  = ""
-  trigger {
+  trigger \{
     name             = ""
     destination_arn  = ""
     custom_data      = ""
     branches         = [""]
     events           = [""]
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsCodeDeployApp
-resource "aws_code_deploy_app" "${1:name}" {
+resource "aws_code_deploy_app" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsCodeDeployApp
-resource "aws_code_deploy_app" "${1:name}" {
+resource "aws_code_deploy_app" "${1:name}" \{
   name      = ""
   unique_id = ""
-}
+\}
 endsnippet
 
 snippet srAwsCodeDeployDeploymentConfig
-resource "aws_code_deploy_deployment_config" "${1:name}" {
+resource "aws_code_deploy_deployment_config" "${1:name}" \{
   deployment_config_name = ""
-  minimum_healthy_hosts {
+  minimum_healthy_hosts \{
     type   = ""
     value  = 1
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet frAwsCodeDeployDeploymentConfig
-resource "aws_code_deploy_deployment_config" "${1:name}" {
+resource "aws_code_deploy_deployment_config" "${1:name}" \{
   deployment_config_name = ""
-  minimum_healthy_hosts {
+  minimum_healthy_hosts \{
     type   = ""
     value  = 1
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsCodeDeployDeploymentGroup
-resource "aws_code_deploy_deployment_group" "${1:name}" {
+resource "aws_code_deploy_deployment_group" "${1:name}" \{
   app_name              = ""
   deployment_group_name = ""
   service_role_arn      = ""
-}
+\}
 endsnippet
 
 snippet frAwsCodeDeployDeploymentGroup
-resource "aws_code_deploy_deployment_group" "${1:name}" {
+resource "aws_code_deploy_deployment_group" "${1:name}" \{
   app_name                        = ""
   deployment_group_name           = ""
   service_role_arn                = ""
-  alarm_configuration {
+  alarm_configuration \{
     alarms                     = [""]
     enabled                    = true|false
     ignore_poll_alarm_failure  = true|false
-  }
-  auto_rollback_configuration {
+  \}
+  auto_rollback_configuration \{
     enabled  = true|false
     events   = [""]
-  }
+  \}
   autoscaling_groups              = [""]
   deployment_config_name          = ""
-  ec2_tag_filter {
+  ec2_tag_filter \{
     key    = ""
     type   = ""
     value  = ""
-  }
-  on_premises_instance_tag_filter {
+  \}
+  on_premises_instance_tag_filter \{
     key    = ""
     type   = ""
     value  = ""
-  }
-  trigger_configuration {
+  \}
+  trigger_configuration \{
     trigger_events      = [""]
     trigger_name        = ""
     trigger_target_arn  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsCodePipeline
-resource "aws_code_pipeline" "${1:name}" {
+resource "aws_code_pipeline" "${1:name}" \{
   name           = ""
   role_arn       = ""
-  artifact_store {
+  artifact_store \{
     location        = ""
     type            = ""
-    encryption_key {
+    encryption_key \{
       id     = ""
       type   = ""
-    }
-  }
-  stage {
+    \}
+  \}
+  stage \{
     name    = ""
-    action {
-      configuration {
-          key = "${var.SOMEVAL}"
-      }
+    action \{
+      configuration \{
+          key = "\$\{var.SOMEVAL\}"
+      \}
       category           = ""
       owner              = ""
       provider           = ""
@@ -2235,29 +2294,29 @@ resource "aws_code_pipeline" "${1:name}" {
       name               = ""
       role_arn           = ""
       run_order          = 1
-    }
-  }
-}
+    \}
+  \}
+\}
 endsnippet
 
 snippet frAwsCodePipeline
-resource "aws_code_pipeline" "${1:name}" {
+resource "aws_code_pipeline" "${1:name}" \{
   name           = ""
   role_arn       = ""
-  artifact_store {
+  artifact_store \{
     location        = ""
     type            = ""
-    encryption_key {
+    encryption_key \{
       id     = ""
       type   = ""
-    }
-  }
-  stage {
+    \}
+  \}
+  stage \{
     name    = ""
-    action {
-      configuration {
-          key = "${var.SOMEVAL}"
-      }
+    action \{
+      configuration \{
+          key = "\$\{var.SOMEVAL\}"
+      \}
       category           = ""
       owner              = ""
       provider           = ""
@@ -2267,142 +2326,142 @@ resource "aws_code_pipeline" "${1:name}" {
       name               = ""
       role_arn           = ""
       run_order          = 1
-    }
-  }
-}
+    \}
+  \}
+\}
 endsnippet
 
 snippet srAwsConfigConfigRule
-resource "aws_config_config_rule" "${1:name}" {
+resource "aws_config_config_rule" "${1:name}" \{
   name   = ""
-  source {
+  source \{
     owner              = ""
-    source_detail {
+    source_detail \{
       event_source                  = ""
       maximum_execution_frequency   = ""
       message_type                  = ""
-    }
+    \}
     source_identifier  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet frAwsConfigConfigRule
-resource "aws_config_config_rule" "${1:name}" {
+resource "aws_config_config_rule" "${1:name}" \{
   name                        = ""
-  source {
+  source \{
     owner              = ""
-    source_detail {
+    source_detail \{
       event_source                  = ""
       maximum_execution_frequency   = ""
       message_type                  = ""
-    }
+    \}
     source_identifier  = ""
-  }
+  \}
   description                 = ""
   input_parameters            = ""
   maximum_execution_frequency = ""
-  scope {
+  scope \{
     compliance_resource_id     = ""
     compliance_resource_types  = [""]
     tag_key                    = ""
     tag_value                  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsConfigConfigurationRecorder
-resource "aws_config_configuration_recorder" "${1:name}" {
+resource "aws_config_configuration_recorder" "${1:name}" \{
   role_arn = ""
-}
+\}
 endsnippet
 
 snippet frAwsConfigConfigurationRecorder
-resource "aws_config_configuration_recorder" "${1:name}" {
+resource "aws_config_configuration_recorder" "${1:name}" \{
   role_arn        = ""
   name            = ""
-  recording_group {
+  recording_group \{
     all_supported                  = true|false
     include_global_resource_types  = true|false
     resource_types                 = [""]
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsConfigConfigurationRecorderStatus
-resource "aws_config_configuration_recorder_status" "${1:name}" {
+resource "aws_config_configuration_recorder_status" "${1:name}" \{
   name       = ""
   is_enabled = true|false
-}
+\}
 endsnippet
 
 snippet frAwsConfigConfigurationRecorderStatus
-resource "aws_config_configuration_recorder_status" "${1:name}" {
+resource "aws_config_configuration_recorder_status" "${1:name}" \{
   name       = ""
   is_enabled = true|false
-}
+\}
 endsnippet
 
 snippet srAwsConfigDeliveryChannel
-resource "aws_config_delivery_channel" "${1:name}" {
+resource "aws_config_delivery_channel" "${1:name}" \{
   s3_bucket_name = ""
-}
+\}
 endsnippet
 
 snippet frAwsConfigDeliveryChannel
-resource "aws_config_delivery_channel" "${1:name}" {
+resource "aws_config_delivery_channel" "${1:name}" \{
   s3_bucket_name               = ""
   name                         = ""
   s3_key_prefix                = ""
   sns_topic_arn                = ""
-  snapshot_delivery_properties {
+  snapshot_delivery_properties \{
     delivery_frequency  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsCustomerGateway
-resource "aws_customer_gateway" "${1:name}" {
+resource "aws_customer_gateway" "${1:name}" \{
   bgp_asn    = 1
   ip_address = ""
   type       = ""
-}
+\}
 endsnippet
 
 snippet frAwsCustomerGateway
-resource "aws_customer_gateway" "${1:name}" {
+resource "aws_customer_gateway" "${1:name}" \{
   bgp_asn    = 1
   ip_address = ""
   type       = ""
-}
+\}
 endsnippet
 
 snippet srAwsDbEventSubscription
-resource "aws_db_event_subscription" "${1:name}" {
+resource "aws_db_event_subscription" "${1:name}" \{
   name      = ""
   sns_topic = ""
-}
+\}
 endsnippet
 
 snippet frAwsDbEventSubscription
-resource "aws_db_event_subscription" "${1:name}" {
+resource "aws_db_event_subscription" "${1:name}" \{
   name             = ""
   sns_topic        = ""
   event_categories = [""]
   source_ids       = [""]
   source_type      = ""
   enabled          = true|false
-}
+\}
 endsnippet
 
 snippet srAwsDbInstance
-resource "aws_db_instance" "${1:name}" {
+resource "aws_db_instance" "${1:name}" \{
   instance_class = ""
-}
+\}
 endsnippet
 
 snippet frAwsDbInstance
-resource "aws_db_instance" "${1:name}" {
+resource "aws_db_instance" "${1:name}" \{
   instance_class              = ""
   name                        = ""
   username                    = ""
@@ -2441,107 +2500,107 @@ resource "aws_db_instance" "${1:name}" {
   option_group_name           = ""
   kms_key_id                  = ""
   timezone                    = ""
-}
+\}
 endsnippet
 
 snippet srAwsDbOptionGroup
-resource "aws_db_option_group" "${1:name}" {
+resource "aws_db_option_group" "${1:name}" \{
   engine_name          = ""
   major_engine_version = ""
-}
+\}
 endsnippet
 
 snippet frAwsDbOptionGroup
-resource "aws_db_option_group" "${1:name}" {
+resource "aws_db_option_group" "${1:name}" \{
   engine_name              = ""
   major_engine_version     = ""
   name                     = ""
   name_prefix              = ""
   option_group_description = ""
-  option {
+  option \{
     option_name                     = ""
-    option_settings {
+    option_settings \{
       name    = ""
       value   = ""
-    }
+    \}
     port                            = 1
     db_security_group_memberships   = [""]
     vpc_security_group_memberships  = [""]
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsDbParameterGroup
-resource "aws_db_parameter_group" "${1:name}" {
+resource "aws_db_parameter_group" "${1:name}" \{
   family = ""
-}
+\}
 endsnippet
 
 snippet frAwsDbParameterGroup
-resource "aws_db_parameter_group" "${1:name}" {
+resource "aws_db_parameter_group" "${1:name}" \{
   family      = ""
   name        = ""
   name_prefix = ""
   description = ""
-  parameter {
+  parameter \{
     name          = ""
     value         = ""
     apply_method  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsDbSecurityGroup
-resource "aws_db_security_group" "${1:name}" {
+resource "aws_db_security_group" "${1:name}" \{
   name    = ""
-  ingress {
+  ingress \{
     cidr                     = ""
     security_group_name      = ""
     security_group_id        = ""
     security_group_owner_id  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet frAwsDbSecurityGroup
-resource "aws_db_security_group" "${1:name}" {
+resource "aws_db_security_group" "${1:name}" \{
   name        = ""
-  ingress {
+  ingress \{
     cidr                     = ""
     security_group_name      = ""
     security_group_id        = ""
     security_group_owner_id  = ""
-  }
+  \}
   description = ""
-}
+\}
 endsnippet
 
 snippet srAwsDbSubnetGroup
-resource "aws_db_subnet_group" "${1:name}" {
+resource "aws_db_subnet_group" "${1:name}" \{
   subnet_ids = [""]
-}
+\}
 endsnippet
 
 snippet frAwsDbSubnetGroup
-resource "aws_db_subnet_group" "${1:name}" {
+resource "aws_db_subnet_group" "${1:name}" \{
   subnet_ids  = [""]
   name        = ""
   name_prefix = ""
   description = ""
-}
+\}
 endsnippet
 
 snippet srAwsDefaultNetworkAcl
-resource "aws_default_network_acl" "${1:name}" {
+resource "aws_default_network_acl" "${1:name}" \{
   default_network_acl_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsDefaultNetworkAcl
-resource "aws_default_network_acl" "${1:name}" {
+resource "aws_default_network_acl" "${1:name}" \{
   default_network_acl_id = ""
   subnet_ids             = [""]
-  ingress {
+  ingress \{
     from_port   = 1
     to_port     = 1
     rule_no     = 1
@@ -2550,8 +2609,8 @@ resource "aws_default_network_acl" "${1:name}" {
     cidr_block  = ""
     icmp_type   = 1
     icmp_code   = 1
-  }
-  egress {
+  \}
+  egress \{
     from_port   = 1
     to_port     = 1
     rule_no     = 1
@@ -2560,21 +2619,21 @@ resource "aws_default_network_acl" "${1:name}" {
     cidr_block  = ""
     icmp_type   = 1
     icmp_code   = 1
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsDefaultRouteTable
-resource "aws_default_route_table" "${1:name}" {
+resource "aws_default_route_table" "${1:name}" \{
   default_route_table_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsDefaultRouteTable
-resource "aws_default_route_table" "${1:name}" {
+resource "aws_default_route_table" "${1:name}" \{
   default_route_table_id = ""
   propagating_vgws       = [""]
-  route {
+  route \{
     cidr_block                 = ""
     ipv6_cidr_block            = ""
     egress_only_gateway_id     = ""
@@ -2583,66 +2642,66 @@ resource "aws_default_route_table" "${1:name}" {
     nat_gateway_id             = ""
     vpc_peering_connection_id  = ""
     network_interface_id       = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsDefaultSecurityGroup
-resource "aws_default_security_group" "${1:name}" {
-}
+resource "aws_default_security_group" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsDefaultSecurityGroup
-resource "aws_default_security_group" "${1:name}" {
-}
+resource "aws_default_security_group" "${1:name}" \{
+\}
 endsnippet
 
 snippet srAwsDirectoryServiceDirectory
-resource "aws_directory_service_directory" "${1:name}" {
+resource "aws_directory_service_directory" "${1:name}" \{
   name     = ""
   password = ""
-}
+\}
 endsnippet
 
 snippet frAwsDirectoryServiceDirectory
-resource "aws_directory_service_directory" "${1:name}" {
+resource "aws_directory_service_directory" "${1:name}" \{
   name             = ""
   password         = ""
   size             = ""
   alias            = ""
   description      = ""
   short_name       = ""
-  vpc_settings {
+  vpc_settings \{
     subnet_ids  = [""]
     vpc_id      = ""
-  }
-  connect_settings {
+  \}
+  connect_settings \{
     customer_username  = ""
     customer_dns_ips   = [""]
     subnet_ids         = [""]
     vpc_id             = ""
-  }
+  \}
   enable_sso       = true|false
   type             = ""
-}
+\}
 endsnippet
 
 snippet srAwsDmsCertificate
-resource "aws_dms_certificate" "${1:name}" {
+resource "aws_dms_certificate" "${1:name}" \{
   certificate_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsDmsCertificate
-resource "aws_dms_certificate" "${1:name}" {
+resource "aws_dms_certificate" "${1:name}" \{
   certificate_id     = ""
   certificate_pem    = ""
   certificate_wallet = ""
-}
+\}
 endsnippet
 
 snippet srAwsDmsEndpoint
-resource "aws_dms_endpoint" "${1:name}" {
+resource "aws_dms_endpoint" "${1:name}" \{
   endpoint_id   = ""
   endpoint_type = ""
   engine_name   = ""
@@ -2650,11 +2709,11 @@ resource "aws_dms_endpoint" "${1:name}" {
   port          = 1
   server_name   = ""
   username      = ""
-}
+\}
 endsnippet
 
 snippet frAwsDmsEndpoint
-resource "aws_dms_endpoint" "${1:name}" {
+resource "aws_dms_endpoint" "${1:name}" \{
   endpoint_id                 = ""
   endpoint_type               = ""
   engine_name                 = ""
@@ -2667,21 +2726,21 @@ resource "aws_dms_endpoint" "${1:name}" {
   extra_connection_attributes = ""
   kms_key_arn                 = ""
   ssl_mode                    = ""
-  tags {
-      key = "${var.SOMEVAL}"
-  }
-}
+  tags \{
+      key = "\$\{var.SOMEVAL\}"
+  \}
+\}
 endsnippet
 
 snippet srAwsDmsReplicationInstance
-resource "aws_dms_replication_instance" "${1:name}" {
+resource "aws_dms_replication_instance" "${1:name}" \{
   replication_instance_class = ""
   replication_instance_id    = ""
-}
+\}
 endsnippet
 
 snippet frAwsDmsReplicationInstance
-resource "aws_dms_replication_instance" "${1:name}" {
+resource "aws_dms_replication_instance" "${1:name}" \{
   replication_instance_class       = ""
   replication_instance_id          = ""
   allocated_storage                = 1
@@ -2694,45 +2753,45 @@ resource "aws_dms_replication_instance" "${1:name}" {
   preferred_maintenance_window     = ""
   publicly_accessible              = true|false
   replication_subnet_group_id      = ""
-  tags {
-      key = "${var.SOMEVAL}"
-  }
+  tags \{
+      key = "\$\{var.SOMEVAL\}"
+  \}
   vpc_security_group_ids           = [""]
-}
+\}
 endsnippet
 
 snippet srAwsDmsReplicationSubnetGroup
-resource "aws_dms_replication_subnet_group" "${1:name}" {
+resource "aws_dms_replication_subnet_group" "${1:name}" \{
   replication_subnet_group_description = ""
   replication_subnet_group_id          = ""
   subnet_ids                           = [""]
-}
+\}
 endsnippet
 
 snippet frAwsDmsReplicationSubnetGroup
-resource "aws_dms_replication_subnet_group" "${1:name}" {
+resource "aws_dms_replication_subnet_group" "${1:name}" \{
   replication_subnet_group_description = ""
   replication_subnet_group_id          = ""
   subnet_ids                           = [""]
-  tags {
-      key = "${var.SOMEVAL}"
-  }
-}
+  tags \{
+      key = "\$\{var.SOMEVAL\}"
+  \}
+\}
 endsnippet
 
 snippet srAwsDmsReplicationTask
-resource "aws_dms_replication_task" "${1:name}" {
+resource "aws_dms_replication_task" "${1:name}" \{
   migration_type           = ""
   replication_instance_arn = ""
   replication_task_id      = ""
   source_endpoint_arn      = ""
   table_mappings           = ""
   target_endpoint_arn      = ""
-}
+\}
 endsnippet
 
 snippet frAwsDmsReplicationTask
-resource "aws_dms_replication_task" "${1:name}" {
+resource "aws_dms_replication_task" "${1:name}" \{
   migration_type            = ""
   replication_instance_arn  = ""
   replication_task_id       = ""
@@ -2741,43 +2800,43 @@ resource "aws_dms_replication_task" "${1:name}" {
   target_endpoint_arn       = ""
   cdc_start_time            = ""
   replication_task_settings = ""
-  tags {
-      key = "${var.SOMEVAL}"
-  }
-}
+  tags \{
+      key = "\$\{var.SOMEVAL\}"
+  \}
+\}
 endsnippet
 
 snippet srAwsDynamoDbTable
-resource "aws_dynamo_db_table" "${1:name}" {
+resource "aws_dynamo_db_table" "${1:name}" \{
   name           = ""
   hash_key       = ""
   write_capacity = 1
   read_capacity  = 1
-  attribute {
+  attribute \{
     name  = ""
     type  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet frAwsDynamoDbTable
-resource "aws_dynamo_db_table" "${1:name}" {
+resource "aws_dynamo_db_table" "${1:name}" \{
   name                   = ""
   hash_key               = ""
   write_capacity         = 1
   read_capacity          = 1
-  attribute {
+  attribute \{
     name  = ""
     type  = ""
-  }
+  \}
   range_key              = ""
-  local_secondary_index {
+  local_secondary_index \{
     name                = ""
     range_key           = ""
     projection_type     = ""
     non_key_attributes  = [""]
-  }
-  global_secondary_index {
+  \}
+  global_secondary_index \{
     name                = ""
     write_capacity      = 1
     read_capacity       = 1
@@ -2785,23 +2844,23 @@ resource "aws_dynamo_db_table" "${1:name}" {
     range_key           = ""
     projection_type     = ""
     non_key_attributes  = [""]
-  }
+  \}
   stream_enabled         = true|false
   stream_view_type       = ""
-}
+\}
 endsnippet
 
 snippet srAwsEMRCluster
-resource "aws_e_m_r_cluster" "${1:name}" {
+resource "aws_e_m_r_cluster" "${1:name}" \{
   name                 = ""
   release_label        = ""
   master_instance_type = ""
   service_role         = ""
-}
+\}
 endsnippet
 
 snippet frAwsEMRCluster
-resource "aws_e_m_r_cluster" "${1:name}" {
+resource "aws_e_m_r_cluster" "${1:name}" \{
   name                              = ""
   release_label                     = ""
   master_instance_type              = ""
@@ -2812,7 +2871,7 @@ resource "aws_e_m_r_cluster" "${1:name}" {
   applications                      = [""]
   termination_protection            = true|false
   keep_job_flow_alive_when_no_steps = true|false
-  ec2_attributes {
+  ec2_attributes \{
     key_name                           = ""
     subnet_id                          = ""
     additional_master_security_groups  = ""
@@ -2821,62 +2880,62 @@ resource "aws_e_m_r_cluster" "${1:name}" {
     emr_managed_slave_security_group   = ""
     instance_profile                   = ""
     service_access_security_group      = ""
-  }
-  bootstrap_action {
+  \}
+  bootstrap_action \{
     name  = ""
     path  = ""
     args  = [""]
-  }
+  \}
   configurations                    = ""
   autoscaling_role                  = ""
   visible_to_all_users              = true|false
-}
+\}
 endsnippet
 
 snippet srAwsEMRInstanceGroup
-resource "aws_e_m_r_instance_group" "${1:name}" {
+resource "aws_e_m_r_instance_group" "${1:name}" \{
   cluster_id    = ""
   instance_type = ""
-}
+\}
 endsnippet
 
 snippet frAwsEMRInstanceGroup
-resource "aws_e_m_r_instance_group" "${1:name}" {
+resource "aws_e_m_r_instance_group" "${1:name}" \{
   cluster_id             = ""
   instance_type          = ""
   instance_count         = 1
   name                   = ""
   ebs_optimized          = true|false
-  ebs_config {
+  ebs_config \{
     iops                  = 1
     size                  = 1
     type                  = ""
     volumes_per_instance  = 1
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsEbsSnapshot
-resource "aws_ebs_snapshot" "${1:name}" {
+resource "aws_ebs_snapshot" "${1:name}" \{
   volume_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsEbsSnapshot
-resource "aws_ebs_snapshot" "${1:name}" {
+resource "aws_ebs_snapshot" "${1:name}" \{
   volume_id              = ""
   description            = ""
-}
+\}
 endsnippet
 
 snippet srAwsEbsVolume
-resource "aws_ebs_volume" "${1:name}" {
+resource "aws_ebs_volume" "${1:name}" \{
   availability_zone = ""
-}
+\}
 endsnippet
 
 snippet frAwsEbsVolume
-resource "aws_ebs_volume" "${1:name}" {
+resource "aws_ebs_volume" "${1:name}" \{
   availability_zone = ""
   encrypted         = true|false
   iops              = 1
@@ -2884,56 +2943,56 @@ resource "aws_ebs_volume" "${1:name}" {
   size              = 1
   snapshot_id       = ""
   type              = ""
-}
+\}
 endsnippet
 
 snippet srAwsEcrRepository
-resource "aws_ecr_repository" "${1:name}" {
+resource "aws_ecr_repository" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsEcrRepository
-resource "aws_ecr_repository" "${1:name}" {
+resource "aws_ecr_repository" "${1:name}" \{
   name           = ""
-}
+\}
 endsnippet
 
 snippet srAwsEcrRepositoryPolicy
-resource "aws_ecr_repository_policy" "${1:name}" {
+resource "aws_ecr_repository_policy" "${1:name}" \{
   repository = ""
   policy     = ""
-}
+\}
 endsnippet
 
 snippet frAwsEcrRepositoryPolicy
-resource "aws_ecr_repository_policy" "${1:name}" {
+resource "aws_ecr_repository_policy" "${1:name}" \{
   repository  = ""
   policy      = ""
-}
+\}
 endsnippet
 
 snippet srAwsEcsCluster
-resource "aws_ecs_cluster" "${1:name}" {
+resource "aws_ecs_cluster" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsEcsCluster
-resource "aws_ecs_cluster" "${1:name}" {
+resource "aws_ecs_cluster" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet srAwsEcsService
-resource "aws_ecs_service" "${1:name}" {
+resource "aws_ecs_service" "${1:name}" \{
   name            = ""
   task_definition = ""
-}
+\}
 endsnippet
 
 snippet frAwsEcsService
-resource "aws_ecs_service" "${1:name}" {
+resource "aws_ecs_service" "${1:name}" \{
   name                               = ""
   task_definition                    = ""
   cluster                            = ""
@@ -2941,325 +3000,325 @@ resource "aws_ecs_service" "${1:name}" {
   iam_role                           = ""
   deployment_maximum_percent         = 1
   deployment_minimum_healthy_percent = 1
-  load_balancer {
+  load_balancer \{
     elb_name          = ""
     target_group_arn  = ""
     container_name    = ""
     container_port    = 1
-  }
-  placement_strategy {
+  \}
+  placement_strategy \{
     type   = ""
     field  = ""
-  }
-  placement_constraints {
+  \}
+  placement_constraints \{
     type        = ""
     expression  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsEcsTaskDefinition
-resource "aws_ecs_task_definition" "${1:name}" {
+resource "aws_ecs_task_definition" "${1:name}" \{
   family                = ""
   container_definitions = ""
-}
+\}
 endsnippet
 
 snippet frAwsEcsTaskDefinition
-resource "aws_ecs_task_definition" "${1:name}" {
+resource "aws_ecs_task_definition" "${1:name}" \{
   family                = ""
   container_definitions = ""
   task_role_arn         = ""
   network_mode          = ""
-  volume {
+  volume \{
     name       = ""
     host_path  = ""
-  }
-  placement_constraints {
+  \}
+  placement_constraints \{
     type        = ""
     expression  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsEfsFileSystem
-resource "aws_efs_file_system" "${1:name}" {
-}
+resource "aws_efs_file_system" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsEfsFileSystem
-resource "aws_efs_file_system" "${1:name}" {
+resource "aws_efs_file_system" "${1:name}" \{
   creation_token   = ""
   reference_name   = ""
   performance_mode = ""
-}
+\}
 endsnippet
 
 snippet srAwsEfsMountTarget
-resource "aws_efs_mount_target" "${1:name}" {
+resource "aws_efs_mount_target" "${1:name}" \{
   file_system_id = ""
   subnet_id      = ""
-}
+\}
 endsnippet
 
 snippet frAwsEfsMountTarget
-resource "aws_efs_mount_target" "${1:name}" {
+resource "aws_efs_mount_target" "${1:name}" \{
   file_system_id       = ""
   subnet_id            = ""
   ip_address           = ""
   security_groups      = [""]
-}
+\}
 endsnippet
 
 snippet srAwsEgressOnlyInternetGateway
-resource "aws_egress_only_internet_gateway" "${1:name}" {
+resource "aws_egress_only_internet_gateway" "${1:name}" \{
   vpc_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsEgressOnlyInternetGateway
-resource "aws_egress_only_internet_gateway" "${1:name}" {
+resource "aws_egress_only_internet_gateway" "${1:name}" \{
   vpc_id = ""
-}
+\}
 endsnippet
 
 snippet srAwsEip
-resource "aws_eip" "${1:name}" {
-}
+resource "aws_eip" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsEip
-resource "aws_eip" "${1:name}" {
+resource "aws_eip" "${1:name}" \{
   vpc                       = true|false
   instance                  = ""
   network_interface         = ""
   associate_with_private_ip = ""
-}
+\}
 endsnippet
 
 snippet srAwsEipAssociation
-resource "aws_eip_association" "${1:name}" {
-}
+resource "aws_eip_association" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsEipAssociation
-resource "aws_eip_association" "${1:name}" {
+resource "aws_eip_association" "${1:name}" \{
   allocation_id        = ""
   allow_reassociation  = true|false
   instance_id          = ""
   network_interface_id = ""
   private_ip_address   = ""
   public_ip            = ""
-}
+\}
 endsnippet
 
 snippet srAwsElasticBeanstalkApplication
-resource "aws_elastic_beanstalk_application" "${1:name}" {
+resource "aws_elastic_beanstalk_application" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsElasticBeanstalkApplication
-resource "aws_elastic_beanstalk_application" "${1:name}" {
+resource "aws_elastic_beanstalk_application" "${1:name}" \{
   name        = ""
   description = ""
-}
+\}
 endsnippet
 
 snippet srAwsElasticBeanstalkApplicationVersion
-resource "aws_elastic_beanstalk_application_version" "${1:name}" {
+resource "aws_elastic_beanstalk_application_version" "${1:name}" \{
   application = ""
   bucket      = ""
   key         = ""
   name        = ""
-}
+\}
 endsnippet
 
 snippet frAwsElasticBeanstalkApplicationVersion
-resource "aws_elastic_beanstalk_application_version" "${1:name}" {
+resource "aws_elastic_beanstalk_application_version" "${1:name}" \{
   application  = ""
   bucket       = ""
   key          = ""
   name         = ""
   description  = ""
   force_delete = true|false
-}
+\}
 endsnippet
 
 snippet srAwsElasticBeanstalkConfigurationTemplate
-resource "aws_elastic_beanstalk_configuration_template" "${1:name}" {
+resource "aws_elastic_beanstalk_configuration_template" "${1:name}" \{
   name        = ""
   application = ""
-}
+\}
 endsnippet
 
 snippet frAwsElasticBeanstalkConfigurationTemplate
-resource "aws_elastic_beanstalk_configuration_template" "${1:name}" {
+resource "aws_elastic_beanstalk_configuration_template" "${1:name}" \{
   name                = ""
   application         = ""
   description         = ""
   environment_id      = ""
-  setting {
-  }
+  setting \{
+  \}
   solution_stack_name = ""
-}
+\}
 endsnippet
 
 snippet srAwsElasticBeanstalkEnvironment
-resource "aws_elastic_beanstalk_environment" "${1:name}" {
+resource "aws_elastic_beanstalk_environment" "${1:name}" \{
   name        = ""
   application = ""
-}
+\}
 endsnippet
 
 snippet frAwsElasticBeanstalkEnvironment
-resource "aws_elastic_beanstalk_environment" "${1:name}" {
+resource "aws_elastic_beanstalk_environment" "${1:name}" \{
   name                   = ""
   application            = ""
   description            = ""
   version_label          = ""
   cname_prefix           = ""
   tier                   = ""
-  setting {
-  }
+  setting \{
+  \}
   solution_stack_name    = ""
   template_name          = ""
   wait_for_ready_timeout = ""
   poll_interval          = ""
-}
+\}
 endsnippet
 
 snippet srAwsElasticBeanstalkOptionSetting
-resource "aws_elastic_beanstalk_option_setting" "${1:name}" {
+resource "aws_elastic_beanstalk_option_setting" "${1:name}" \{
   namespace = ""
   name      = ""
   value     = ""
-}
+\}
 endsnippet
 
 snippet frAwsElasticBeanstalkOptionSetting
-resource "aws_elastic_beanstalk_option_setting" "${1:name}" {
+resource "aws_elastic_beanstalk_option_setting" "${1:name}" \{
   namespace = ""
   name      = ""
   value     = ""
   resource  = ""
-}
+\}
 endsnippet
 
 snippet srAwsElasticSearchDomain
-resource "aws_elastic_search_domain" "${1:name}" {
+resource "aws_elastic_search_domain" "${1:name}" \{
   domain_name = ""
-}
+\}
 endsnippet
 
 snippet frAwsElasticSearchDomain
-resource "aws_elastic_search_domain" "${1:name}" {
+resource "aws_elastic_search_domain" "${1:name}" \{
   domain_name           = ""
   access_policies       = ""
-  advanced_options {
-      key = "${var.SOMEVAL}"
-  }
-  ebs_options {
+  advanced_options \{
+      key = "\$\{var.SOMEVAL\}"
+  \}
+  ebs_options \{
     ebs_enabled  = true|false
     iops         = 1
     volume_size  = 1
     volume_type  = ""
-  }
-  cluster_config {
+  \}
+  cluster_config \{
     dedicated_master_count    = 1
     dedicated_master_enabled  = true|false
     dedicated_master_type     = ""
     instance_count            = 1
     instance_type             = ""
     zone_awareness_enabled    = true|false
-  }
-  snapshot_options {
+  \}
+  snapshot_options \{
     automated_snapshot_start_hour  = 1
-  }
+  \}
   elasticsearch_version = ""
-}
+\}
 endsnippet
 
 snippet srAwsElasticSearchDomainPolicy
-resource "aws_elastic_search_domain_policy" "${1:name}" {
+resource "aws_elastic_search_domain_policy" "${1:name}" \{
   domain_name     = ""
   access_policies = ""
-}
+\}
 endsnippet
 
 snippet frAwsElasticSearchDomainPolicy
-resource "aws_elastic_search_domain_policy" "${1:name}" {
+resource "aws_elastic_search_domain_policy" "${1:name}" \{
   domain_name     = ""
   access_policies = ""
-}
+\}
 endsnippet
 
 snippet srAwsElasticTranscoderPipeline
-resource "aws_elastic_transcoder_pipeline" "${1:name}" {
+resource "aws_elastic_transcoder_pipeline" "${1:name}" \{
   input_bucket = ""
   role         = ""
-}
+\}
 endsnippet
 
 snippet frAwsElasticTranscoderPipeline
-resource "aws_elastic_transcoder_pipeline" "${1:name}" {
+resource "aws_elastic_transcoder_pipeline" "${1:name}" \{
   input_bucket                 = ""
   role                         = ""
   aws_kms_key_arn              = ""
-  content_config {
+  content_config \{
     bucket         = ""
     storage_class  = ""
-  }
-  content_config_permissions {
+  \}
+  content_config_permissions \{
     access        = [""]
     grantee       = ""
     grantee_type  = ""
-  }
+  \}
   name                         = ""
-  notifications {
+  notifications \{
     completed    = ""
     error        = ""
     progressing  = ""
     warning      = ""
-  }
+  \}
   output_bucket                = ""
-  thumbnail_config {
+  thumbnail_config \{
     bucket         = ""
     storage_class  = ""
-  }
-  thumbnail_config_permissions {
+  \}
+  thumbnail_config_permissions \{
     access        = [""]
     grantee       = ""
     grantee_type  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsElasticTranscoderPreset
-resource "aws_elastic_transcoder_preset" "${1:name}" {
+resource "aws_elastic_transcoder_preset" "${1:name}" \{
   container = ""
-}
+\}
 endsnippet
 
 snippet frAwsElasticTranscoderPreset
-resource "aws_elastic_transcoder_preset" "${1:name}" {
+resource "aws_elastic_transcoder_preset" "${1:name}" \{
   container           = ""
-  audio {
+  audio \{
     audio_packing_mode  = ""
     bit_rate            = ""
     channels            = ""
     codec               = ""
     sample_rate         = ""
-  }
-  audio_codec_options {
+  \}
+  audio_codec_options \{
     bit_depth  = ""
     bit_order  = ""
     profile    = ""
     signed     = ""
-  }
+  \}
   description         = ""
   name                = ""
-  thumbnails {
+  thumbnails \{
     aspect_ratio    = ""
     format          = ""
     interval        = ""
@@ -3268,9 +3327,9 @@ resource "aws_elastic_transcoder_preset" "${1:name}" {
     padding_policy  = ""
     resolution:     = ""
     sizing_policy   = ""
-  }
+  \}
   type                = ""
-  video {
+  video \{
     aspect_ratio          = ""
     bit_rate              = ""
     codec                 = ""
@@ -3284,8 +3343,8 @@ resource "aws_elastic_transcoder_preset" "${1:name}" {
     padding_policy        = ""
     resolution            = ""
     sizing_policy         = ""
-  }
-  video_watermarks {
+  \}
+  video_watermarks \{
     horizontal_align   = ""
     horizontal_offset  = ""
     id                 = ""
@@ -3296,117 +3355,117 @@ resource "aws_elastic_transcoder_preset" "${1:name}" {
     target             = ""
     vertical_align     = ""
     vertical_offset    = ""
-  }
-  video_codec_options {
-      key = "${var.SOMEVAL}"
-  }
-}
+  \}
+  video_codec_options \{
+      key = "\$\{var.SOMEVAL\}"
+  \}
+\}
 endsnippet
 
 snippet srAwsElasticacheCluster
-resource "aws_elasticache_cluster" "${1:name}" {
+resource "aws_elasticache_cluster" "${1:name}" \{
   cluster_id      = ""
   num_cache_nodes = 1
-}
+\}
 endsnippet
 
 snippet frAwsElasticacheCluster
-resource "aws_elasticache_cluster" "${1:name}" {
+resource "aws_elasticache_cluster" "${1:name}" \{
   cluster_id             = ""
   num_cache_nodes        = 1
   az_mode                = ""
   availability_zone      = ""
-}
+\}
 endsnippet
 
 snippet srAwsElasticacheParameterGroup
-resource "aws_elasticache_parameter_group" "${1:name}" {
+resource "aws_elasticache_parameter_group" "${1:name}" \{
   name   = ""
   family = ""
-}
+\}
 endsnippet
 
 snippet frAwsElasticacheParameterGroup
-resource "aws_elasticache_parameter_group" "${1:name}" {
+resource "aws_elasticache_parameter_group" "${1:name}" \{
   name        = ""
   family      = ""
   description = ""
-  parameter {
+  parameter \{
     name   = ""
     value  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsElasticacheReplicationGroup
-resource "aws_elasticache_replication_group" "${1:name}" {
+resource "aws_elasticache_replication_group" "${1:name}" \{
   replication_group_id          = ""
   replication_group_description = ""
   number_cache_clusters         = 1
-}
+\}
 endsnippet
 
 snippet frAwsElasticacheReplicationGroup
-resource "aws_elasticache_replication_group" "${1:name}" {
+resource "aws_elasticache_replication_group" "${1:name}" \{
   replication_group_id           = ""
   replication_group_description  = ""
   number_cache_clusters          = 1
   automatic_failover_enabled     = true|false
   auto_minor_version_upgrade     = true|false
-}
+\}
 endsnippet
 
 snippet srAwsElasticacheSecurityGroup
-resource "aws_elasticache_security_group" "${1:name}" {
+resource "aws_elasticache_security_group" "${1:name}" \{
   name                 = ""
   security_group_names = [""]
-}
+\}
 endsnippet
 
 snippet frAwsElasticacheSecurityGroup
-resource "aws_elasticache_security_group" "${1:name}" {
+resource "aws_elasticache_security_group" "${1:name}" \{
   name                 = ""
   security_group_names = [""]
   description          = ""
-}
+\}
 endsnippet
 
 snippet srAwsElasticacheSubnetGroup
-resource "aws_elasticache_subnet_group" "${1:name}" {
+resource "aws_elasticache_subnet_group" "${1:name}" \{
   name       = ""
   subnet_ids = [""]
-}
+\}
 endsnippet
 
 snippet frAwsElasticacheSubnetGroup
-resource "aws_elasticache_subnet_group" "${1:name}" {
+resource "aws_elasticache_subnet_group" "${1:name}" \{
   name        = ""
   subnet_ids  = [""]
   description = ""
-}
+\}
 endsnippet
 
 snippet srAwsElb
-resource "aws_elb" "${1:name}" {
-  listener {
+resource "aws_elb" "${1:name}" \{
+  listener \{
     instance_port       = 1
     instance_protocol   = ""
     lb_port             = 1
     lb_protocol         = ""
     ssl_certificate_id  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet frAwsElb
-resource "aws_elb" "${1:name}" {
-  listener {
+resource "aws_elb" "${1:name}" \{
+  listener \{
     instance_port       = 1
     instance_protocol   = ""
     lb_port             = 1
     lb_protocol         = ""
     ssl_certificate_id  = ""
-  }
+  \}
   name                        = ""
   name_prefix                 = ""
   internal                    = true|false
@@ -3419,81 +3478,81 @@ resource "aws_elb" "${1:name}" {
   idle_timeout                = 1
   connection_draining         = true|false
   connection_draining_timeout = 1
-  access_logs {
+  access_logs \{
     interval       = 1
     bucket         = ""
     bucket_prefix  = ""
     enabled        = true|false
-  }
-  health_check {
+  \}
+  health_check \{
     healthy_threshold    = 1
     unhealthy_threshold  = 1
     target               = ""
     interval             = 1
     timeout              = 1
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsElbAttachment
-resource "aws_elb_attachment" "${1:name}" {
+resource "aws_elb_attachment" "${1:name}" \{
   elb      = ""
   instance = ""
-}
+\}
 endsnippet
 
 snippet frAwsElbAttachment
-resource "aws_elb_attachment" "${1:name}" {
+resource "aws_elb_attachment" "${1:name}" \{
   elb      = ""
   instance = ""
-}
+\}
 endsnippet
 
 snippet srAwsFlowLog
-resource "aws_flow_log" "${1:name}" {
+resource "aws_flow_log" "${1:name}" \{
   iam_role_arn   = ""
   log_group_name = ""
   traffic_type   = ""
-}
+\}
 endsnippet
 
 snippet frAwsFlowLog
-resource "aws_flow_log" "${1:name}" {
+resource "aws_flow_log" "${1:name}" \{
   iam_role_arn   = ""
   log_group_name = ""
   traffic_type   = ""
   vpc_id         = ""
   subnet_id      = ""
   eni_id         = ""
-}
+\}
 endsnippet
 
 snippet srAwsGlacierVault
-resource "aws_glacier_vault" "${1:name}" {
+resource "aws_glacier_vault" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsGlacierVault
-resource "aws_glacier_vault" "${1:name}" {
+resource "aws_glacier_vault" "${1:name}" \{
   name          = ""
   access_policy = ""
-  notification {
+  notification \{
     events     = [""]
     sns_topic  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsIAMServerCertificate
-resource "aws_i_a_m_server_certificate" "${1:name}" {
+resource "aws_i_a_m_server_certificate" "${1:name}" \{
   certificate_body = ""
   private_key      = ""
-}
+\}
 endsnippet
 
 snippet frAwsIAMServerCertificate
-resource "aws_i_a_m_server_certificate" "${1:name}" {
+resource "aws_i_a_m_server_certificate" "${1:name}" \{
   certificate_body  = ""
   private_key       = ""
   certificate_chain = ""
@@ -3501,41 +3560,41 @@ resource "aws_i_a_m_server_certificate" "${1:name}" {
   name              = ""
   name_prefix       = ""
   arn               = ""
-}
+\}
 endsnippet
 
 snippet srAwsIamAccessKey
-resource "aws_iam_access_key" "${1:name}" {
+resource "aws_iam_access_key" "${1:name}" \{
   user = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamAccessKey
-resource "aws_iam_access_key" "${1:name}" {
+resource "aws_iam_access_key" "${1:name}" \{
   user              = ""
   pgp_key           = ""
-}
+\}
 endsnippet
 
 snippet srAwsIamAccountAlias
-resource "aws_iam_account_alias" "${1:name}" {
+resource "aws_iam_account_alias" "${1:name}" \{
   account_alias = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamAccountAlias
-resource "aws_iam_account_alias" "${1:name}" {
+resource "aws_iam_account_alias" "${1:name}" \{
   account_alias = ""
-}
+\}
 endsnippet
 
 snippet srAwsIamAccountPasswordPolicy
-resource "aws_iam_account_password_policy" "${1:name}" {
-}
+resource "aws_iam_account_password_policy" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsIamAccountPasswordPolicy
-resource "aws_iam_account_password_policy" "${1:name}" {
+resource "aws_iam_account_password_policy" "${1:name}" \{
   allow_users_to_change_password = true|false
   hard_expiry                    = true|false
   max_password_age               = 1
@@ -3545,261 +3604,261 @@ resource "aws_iam_account_password_policy" "${1:name}" {
   require_numbers                = true|false
   require_symbols                = true|false
   require_uppercase_characters   = true|false
-}
+\}
 endsnippet
 
 snippet srAwsIamGroup
-resource "aws_iam_group" "${1:name}" {
+resource "aws_iam_group" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamGroup
-resource "aws_iam_group" "${1:name}" {
+resource "aws_iam_group" "${1:name}" \{
   name      = ""
   path      = ""
-}
+\}
 endsnippet
 
 snippet srAwsIamGroupMembership
-resource "aws_iam_group_membership" "${1:name}" {
+resource "aws_iam_group_membership" "${1:name}" \{
   name  = ""
   users = [""]
   group = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamGroupMembership
-resource "aws_iam_group_membership" "${1:name}" {
+resource "aws_iam_group_membership" "${1:name}" \{
   name  = ""
   users = [""]
   group = ""
-}
+\}
 endsnippet
 
 snippet srAwsIamGroupPolicy
-resource "aws_iam_group_policy" "${1:name}" {
+resource "aws_iam_group_policy" "${1:name}" \{
   policy = ""
   group  = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamGroupPolicy
-resource "aws_iam_group_policy" "${1:name}" {
+resource "aws_iam_group_policy" "${1:name}" \{
   policy      = ""
   group       = ""
   name        = ""
   name_prefix = ""
-}
+\}
 endsnippet
 
 snippet srAwsIamGroupPolicyAttachment
-resource "aws_iam_group_policy_attachment" "${1:name}" {
+resource "aws_iam_group_policy_attachment" "${1:name}" \{
   group      = ""
   policy_arn = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamGroupPolicyAttachment
-resource "aws_iam_group_policy_attachment" "${1:name}" {
+resource "aws_iam_group_policy_attachment" "${1:name}" \{
   group      = ""
   policy_arn = ""
-}
+\}
 endsnippet
 
 snippet srAwsIamInstanceProfile
-resource "aws_iam_instance_profile" "${1:name}" {
-}
+resource "aws_iam_instance_profile" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsIamInstanceProfile
-resource "aws_iam_instance_profile" "${1:name}" {
+resource "aws_iam_instance_profile" "${1:name}" \{
   name        = ""
   name_prefix = ""
   path        = ""
   roles       = [""]
   role        = ""
-}
+\}
 endsnippet
 
 snippet srAwsIamPolicy
-resource "aws_iam_policy" "${1:name}" {
+resource "aws_iam_policy" "${1:name}" \{
   policy = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamPolicy
-resource "aws_iam_policy" "${1:name}" {
+resource "aws_iam_policy" "${1:name}" \{
   policy      = ""
   description = ""
   path        = ""
   name        = ""
   name_prefix = ""
-}
+\}
 endsnippet
 
 snippet srAwsIamPolicyAttachment
-resource "aws_iam_policy_attachment" "${1:name}" {
+resource "aws_iam_policy_attachment" "${1:name}" \{
   name       = ""
   policy_arn = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamPolicyAttachment
-resource "aws_iam_policy_attachment" "${1:name}" {
+resource "aws_iam_policy_attachment" "${1:name}" \{
   name       = ""
   policy_arn = ""
   users      = [""]
   roles      = [""]
   groups     = [""]
-}
+\}
 endsnippet
 
 snippet srAwsIamRole
-resource "aws_iam_role" "${1:name}" {
+resource "aws_iam_role" "${1:name}" \{
   assume_role_policy = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamRole
-resource "aws_iam_role" "${1:name}" {
+resource "aws_iam_role" "${1:name}" \{
   assume_role_policy = ""
   name               = ""
   name_prefix        = ""
   path               = ""
-}
+\}
 endsnippet
 
 snippet srAwsIamRolePolicy
-resource "aws_iam_role_policy" "${1:name}" {
+resource "aws_iam_role_policy" "${1:name}" \{
   policy = ""
   role   = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamRolePolicy
-resource "aws_iam_role_policy" "${1:name}" {
+resource "aws_iam_role_policy" "${1:name}" \{
   policy      = ""
   role        = ""
   name        = ""
   name_prefix = ""
-}
+\}
 endsnippet
 
 snippet srAwsIamRolePolicyAttachment
-resource "aws_iam_role_policy_attachment" "${1:name}" {
+resource "aws_iam_role_policy_attachment" "${1:name}" \{
   role       = ""
   policy_arn = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamRolePolicyAttachment
-resource "aws_iam_role_policy_attachment" "${1:name}" {
+resource "aws_iam_role_policy_attachment" "${1:name}" \{
   role       = ""
   policy_arn = ""
-}
+\}
 endsnippet
 
 snippet srAwsIamSamlProvider
-resource "aws_iam_saml_provider" "${1:name}" {
+resource "aws_iam_saml_provider" "${1:name}" \{
   name                   = ""
   saml_metadata_document = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamSamlProvider
-resource "aws_iam_saml_provider" "${1:name}" {
+resource "aws_iam_saml_provider" "${1:name}" \{
   name                   = ""
   saml_metadata_document = ""
-}
+\}
 endsnippet
 
 snippet srAwsIamUser
-resource "aws_iam_user" "${1:name}" {
+resource "aws_iam_user" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamUser
-resource "aws_iam_user" "${1:name}" {
+resource "aws_iam_user" "${1:name}" \{
   name          = ""
   path          = ""
   force_destroy = true|false
-}
+\}
 endsnippet
 
 snippet srAwsIamUserLoginProfile
-resource "aws_iam_user_login_profile" "${1:name}" {
+resource "aws_iam_user_login_profile" "${1:name}" \{
   user    = ""
   pgp_key = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamUserLoginProfile
-resource "aws_iam_user_login_profile" "${1:name}" {
+resource "aws_iam_user_login_profile" "${1:name}" \{
   user                    = ""
   pgp_key                 = ""
   password_reset_required = true|false
   password_length         = 1
-}
+\}
 endsnippet
 
 snippet srAwsIamUserPolicy
-resource "aws_iam_user_policy" "${1:name}" {
+resource "aws_iam_user_policy" "${1:name}" \{
   policy = ""
   user   = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamUserPolicy
-resource "aws_iam_user_policy" "${1:name}" {
+resource "aws_iam_user_policy" "${1:name}" \{
   policy      = ""
   user        = ""
   name        = ""
   name_prefix = ""
-}
+\}
 endsnippet
 
 snippet srAwsIamUserPolicyAttachment
-resource "aws_iam_user_policy_attachment" "${1:name}" {
+resource "aws_iam_user_policy_attachment" "${1:name}" \{
   user       = ""
   policy_arn = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamUserPolicyAttachment
-resource "aws_iam_user_policy_attachment" "${1:name}" {
+resource "aws_iam_user_policy_attachment" "${1:name}" \{
   user       = ""
   policy_arn = ""
-}
+\}
 endsnippet
 
 snippet srAwsIamUserSshKey
-resource "aws_iam_user_ssh_key" "${1:name}" {
+resource "aws_iam_user_ssh_key" "${1:name}" \{
   username   = ""
   public_key = ""
   encoding   = ""
-}
+\}
 endsnippet
 
 snippet frAwsIamUserSshKey
-resource "aws_iam_user_ssh_key" "${1:name}" {
+resource "aws_iam_user_ssh_key" "${1:name}" \{
   username          = ""
   public_key        = ""
   encoding          = ""
   status            = ""
-}
+\}
 endsnippet
 
 snippet srAwsInstance
-resource "aws_instance" "${1:name}" {
+resource "aws_instance" "${1:name}" \{
   ami           = ""
   instance_type = ""
-}
+\}
 endsnippet
 
 snippet frAwsInstance
-resource "aws_instance" "${1:name}" {
+resource "aws_instance" "${1:name}" \{
   ami                                  = ""
   instance_type                        = ""
   associate_public_ip_address          = true|false
@@ -3820,7 +3879,7 @@ resource "aws_instance" "${1:name}" {
   ipv6_address_count                   = 1
   ipv6_addresses                       = [""]
   tenancy                              = ""
-  ebs_block_device {
+  ebs_block_device \{
     delete_on_termination  = true|false
     device_name            = ""
     encrypted              = true|false
@@ -3828,51 +3887,51 @@ resource "aws_instance" "${1:name}" {
     snapshot_id            = ""
     volume_size            = 1
     volume_type            = ""
-  }
-  ephemeral_block_device {
+  \}
+  ephemeral_block_device \{
     device_name   = ""
     virtual_name  = ""
     no_device     = true|false
-  }
-  root_block_device {
+  \}
+  root_block_device \{
     delete_on_termination  = true|false
     iops                   = 1
     volume_size            = 1
     volume_type            = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsInternetGateway
-resource "aws_internet_gateway" "${1:name}" {
-}
+resource "aws_internet_gateway" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsInternetGateway
-resource "aws_internet_gateway" "${1:name}" {
+resource "aws_internet_gateway" "${1:name}" \{
   vpc_id = ""
-}
+\}
 endsnippet
 
 snippet srAwsKeyPair
-resource "aws_key_pair" "${1:name}" {
+resource "aws_key_pair" "${1:name}" \{
   public_key = ""
-}
+\}
 endsnippet
 
 snippet frAwsKeyPair
-resource "aws_key_pair" "${1:name}" {
+resource "aws_key_pair" "${1:name}" \{
   public_key      = ""
   key_name        = ""
   key_name_prefix = ""
-}
+\}
 endsnippet
 
 snippet srAwsKinesisFirehoseDeliveryStream
-resource "aws_kinesis_firehose_delivery_stream" "${1:name}" {
+resource "aws_kinesis_firehose_delivery_stream" "${1:name}" \{
   name             = ""
   destination      = ""
-  s3_configuration {
+  s3_configuration \{
     bucket_arn                  = ""
     buffer_size                 = 1
     buffer_interval             = 1
@@ -3880,20 +3939,20 @@ resource "aws_kinesis_firehose_delivery_stream" "${1:name}" {
     kms_key_arn                 = ""
     role_arn                    = ""
     prefix                      = ""
-    cloudwatch_logging_options {
+    cloudwatch_logging_options \{
       enabled           = true|false
       log_group_name    = ""
       log_stream_name   = ""
-    }
-  }
-}
+    \}
+  \}
+\}
 endsnippet
 
 snippet frAwsKinesisFirehoseDeliveryStream
-resource "aws_kinesis_firehose_delivery_stream" "${1:name}" {
+resource "aws_kinesis_firehose_delivery_stream" "${1:name}" \{
   name                        = ""
   destination                 = ""
-  s3_configuration {
+  s3_configuration \{
     bucket_arn                  = ""
     buffer_size                 = 1
     buffer_interval             = 1
@@ -3901,13 +3960,13 @@ resource "aws_kinesis_firehose_delivery_stream" "${1:name}" {
     kms_key_arn                 = ""
     role_arn                    = ""
     prefix                      = ""
-    cloudwatch_logging_options {
+    cloudwatch_logging_options \{
       enabled           = true|false
       log_group_name    = ""
       log_stream_name   = ""
-    }
-  }
-  redshift_configuration {
+    \}
+  \}
+  redshift_configuration \{
     cluster_jdbcurl             = ""
     username                    = ""
     password                    = ""
@@ -3916,13 +3975,13 @@ resource "aws_kinesis_firehose_delivery_stream" "${1:name}" {
     copy_options                = ""
     data_table_columns          = ""
     data_table_name             = ""
-    cloudwatch_logging_options {
+    cloudwatch_logging_options \{
       enabled           = true|false
       log_group_name    = ""
       log_stream_name   = ""
-    }
-  }
-  elasticsearch_configuration {
+    \}
+  \}
+  elasticsearch_configuration \{
     buffering_interval          = 1
     buffering_size              = 1
     domain_arn                  = ""
@@ -3932,148 +3991,148 @@ resource "aws_kinesis_firehose_delivery_stream" "${1:name}" {
     role_arn                    = ""
     s3_backup_mode              = ""
     type_name                   = ""
-    cloudwatch_logging_options {
+    cloudwatch_logging_options \{
       enabled           = true|false
       log_group_name    = ""
       log_stream_name   = ""
-    }
-  }
+    \}
+  \}
   arn                         = ""
   version_id                  = ""
   destination_id              = ""
-}
+\}
 endsnippet
 
 snippet srAwsKinesisStream
-resource "aws_kinesis_stream" "${1:name}" {
+resource "aws_kinesis_stream" "${1:name}" \{
   name        = ""
   shard_count = 1
-}
+\}
 endsnippet
 
 snippet frAwsKinesisStream
-resource "aws_kinesis_stream" "${1:name}" {
+resource "aws_kinesis_stream" "${1:name}" \{
   name                = ""
   shard_count         = 1
   retention_period    = 1
   shard_level_metrics = [""]
   arn                 = ""
-}
+\}
 endsnippet
 
 snippet srAwsKmsAlias
-resource "aws_kms_alias" "${1:name}" {
+resource "aws_kms_alias" "${1:name}" \{
   target_key_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsKmsAlias
-resource "aws_kms_alias" "${1:name}" {
+resource "aws_kms_alias" "${1:name}" \{
   target_key_id = ""
   name          = ""
   name_prefix   = ""
-}
+\}
 endsnippet
 
 snippet srAwsKmsKey
-resource "aws_kms_key" "${1:name}" {
-}
+resource "aws_kms_key" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsKmsKey
-resource "aws_kms_key" "${1:name}" {
+resource "aws_kms_key" "${1:name}" \{
   description             = ""
   key_usage               = ""
   policy                  = ""
   is_enabled              = true|false
   enable_key_rotation     = true|false
   deletion_window_in_days = 1
-}
+\}
 endsnippet
 
 snippet srAwsLBCookieStickinessPolicy
-resource "aws_l_b_cookie_stickiness_policy" "${1:name}" {
+resource "aws_l_b_cookie_stickiness_policy" "${1:name}" \{
   name          = ""
   load_balancer = ""
   lb_port       = 1
-}
+\}
 endsnippet
 
 snippet frAwsLBCookieStickinessPolicy
-resource "aws_l_b_cookie_stickiness_policy" "${1:name}" {
+resource "aws_l_b_cookie_stickiness_policy" "${1:name}" \{
   name                     = ""
   load_balancer            = ""
   lb_port                  = 1
   cookie_expiration_period = 1
-}
+\}
 endsnippet
 
 snippet srAwsLBSSLNegotiationPolicy
-resource "aws_l_b_s_s_l_negotiation_policy" "${1:name}" {
+resource "aws_l_b_s_s_l_negotiation_policy" "${1:name}" \{
   name          = ""
   load_balancer = ""
   lb_port       = 1
-}
+\}
 endsnippet
 
 snippet frAwsLBSSLNegotiationPolicy
-resource "aws_l_b_s_s_l_negotiation_policy" "${1:name}" {
+resource "aws_l_b_s_s_l_negotiation_policy" "${1:name}" \{
   name          = ""
   load_balancer = ""
   lb_port       = 1
-  attribute {
+  attribute \{
     name   = ""
     value  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsLambdaAlias
-resource "aws_lambda_alias" "${1:name}" {
+resource "aws_lambda_alias" "${1:name}" \{
   function_name    = ""
   function_version = ""
   name             = ""
-}
+\}
 endsnippet
 
 snippet frAwsLambdaAlias
-resource "aws_lambda_alias" "${1:name}" {
+resource "aws_lambda_alias" "${1:name}" \{
   function_name    = ""
   function_version = ""
   name             = ""
   description      = ""
-}
+\}
 endsnippet
 
 snippet srAwsLambdaEventSourceMapping
-resource "aws_lambda_event_source_mapping" "${1:name}" {
+resource "aws_lambda_event_source_mapping" "${1:name}" \{
   event_source_arn  = ""
   function_name     = ""
   starting_position = ""
-}
+\}
 endsnippet
 
 snippet frAwsLambdaEventSourceMapping
-resource "aws_lambda_event_source_mapping" "${1:name}" {
+resource "aws_lambda_event_source_mapping" "${1:name}" \{
   event_source_arn        = ""
   function_name           = ""
   starting_position       = ""
   batch_size              = 1
   enabled                 = true|false
-}
+\}
 endsnippet
 
 snippet srAwsLambdaFunction
-resource "aws_lambda_function" "${1:name}" {
+resource "aws_lambda_function" "${1:name}" \{
   function_name = ""
   handler       = ""
   role          = ""
   runtime       = ""
-}
+\}
 endsnippet
 
 snippet frAwsLambdaFunction
-resource "aws_lambda_function" "${1:name}" {
+resource "aws_lambda_function" "${1:name}" \{
   function_name      = ""
   handler            = ""
   role               = ""
@@ -4083,38 +4142,38 @@ resource "aws_lambda_function" "${1:name}" {
   s3_key             = ""
   s3_object_version  = ""
   description        = ""
-  dead_letter_config {
+  dead_letter_config \{
     target_arn  = ""
-  }
+  \}
   memory_size        = 1
   timeout            = 1
   publish            = true|false
-  vpc_config {
+  vpc_config \{
     subnet_ids          = [""]
     security_group_ids  = [""]
     vpc_id              = ""
-  }
+  \}
   source_code_hash   = ""
-  environment {
-    variables {
-        key = "${var.SOMEVAL}"
-    }
-  }
+  environment \{
+    variables \{
+        key = "\$\{var.SOMEVAL\}"
+    \}
+  \}
   kms_key_arn        = ""
-}
+\}
 endsnippet
 
 snippet srAwsLambdaPermission
-resource "aws_lambda_permission" "${1:name}" {
+resource "aws_lambda_permission" "${1:name}" \{
   action        = ""
   function_name = ""
   principal     = ""
   statement_id  = ""
-}
+\}
 endsnippet
 
 snippet frAwsLambdaPermission
-resource "aws_lambda_permission" "${1:name}" {
+resource "aws_lambda_permission" "${1:name}" \{
   action         = ""
   function_name  = ""
   principal      = ""
@@ -4122,18 +4181,18 @@ resource "aws_lambda_permission" "${1:name}" {
   qualifier      = ""
   source_account = ""
   source_arn     = ""
-}
+\}
 endsnippet
 
 snippet srAwsLaunchConfiguration
-resource "aws_launch_configuration" "${1:name}" {
+resource "aws_launch_configuration" "${1:name}" \{
   image_id      = ""
   instance_type = ""
-}
+\}
 endsnippet
 
 snippet frAwsLaunchConfiguration
-resource "aws_launch_configuration" "${1:name}" {
+resource "aws_launch_configuration" "${1:name}" \{
   image_id                         = ""
   instance_type                    = ""
   name                             = ""
@@ -4149,7 +4208,7 @@ resource "aws_launch_configuration" "${1:name}" {
   ebs_optimized                    = true|false
   placement_tenancy                = ""
   enable_monitoring                = true|false
-  ebs_block_device {
+  ebs_block_device \{
     delete_on_termination  = true|false
     device_name            = ""
     iops                   = 1
@@ -4157,185 +4216,185 @@ resource "aws_launch_configuration" "${1:name}" {
     volume_size            = 1
     volume_type            = ""
     encrypted              = true|false
-  }
-  ephemeral_block_device {
+  \}
+  ephemeral_block_device \{
     device_name   = ""
     virtual_name  = ""
-  }
-  root_block_device {
+  \}
+  root_block_device \{
     delete_on_termination  = true|false
     iops                   = 1
     volume_size            = 1
     volume_type            = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsLightsailDomain
-resource "aws_lightsail_domain" "${1:name}" {
+resource "aws_lightsail_domain" "${1:name}" \{
   domain_name = ""
-}
+\}
 endsnippet
 
 snippet frAwsLightsailDomain
-resource "aws_lightsail_domain" "${1:name}" {
+resource "aws_lightsail_domain" "${1:name}" \{
   domain_name = ""
-}
+\}
 endsnippet
 
 snippet srAwsLightsailInstance
-resource "aws_lightsail_instance" "${1:name}" {
+resource "aws_lightsail_instance" "${1:name}" \{
   name              = ""
   availability_zone = ""
   blueprint_id      = ""
   bundle_id         = ""
-}
+\}
 endsnippet
 
 snippet frAwsLightsailInstance
-resource "aws_lightsail_instance" "${1:name}" {
+resource "aws_lightsail_instance" "${1:name}" \{
   name               = ""
   availability_zone  = ""
   blueprint_id       = ""
   bundle_id          = ""
   key_pair_name      = ""
   user_data          = ""
-}
+\}
 endsnippet
 
 snippet srAwsLightsailKeyPair
-resource "aws_lightsail_key_pair" "${1:name}" {
-}
+resource "aws_lightsail_key_pair" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsLightsailKeyPair
-resource "aws_lightsail_key_pair" "${1:name}" {
+resource "aws_lightsail_key_pair" "${1:name}" \{
   name                  = ""
   name_prefix           = ""
   pgp_key               = ""
   public_key            = ""
-}
+\}
 endsnippet
 
 snippet srAwsLightsailStaticIp
-resource "aws_lightsail_static_ip" "${1:name}" {
+resource "aws_lightsail_static_ip" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsLightsailStaticIp
-resource "aws_lightsail_static_ip" "${1:name}" {
+resource "aws_lightsail_static_ip" "${1:name}" \{
   name         = ""
-}
+\}
 endsnippet
 
 snippet srAwsLightsailStaticIpAttachment
-resource "aws_lightsail_static_ip_attachment" "${1:name}" {
+resource "aws_lightsail_static_ip_attachment" "${1:name}" \{
   static_ip_name = ""
   instance_name  = ""
-}
+\}
 endsnippet
 
 snippet frAwsLightsailStaticIpAttachment
-resource "aws_lightsail_static_ip_attachment" "${1:name}" {
+resource "aws_lightsail_static_ip_attachment" "${1:name}" \{
   static_ip_name = ""
   instance_name  = ""
-}
+\}
 endsnippet
 
 snippet srAwsLoadBalancerBackendServerPolicies
-resource "aws_load_balancer_backend_server_policies" "${1:name}" {
+resource "aws_load_balancer_backend_server_policies" "${1:name}" \{
   load_balancer_name = ""
   instance_port      = 1
-}
+\}
 endsnippet
 
 snippet frAwsLoadBalancerBackendServerPolicies
-resource "aws_load_balancer_backend_server_policies" "${1:name}" {
+resource "aws_load_balancer_backend_server_policies" "${1:name}" \{
   load_balancer_name = ""
   instance_port      = 1
   policy_names       = [""]
-}
+\}
 endsnippet
 
 snippet srAwsLoadBalancerListenerPolicies
-resource "aws_load_balancer_listener_policies" "${1:name}" {
+resource "aws_load_balancer_listener_policies" "${1:name}" \{
   load_balancer_name = ""
   load_balancer_port = 1
-}
+\}
 endsnippet
 
 snippet frAwsLoadBalancerListenerPolicies
-resource "aws_load_balancer_listener_policies" "${1:name}" {
+resource "aws_load_balancer_listener_policies" "${1:name}" \{
   load_balancer_name = ""
   load_balancer_port = 1
   policy_names       = [""]
-}
+\}
 endsnippet
 
 snippet srAwsLoadBalancerPolicy
-resource "aws_load_balancer_policy" "${1:name}" {
+resource "aws_load_balancer_policy" "${1:name}" \{
   load_balancer_name = ""
   policy_name        = ""
   policy_type_name   = ""
-}
+\}
 endsnippet
 
 snippet frAwsLoadBalancerPolicy
-resource "aws_load_balancer_policy" "${1:name}" {
+resource "aws_load_balancer_policy" "${1:name}" \{
   load_balancer_name = ""
   policy_name        = ""
   policy_type_name   = ""
-  policy_attribute {
+  policy_attribute \{
     name   = ""
     value  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsMainRouteTableAssociation
-resource "aws_main_route_table_association" "${1:name}" {
+resource "aws_main_route_table_association" "${1:name}" \{
   vpc_id         = ""
   route_table_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsMainRouteTableAssociation
-resource "aws_main_route_table_association" "${1:name}" {
+resource "aws_main_route_table_association" "${1:name}" \{
   vpc_id                  = ""
   route_table_id          = ""
-}
+\}
 endsnippet
 
 snippet srAwsNatGateway
-resource "aws_nat_gateway" "${1:name}" {
+resource "aws_nat_gateway" "${1:name}" \{
   allocation_id = ""
   subnet_id     = ""
-}
+\}
 endsnippet
 
 snippet frAwsNatGateway
-resource "aws_nat_gateway" "${1:name}" {
+resource "aws_nat_gateway" "${1:name}" \{
   allocation_id        = ""
   subnet_id            = ""
   network_interface_id = ""
   private_ip           = ""
   public_ip            = ""
-}
+\}
 endsnippet
 
 snippet srAwsNetworkAcl
-resource "aws_network_acl" "${1:name}" {
+resource "aws_network_acl" "${1:name}" \{
   vpc_id  = ""
-}
+\}
 endsnippet
 
 snippet frAwsNetworkAcl
-resource "aws_network_acl" "${1:name}" {
+resource "aws_network_acl" "${1:name}" \{
   vpc_id     = ""
   subnet_id  = ""
   subnet_ids = [""]
-  ingress {
+  ingress \{
     from_port        = 1
     to_port          = 1
     rule_no          = 1
@@ -4345,8 +4404,8 @@ resource "aws_network_acl" "${1:name}" {
     ipv6_cidr_block  = ""
     icmp_type        = 1
     icmp_code        = 1
-  }
-  egress {
+  \}
+  egress \{
     from_port        = 1
     to_port          = 1
     rule_no          = 1
@@ -4356,21 +4415,21 @@ resource "aws_network_acl" "${1:name}" {
     ipv6_cidr_block  = ""
     icmp_type        = 1
     icmp_code        = 1
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsNetworkAclRule
-resource "aws_network_acl_rule" "${1:name}" {
+resource "aws_network_acl_rule" "${1:name}" \{
   network_acl_id = ""
   rule_number    = 1
   protocol       = ""
   rule_action    = ""
-}
+\}
 endsnippet
 
 snippet frAwsNetworkAclRule
-resource "aws_network_acl_rule" "${1:name}" {
+resource "aws_network_acl_rule" "${1:name}" \{
   network_acl_id  = ""
   rule_number     = 1
   protocol        = ""
@@ -4382,40 +4441,40 @@ resource "aws_network_acl_rule" "${1:name}" {
   to_port         = 1
   icmp_type       = ""
   icmp_code       = ""
-}
+\}
 endsnippet
 
 snippet srAwsNetworkInterface
-resource "aws_network_interface" "${1:name}" {
+resource "aws_network_interface" "${1:name}" \{
   subnet_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsNetworkInterface
-resource "aws_network_interface" "${1:name}" {
+resource "aws_network_interface" "${1:name}" \{
   subnet_id         = ""
   private_ips       = [""]
   security_groups   = [""]
   source_dest_check = true|false
   description       = ""
-  attachment {
+  attachment \{
     instance       = ""
     device_index   = 1
     attachment_id  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsOpsworksApplication
-resource "aws_opsworks_application" "${1:name}" {
+resource "aws_opsworks_application" "${1:name}" \{
   name     = ""
   type     = ""
   stack_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsOpsworksApplication
-resource "aws_opsworks_application" "${1:name}" {
+resource "aws_opsworks_application" "${1:name}" \{
   name                      = ""
   type                      = ""
   stack_id                  = ""
@@ -4424,73 +4483,73 @@ resource "aws_opsworks_application" "${1:name}" {
   rails_env                 = ""
   auto_bundle_on_deploy     = ""
   aws_flow_ruby_settings    = ""
-  app_source {
+  app_source \{
     type      = ""
     url       = ""
     username  = ""
     password  = ""
     revision  = ""
     ssh_key   = ""
-  }
+  \}
   data_source_type          = ""
   data_source_database_name = ""
   data_source_arn           = ""
   description               = ""
   domains                   = [""]
-  environment {
+  environment \{
     key     = ""
     value   = ""
     secure  = true|false
-  }
+  \}
   enable_ssl                = true|false
-  ssl_configuration {
+  ssl_configuration \{
     certificate  = ""
     private_key  = ""
     chain        = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsOpsworksGangliaLayer
-resource "aws_opsworks_ganglia_layer" "${1:name}" {
+resource "aws_opsworks_ganglia_layer" "${1:name}" \{
   password = ""
-}
+\}
 endsnippet
 
 snippet frAwsOpsworksGangliaLayer
-resource "aws_opsworks_ganglia_layer" "${1:name}" {
+resource "aws_opsworks_ganglia_layer" "${1:name}" \{
   password = ""
   url      = ""
   username = ""
-}
+\}
 endsnippet
 
 snippet srAwsOpsworksHaproxyLayer
-resource "aws_opsworks_haproxy_layer" "${1:name}" {
+resource "aws_opsworks_haproxy_layer" "${1:name}" \{
   stats_password = ""
-}
+\}
 endsnippet
 
 snippet frAwsOpsworksHaproxyLayer
-resource "aws_opsworks_haproxy_layer" "${1:name}" {
+resource "aws_opsworks_haproxy_layer" "${1:name}" \{
   stats_password     = ""
   stats_enabled      = true|false
   stats_url          = ""
   stats_user         = ""
   healthcheck_url    = ""
   healthcheck_method = ""
-}
+\}
 endsnippet
 
 snippet srAwsOpsworksInstance
-resource "aws_opsworks_instance" "${1:name}" {
+resource "aws_opsworks_instance" "${1:name}" \{
   layer_ids = [""]
   stack_id  = ""
-}
+\}
 endsnippet
 
 snippet frAwsOpsworksInstance
-resource "aws_opsworks_instance" "${1:name}" {
+resource "aws_opsworks_instance" "${1:name}" \{
   layer_ids                    = [""]
   stack_id                     = ""
   agent_version                = ""
@@ -4533,137 +4592,137 @@ resource "aws_opsworks_instance" "${1:name}" {
   subnet_id                    = ""
   tenancy                      = ""
   virtualization_type          = ""
-  ebs_block_device {
+  ebs_block_device \{
     delete_on_termination  = true|false
     device_name            = ""
     iops                   = 1
     snapshot_id            = ""
     volume_size            = 1
     volume_type            = ""
-  }
-  ephemeral_block_device {
+  \}
+  ephemeral_block_device \{
     device_name   = ""
     virtual_name  = ""
-  }
-  root_block_device {
+  \}
+  root_block_device \{
     delete_on_termination  = true|false
     iops                   = 1
     volume_size            = 1
     volume_type            = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsOpsworksJavaAppLayer
-resource "aws_opsworks_java_app_layer" "${1:name}" {
-}
+resource "aws_opsworks_java_app_layer" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsOpsworksJavaAppLayer
-resource "aws_opsworks_java_app_layer" "${1:name}" {
+resource "aws_opsworks_java_app_layer" "${1:name}" \{
   jvm_type           = ""
   jvm_version        = ""
   jvm_options        = ""
   app_server         = ""
   app_server_version = ""
-}
+\}
 endsnippet
 
 snippet srAwsOpsworksMemcachedLayer
-resource "aws_opsworks_memcached_layer" "${1:name}" {
-}
+resource "aws_opsworks_memcached_layer" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsOpsworksMemcachedLayer
-resource "aws_opsworks_memcached_layer" "${1:name}" {
+resource "aws_opsworks_memcached_layer" "${1:name}" \{
   allocated_memory = 1
-}
+\}
 endsnippet
 
 snippet srAwsOpsworksMysqlLayer
-resource "aws_opsworks_mysql_layer" "${1:name}" {
-}
+resource "aws_opsworks_mysql_layer" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsOpsworksMysqlLayer
-resource "aws_opsworks_mysql_layer" "${1:name}" {
+resource "aws_opsworks_mysql_layer" "${1:name}" \{
   root_password                  = ""
   root_password_on_all_instances = true|false
-}
+\}
 endsnippet
 
 snippet srAwsOpsworksNodejsAppLayer
-resource "aws_opsworks_nodejs_app_layer" "${1:name}" {
-}
+resource "aws_opsworks_nodejs_app_layer" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsOpsworksNodejsAppLayer
-resource "aws_opsworks_nodejs_app_layer" "${1:name}" {
+resource "aws_opsworks_nodejs_app_layer" "${1:name}" \{
   nodejs_version = ""
-}
+\}
 endsnippet
 
 snippet srAwsOpsworksPermission
-resource "aws_opsworks_permission" "${1:name}" {
+resource "aws_opsworks_permission" "${1:name}" \{
   user_arn = ""
-}
+\}
 endsnippet
 
 snippet frAwsOpsworksPermission
-resource "aws_opsworks_permission" "${1:name}" {
+resource "aws_opsworks_permission" "${1:name}" \{
   user_arn   = ""
   allow_ssh  = true|false
   allow_sudo = true|false
   level      = ""
   stack_id   = ""
-}
+\}
 endsnippet
 
 snippet srAwsOpsworksRailsAppLayer
-resource "aws_opsworks_rails_app_layer" "${1:name}" {
-}
+resource "aws_opsworks_rails_app_layer" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsOpsworksRailsAppLayer
-resource "aws_opsworks_rails_app_layer" "${1:name}" {
+resource "aws_opsworks_rails_app_layer" "${1:name}" \{
   ruby_version      = ""
   app_server        = ""
   passenger_version = ""
   rubygems_version  = ""
   manage_bundler    = true|false
   bundler_version   = ""
-}
+\}
 endsnippet
 
 snippet srAwsOpsworksRdsDbInstance
-resource "aws_opsworks_rds_db_instance" "${1:name}" {
+resource "aws_opsworks_rds_db_instance" "${1:name}" \{
   stack_id            = ""
   rds_db_instance_arn = ""
   db_password         = ""
   db_user             = ""
-}
+\}
 endsnippet
 
 snippet frAwsOpsworksRdsDbInstance
-resource "aws_opsworks_rds_db_instance" "${1:name}" {
+resource "aws_opsworks_rds_db_instance" "${1:name}" \{
   stack_id            = ""
   rds_db_instance_arn = ""
   db_password         = ""
   db_user             = ""
-}
+\}
 endsnippet
 
 snippet srAwsOpsworksStack
-resource "aws_opsworks_stack" "${1:name}" {
+resource "aws_opsworks_stack" "${1:name}" \{
   name                         = ""
   region                       = ""
   service_role_arn             = ""
   default_instance_profile_arn = ""
-}
+\}
 endsnippet
 
 snippet frAwsOpsworksStack
-resource "aws_opsworks_stack" "${1:name}" {
+resource "aws_opsworks_stack" "${1:name}" \{
   name                          = ""
   region                        = ""
   service_role_arn              = ""
@@ -4674,14 +4733,14 @@ resource "aws_opsworks_stack" "${1:name}" {
   configuration_manager_version = ""
   manage_berkshelf              = true|false
   berkshelf_version             = ""
-  custom_cookbooks_source {
+  custom_cookbooks_source \{
     type      = ""
     url       = ""
     username  = ""
     password  = ""
     revision  = ""
     ssh_key   = ""
-  }
+  \}
   custom_json                   = ""
   default_availability_zone     = ""
   default_os                    = ""
@@ -4692,60 +4751,60 @@ resource "aws_opsworks_stack" "${1:name}" {
   use_custom_cookbooks          = true|false
   use_opsworks_security_groups  = true|false
   vpc_id                        = ""
-}
+\}
 endsnippet
 
 snippet srAwsOpsworksUserProfile
-resource "aws_opsworks_user_profile" "${1:name}" {
+resource "aws_opsworks_user_profile" "${1:name}" \{
   user_arn     = ""
   ssh_username = ""
-}
+\}
 endsnippet
 
 snippet frAwsOpsworksUserProfile
-resource "aws_opsworks_user_profile" "${1:name}" {
+resource "aws_opsworks_user_profile" "${1:name}" \{
   user_arn              = ""
   ssh_username          = ""
   allow_self_management = true|false
   ssh_public_key        = ""
-}
+\}
 endsnippet
 
 snippet srAwsPlacementGroup
-resource "aws_placement_group" "${1:name}" {
+resource "aws_placement_group" "${1:name}" \{
   name     = ""
   strategy = ""
-}
+\}
 endsnippet
 
 snippet frAwsPlacementGroup
-resource "aws_placement_group" "${1:name}" {
+resource "aws_placement_group" "${1:name}" \{
   name     = ""
   strategy = ""
-}
+\}
 endsnippet
 
 snippet srAwsProxyProtocolPolicy
-resource "aws_proxy_protocol_policy" "${1:name}" {
+resource "aws_proxy_protocol_policy" "${1:name}" \{
   load_balancer  = ""
   instance_ports = [""]
-}
+\}
 endsnippet
 
 snippet frAwsProxyProtocolPolicy
-resource "aws_proxy_protocol_policy" "${1:name}" {
+resource "aws_proxy_protocol_policy" "${1:name}" \{
   load_balancer  = ""
   instance_ports = [""]
-}
+\}
 endsnippet
 
 snippet srAwsRDSCluster
-resource "aws_r_d_s_cluster" "${1:name}" {
-}
+resource "aws_r_d_s_cluster" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsRDSCluster
-resource "aws_r_d_s_cluster" "${1:name}" {
+resource "aws_r_d_s_cluster" "${1:name}" \{
   availability_zones              = [""]
   cluster_identifier              = ""
   cluster_identifier_prefix       = ""
@@ -4767,18 +4826,18 @@ resource "aws_r_d_s_cluster" "${1:name}" {
   backup_retention_period         = 1
   kms_key_id                      = ""
   replication_source_identifier   = ""
-}
+\}
 endsnippet
 
 snippet srAwsRDSClusterInstance
-resource "aws_r_d_s_cluster_instance" "${1:name}" {
+resource "aws_r_d_s_cluster_instance" "${1:name}" \{
   cluster_identifier = ""
   instance_class     = ""
-}
+\}
 endsnippet
 
 snippet frAwsRDSClusterInstance
-resource "aws_r_d_s_cluster_instance" "${1:name}" {
+resource "aws_r_d_s_cluster_instance" "${1:name}" \{
   cluster_identifier           = ""
   instance_class               = ""
   identifier                   = ""
@@ -4793,38 +4852,38 @@ resource "aws_r_d_s_cluster_instance" "${1:name}" {
   preferred_backup_window      = ""
   monitoring_interval          = 1
   promotion_tier               = 1
-}
+\}
 endsnippet
 
 snippet srAwsRDSClusterParameterGroup
-resource "aws_r_d_s_cluster_parameter_group" "${1:name}" {
+resource "aws_r_d_s_cluster_parameter_group" "${1:name}" \{
   family = ""
-}
+\}
 endsnippet
 
 snippet frAwsRDSClusterParameterGroup
-resource "aws_r_d_s_cluster_parameter_group" "${1:name}" {
+resource "aws_r_d_s_cluster_parameter_group" "${1:name}" \{
   family      = ""
   name        = ""
   name_prefix = ""
   description = ""
-  parameter {
+  parameter \{
     name          = ""
     value         = ""
     apply_method  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsRedshiftCluster
-resource "aws_redshift_cluster" "${1:name}" {
+resource "aws_redshift_cluster" "${1:name}" \{
   cluster_identifier = ""
   node_type          = ""
-}
+\}
 endsnippet
 
 snippet frAwsRedshiftCluster
-resource "aws_redshift_cluster" "${1:name}" {
+resource "aws_redshift_cluster" "${1:name}" \{
   cluster_identifier                  = ""
   node_type                           = ""
   database_name                       = ""
@@ -4859,74 +4918,74 @@ resource "aws_redshift_cluster" "${1:name}" {
   snapshot_identifier                 = ""
   snapshot_cluster_identifier         = ""
   owner_account                       = ""
-}
+\}
 endsnippet
 
 snippet srAwsRedshiftParameterGroup
-resource "aws_redshift_parameter_group" "${1:name}" {
+resource "aws_redshift_parameter_group" "${1:name}" \{
   name   = ""
   family = ""
-}
+\}
 endsnippet
 
 snippet frAwsRedshiftParameterGroup
-resource "aws_redshift_parameter_group" "${1:name}" {
+resource "aws_redshift_parameter_group" "${1:name}" \{
   name        = ""
   family      = ""
   description = ""
-  parameter {
+  parameter \{
     name   = ""
     value  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsRedshiftSecurityGroup
-resource "aws_redshift_security_group" "${1:name}" {
+resource "aws_redshift_security_group" "${1:name}" \{
   name    = ""
-  ingress {
+  ingress \{
     cidr                     = ""
     security_group_name      = ""
     security_group_owner_id  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet frAwsRedshiftSecurityGroup
-resource "aws_redshift_security_group" "${1:name}" {
+resource "aws_redshift_security_group" "${1:name}" \{
   name        = ""
-  ingress {
+  ingress \{
     cidr                     = ""
     security_group_name      = ""
     security_group_owner_id  = ""
-  }
+  \}
   description = ""
-}
+\}
 endsnippet
 
 snippet srAwsRedshiftSubnetGroup
-resource "aws_redshift_subnet_group" "${1:name}" {
+resource "aws_redshift_subnet_group" "${1:name}" \{
   name       = ""
   subnet_ids = [""]
-}
+\}
 endsnippet
 
 snippet frAwsRedshiftSubnetGroup
-resource "aws_redshift_subnet_group" "${1:name}" {
+resource "aws_redshift_subnet_group" "${1:name}" \{
   name        = ""
   subnet_ids  = [""]
   description = ""
-}
+\}
 endsnippet
 
 snippet srAwsRoute
-resource "aws_route" "${1:name}" {
+resource "aws_route" "${1:name}" \{
   route_table_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsRoute
-resource "aws_route" "${1:name}" {
+resource "aws_route" "${1:name}" \{
   route_table_id              = ""
   destination_cidr_block      = ""
   destination_ipv6_cidr_block = ""
@@ -4936,28 +4995,28 @@ resource "aws_route" "${1:name}" {
   instance_id                 = ""
   network_interface_id        = ""
   vpc_peering_connection_id   = ""
-}
+\}
 endsnippet
 
 snippet srAwsRoute53DelegationSet
-resource "aws_route53_delegation_set" "${1:name}" {
-}
+resource "aws_route53_delegation_set" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsRoute53DelegationSet
-resource "aws_route53_delegation_set" "${1:name}" {
+resource "aws_route53_delegation_set" "${1:name}" \{
   reference_name = ""
-}
+\}
 endsnippet
 
 snippet srAwsRoute53HealthCheck
-resource "aws_route53_health_check" "${1:name}" {
+resource "aws_route53_health_check" "${1:name}" \{
   type = ""
-}
+\}
 endsnippet
 
 snippet frAwsRoute53HealthCheck
-resource "aws_route53_health_check" "${1:name}" {
+resource "aws_route53_health_check" "${1:name}" \{
   type                            = ""
   failure_threshold               = 1
   request_interval                = 1
@@ -4974,91 +5033,91 @@ resource "aws_route53_health_check" "${1:name}" {
   insufficient_data_health_status = ""
   reference_name                  = ""
   enable_sni                      = true|false
-}
+\}
 endsnippet
 
 snippet srAwsRoute53Record
-resource "aws_route53_record" "${1:name}" {
+resource "aws_route53_record" "${1:name}" \{
   name    = ""
   type    = ""
   zone_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsRoute53Record
-resource "aws_route53_record" "${1:name}" {
+resource "aws_route53_record" "${1:name}" \{
   name                       = ""
   type                       = ""
   zone_id                    = ""
   ttl                        = 1
   set_identifier             = ""
-  alias {
+  alias \{
     zone_id                 = ""
     name                    = ""
     evaluate_target_health  = true|false
-  }
-  failover_routing_policy {
+  \}
+  failover_routing_policy \{
     type  = ""
-  }
-  latency_routing_policy {
+  \}
+  latency_routing_policy \{
     region  = ""
-  }
-  geolocation_routing_policy {
+  \}
+  geolocation_routing_policy \{
     continent    = ""
     country      = ""
     subdivision  = ""
-  }
-  weighted_routing_policy {
+  \}
+  weighted_routing_policy \{
     weight  = 1
-  }
+  \}
   health_check_id            = ""
   records                    = [""]
-}
+\}
 endsnippet
 
 snippet srAwsRoute53Zone
-resource "aws_route53_zone" "${1:name}" {
+resource "aws_route53_zone" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsRoute53Zone
-resource "aws_route53_zone" "${1:name}" {
+resource "aws_route53_zone" "${1:name}" \{
   name              = ""
   comment           = ""
   vpc_id            = ""
   vpc_region        = ""
   delegation_set_id = ""
   force_destroy     = true|false
-}
+\}
 endsnippet
 
 snippet srAwsRoute53ZoneAssociation
-resource "aws_route53_zone_association" "${1:name}" {
+resource "aws_route53_zone_association" "${1:name}" \{
   zone_id = ""
   vpc_id  = ""
-}
+\}
 endsnippet
 
 snippet frAwsRoute53ZoneAssociation
-resource "aws_route53_zone_association" "${1:name}" {
+resource "aws_route53_zone_association" "${1:name}" \{
   zone_id    = ""
   vpc_id     = ""
   vpc_region = ""
-}
+\}
 endsnippet
 
 snippet srAwsRouteTable
-resource "aws_route_table" "${1:name}" {
+resource "aws_route_table" "${1:name}" \{
   vpc_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsRouteTable
-resource "aws_route_table" "${1:name}" {
+resource "aws_route_table" "${1:name}" \{
   vpc_id           = ""
   propagating_vgws = [""]
-  route {
+  route \{
     cidr_block                 = ""
     ipv6_cidr_block            = ""
     egress_only_gateway_id     = ""
@@ -5067,144 +5126,144 @@ resource "aws_route_table" "${1:name}" {
     nat_gateway_id             = ""
     vpc_peering_connection_id  = ""
     network_interface_id       = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsRouteTableAssociation
-resource "aws_route_table_association" "${1:name}" {
+resource "aws_route_table_association" "${1:name}" \{
   subnet_id      = ""
   route_table_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsRouteTableAssociation
-resource "aws_route_table_association" "${1:name}" {
+resource "aws_route_table_association" "${1:name}" \{
   subnet_id      = ""
   route_table_id = ""
-}
+\}
 endsnippet
 
 snippet srAwsS3Bucket
-resource "aws_s3_bucket" "${1:name}" {
+resource "aws_s3_bucket" "${1:name}" \{
   bucket = ""
-}
+\}
 endsnippet
 
 snippet frAwsS3Bucket
-resource "aws_s3_bucket" "${1:name}" {
+resource "aws_s3_bucket" "${1:name}" \{
   bucket                    = ""
   arn                       = ""
   acl                       = ""
   policy                    = ""
-  cors_rule {
+  cors_rule \{
     allowed_headers  = [""]
     allowed_methods  = [""]
     allowed_origins  = [""]
     expose_headers   = [""]
     max_age_seconds  = 1
-  }
-  website {
+  \}
+  website \{
     index_document            = ""
     error_document            = ""
     redirect_all_requests_to  = ""
     routing_rules             = ""
-  }
+  \}
   hosted_zone_id            = ""
   region                    = ""
   website_endpoint          = ""
   website_domain            = ""
-  versioning {
+  versioning \{
     enabled     = true|false
     mfa_delete  = true|false
-  }
-  logging {
+  \}
+  logging \{
     target_bucket  = ""
     target_prefix  = ""
-  }
-  lifecycle_rule {
+  \}
+  lifecycle_rule \{
     id                                      = ""
     prefix                                  = ""
     enabled                                 = true|false
     abort_incomplete_multipart_upload_days  = 1
-    expiration {
+    expiration \{
       date                           = ""
       days                           = 1
       expired_object_delete_marker   = true|false
-    }
-    noncurrent_version_expiration {
+    \}
+    noncurrent_version_expiration \{
       days   = 1
-    }
-    transition {
+    \}
+    transition \{
       date            = ""
       days            = 1
       storage_class   = ""
-    }
-    noncurrent_version_transition {
+    \}
+    noncurrent_version_transition \{
       days            = 1
       storage_class   = ""
-    }
-  }
+    \}
+  \}
   force_destroy             = true|false
   acceleration_status       = ""
   request_payer             = ""
-  replication_configuration {
+  replication_configuration \{
     role   = ""
-    rules {
+    rules \{
       id            = ""
-      destination {
+      destination \{
         bucket           = ""
         storage_class    = ""
-      }
+      \}
       prefix        = ""
       status        = ""
-    }
-  }
-}
+    \}
+  \}
+\}
 endsnippet
 
 snippet srAwsS3BucketNotification
-resource "aws_s3_bucket_notification" "${1:name}" {
+resource "aws_s3_bucket_notification" "${1:name}" \{
   bucket = ""
-}
+\}
 endsnippet
 
 snippet frAwsS3BucketNotification
-resource "aws_s3_bucket_notification" "${1:name}" {
+resource "aws_s3_bucket_notification" "${1:name}" \{
   bucket          = ""
-  topic {
+  topic \{
     id             = ""
     filter_prefix  = ""
     filter_suffix  = ""
     topic_arn      = ""
     events         = [""]
-  }
-  queue {
+  \}
+  queue \{
     id             = ""
     filter_prefix  = ""
     filter_suffix  = ""
     queue_arn      = ""
     events         = [""]
-  }
-  lambda_function {
+  \}
+  lambda_function \{
     id                   = ""
     filter_prefix        = ""
     filter_suffix        = ""
     lambda_function_arn  = ""
     events               = [""]
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsS3BucketObject
-resource "aws_s3_bucket_object" "${1:name}" {
+resource "aws_s3_bucket_object" "${1:name}" \{
   bucket = ""
   key    = ""
-}
+\}
 endsnippet
 
 snippet frAwsS3BucketObject
-resource "aws_s3_bucket_object" "${1:name}" {
+resource "aws_s3_bucket_object" "${1:name}" \{
   bucket                 = ""
   key                    = ""
   acl                    = ""
@@ -5219,35 +5278,35 @@ resource "aws_s3_bucket_object" "${1:name}" {
   server_side_encryption = ""
   kms_key_id             = ""
   etag                   = ""
-}
+\}
 endsnippet
 
 snippet srAwsS3BucketPolicy
-resource "aws_s3_bucket_policy" "${1:name}" {
+resource "aws_s3_bucket_policy" "${1:name}" \{
   bucket = ""
   policy = ""
-}
+\}
 endsnippet
 
 snippet frAwsS3BucketPolicy
-resource "aws_s3_bucket_policy" "${1:name}" {
+resource "aws_s3_bucket_policy" "${1:name}" \{
   bucket = ""
   policy = ""
-}
+\}
 endsnippet
 
 snippet srAwsSecurityGroup
-resource "aws_security_group" "${1:name}" {
-}
+resource "aws_security_group" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsSecurityGroup
-resource "aws_security_group" "${1:name}" {
+resource "aws_security_group" "${1:name}" \{
   name        = ""
   name_prefix = ""
   description = ""
   vpc_id      = ""
-  ingress {
+  ingress \{
     from_port         = 1
     to_port           = 1
     protocol          = ""
@@ -5255,8 +5314,8 @@ resource "aws_security_group" "${1:name}" {
     ipv6_cidr_blocks  = [""]
     security_groups   = [""]
     self              = true|false
-  }
-  egress {
+  \}
+  egress \{
     from_port         = 1
     to_port           = 1
     protocol          = ""
@@ -5265,22 +5324,22 @@ resource "aws_security_group" "${1:name}" {
     prefix_list_ids   = [""]
     security_groups   = [""]
     self              = true|false
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsSecurityGroupRule
-resource "aws_security_group_rule" "${1:name}" {
+resource "aws_security_group_rule" "${1:name}" \{
   type              = ""
   from_port         = 1
   to_port           = 1
   protocol          = ""
   security_group_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsSecurityGroupRule
-resource "aws_security_group_rule" "${1:name}" {
+resource "aws_security_group_rule" "${1:name}" \{
   type                     = ""
   from_port                = 1
   to_port                  = 1
@@ -5291,96 +5350,96 @@ resource "aws_security_group_rule" "${1:name}" {
   prefix_list_ids          = [""]
   source_security_group_id = ""
   self                     = true|false
-}
+\}
 endsnippet
 
 snippet srAwsSesActiveReceiptRuleSet
-resource "aws_ses_active_receipt_rule_set" "${1:name}" {
+resource "aws_ses_active_receipt_rule_set" "${1:name}" \{
   rule_set_name = ""
-}
+\}
 endsnippet
 
 snippet frAwsSesActiveReceiptRuleSet
-resource "aws_ses_active_receipt_rule_set" "${1:name}" {
+resource "aws_ses_active_receipt_rule_set" "${1:name}" \{
   rule_set_name = ""
-}
+\}
 endsnippet
 
 snippet srAwsSesConfigurationSet
-resource "aws_ses_configuration_set" "${1:name}" {
+resource "aws_ses_configuration_set" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsSesConfigurationSet
-resource "aws_ses_configuration_set" "${1:name}" {
+resource "aws_ses_configuration_set" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet srAwsSesDomainIdentity
-resource "aws_ses_domain_identity" "${1:name}" {
+resource "aws_ses_domain_identity" "${1:name}" \{
   domain = ""
-}
+\}
 endsnippet
 
 snippet frAwsSesDomainIdentity
-resource "aws_ses_domain_identity" "${1:name}" {
+resource "aws_ses_domain_identity" "${1:name}" \{
   domain             = ""
-}
+\}
 endsnippet
 
 snippet srAwsSesEventDestination
-resource "aws_ses_event_destination" "${1:name}" {
+resource "aws_ses_event_destination" "${1:name}" \{
   name                   = ""
   configuration_set_name = ""
   matching_types         = [""]
-}
+\}
 endsnippet
 
 snippet frAwsSesEventDestination
-resource "aws_ses_event_destination" "${1:name}" {
+resource "aws_ses_event_destination" "${1:name}" \{
   name                   = ""
   configuration_set_name = ""
   matching_types         = [""]
   enabled                = true|false
-  cloudwatch_destination {
+  cloudwatch_destination \{
     default_value   = ""
     dimension_name  = ""
     value_source    = ""
-  }
-  kinesis_destination {
+  \}
+  kinesis_destination \{
     stream_arn  = ""
     role_arn    = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsSesReceiptFilter
-resource "aws_ses_receipt_filter" "${1:name}" {
+resource "aws_ses_receipt_filter" "${1:name}" \{
   name   = ""
   cidr   = ""
   policy = ""
-}
+\}
 endsnippet
 
 snippet frAwsSesReceiptFilter
-resource "aws_ses_receipt_filter" "${1:name}" {
+resource "aws_ses_receipt_filter" "${1:name}" \{
   name   = ""
   cidr   = ""
   policy = ""
-}
+\}
 endsnippet
 
 snippet srAwsSesReceiptRule
-resource "aws_ses_receipt_rule" "${1:name}" {
+resource "aws_ses_receipt_rule" "${1:name}" \{
   name          = ""
   rule_set_name = ""
-}
+\}
 endsnippet
 
 snippet frAwsSesReceiptRule
-resource "aws_ses_receipt_rule" "${1:name}" {
+resource "aws_ses_receipt_rule" "${1:name}" \{
   name              = ""
   rule_set_name     = ""
   after             = ""
@@ -5388,154 +5447,154 @@ resource "aws_ses_receipt_rule" "${1:name}" {
   recipients        = [""]
   scan_enabled      = true|false
   tls_policy        = ""
-  add_header_action {
+  add_header_action \{
     header_name   = ""
     header_value  = ""
     position      = 1
-  }
-  bounce_action {
+  \}
+  bounce_action \{
     message          = ""
     sender           = ""
     smtp_reply_code  = ""
     status_code      = ""
     topic_arn        = ""
     position         = 1
-  }
-  lambda_action {
+  \}
+  lambda_action \{
     function_arn     = ""
     invocation_type  = ""
     topic_arn        = ""
     position         = 1
-  }
-  s3_action {
+  \}
+  s3_action \{
     bucket_name        = ""
     kms_key_arn        = ""
     object_key_prefix  = ""
     topic_arn          = ""
     position           = 1
-  }
-  sns_action {
+  \}
+  sns_action \{
     topic_arn  = ""
     position   = 1
-  }
-  stop_action {
+  \}
+  stop_action \{
     scope      = ""
     topic_arn  = ""
     position   = 1
-  }
-  workmail_action {
+  \}
+  workmail_action \{
     organization_arn  = ""
     topic_arn         = ""
     position          = 1
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsSesReceiptRuleSet
-resource "aws_ses_receipt_rule_set" "${1:name}" {
+resource "aws_ses_receipt_rule_set" "${1:name}" \{
   rule_set_name = ""
-}
+\}
 endsnippet
 
 snippet frAwsSesReceiptRuleSet
-resource "aws_ses_receipt_rule_set" "${1:name}" {
+resource "aws_ses_receipt_rule_set" "${1:name}" \{
   rule_set_name = ""
-}
+\}
 endsnippet
 
 snippet srAwsSfnActivity
-resource "aws_sfn_activity" "${1:name}" {
+resource "aws_sfn_activity" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsSfnActivity
-resource "aws_sfn_activity" "${1:name}" {
+resource "aws_sfn_activity" "${1:name}" \{
   name          = ""
-}
+\}
 endsnippet
 
 snippet srAwsSfnStateMachine
-resource "aws_sfn_state_machine" "${1:name}" {
+resource "aws_sfn_state_machine" "${1:name}" \{
   definition = ""
   name       = ""
   role_arn   = ""
-}
+\}
 endsnippet
 
 snippet frAwsSfnStateMachine
-resource "aws_sfn_state_machine" "${1:name}" {
+resource "aws_sfn_state_machine" "${1:name}" \{
   definition    = ""
   name          = ""
   role_arn      = ""
-}
+\}
 endsnippet
 
 snippet srAwsSimpleDBDomain
-resource "aws_simple_d_b_domain" "${1:name}" {
+resource "aws_simple_d_b_domain" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsSimpleDBDomain
-resource "aws_simple_d_b_domain" "${1:name}" {
+resource "aws_simple_d_b_domain" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet srAwsSnapshotCreateVolumePermission
-resource "aws_snapshot_create_volume_permission" "${1:name}" {
+resource "aws_snapshot_create_volume_permission" "${1:name}" \{
   snapshot_id = ""
   account_id  = ""
-}
+\}
 endsnippet
 
 snippet frAwsSnapshotCreateVolumePermission
-resource "aws_snapshot_create_volume_permission" "${1:name}" {
+resource "aws_snapshot_create_volume_permission" "${1:name}" \{
   snapshot_id = ""
   account_id  = ""
-}
+\}
 endsnippet
 
 snippet srAwsSnsTopic
-resource "aws_sns_topic" "${1:name}" {
+resource "aws_sns_topic" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsSnsTopic
-resource "aws_sns_topic" "${1:name}" {
+resource "aws_sns_topic" "${1:name}" \{
   name            = ""
   display_name    = ""
   policy          = ""
   delivery_policy = ""
-}
+\}
 endsnippet
 
 snippet srAwsSnsTopicPolicy
-resource "aws_sns_topic_policy" "${1:name}" {
+resource "aws_sns_topic_policy" "${1:name}" \{
   arn    = ""
   policy = ""
-}
+\}
 endsnippet
 
 snippet frAwsSnsTopicPolicy
-resource "aws_sns_topic_policy" "${1:name}" {
+resource "aws_sns_topic_policy" "${1:name}" \{
   arn    = ""
   policy = ""
-}
+\}
 endsnippet
 
 snippet srAwsSnsTopicSubscription
-resource "aws_sns_topic_subscription" "${1:name}" {
+resource "aws_sns_topic_subscription" "${1:name}" \{
   protocol  = ""
   endpoint  = ""
   topic_arn = ""
-}
+\}
 endsnippet
 
 snippet frAwsSnsTopicSubscription
-resource "aws_sns_topic_subscription" "${1:name}" {
+resource "aws_sns_topic_subscription" "${1:name}" \{
   protocol                        = ""
   endpoint                        = ""
   topic_arn                       = ""
@@ -5543,29 +5602,29 @@ resource "aws_sns_topic_subscription" "${1:name}" {
   confirmation_timeout_in_minutes = 1
   delivery_policy                 = ""
   raw_message_delivery            = true|false
-}
+\}
 endsnippet
 
 snippet srAwsSpotDataFeedSubscription
-resource "aws_spot_data_feed_subscription" "${1:name}" {
+resource "aws_spot_data_feed_subscription" "${1:name}" \{
   bucket = ""
-}
+\}
 endsnippet
 
 snippet frAwsSpotDataFeedSubscription
-resource "aws_spot_data_feed_subscription" "${1:name}" {
+resource "aws_spot_data_feed_subscription" "${1:name}" \{
   bucket = ""
   prefix = ""
-}
+\}
 endsnippet
 
 snippet srAwsSpotFleetRequest
-resource "aws_spot_fleet_request" "${1:name}" {
+resource "aws_spot_fleet_request" "${1:name}" \{
   iam_fleet_role       = ""
-  launch_specification {
+  launch_specification \{
     vpc_security_group_ids       = [""]
     associate_public_ip_address  = true|false
-    ebs_block_device {
+    ebs_block_device \{
       delete_on_termination   = true|false
       device_name             = ""
       encrypted               = true|false
@@ -5573,17 +5632,17 @@ resource "aws_spot_fleet_request" "${1:name}" {
       snapshot_id             = ""
       volume_size             = 1
       volume_type             = ""
-    }
-    ephemeral_block_device {
+    \}
+    ephemeral_block_device \{
       device_name    = ""
       virtual_name   = ""
-    }
-    root_block_device {
+    \}
+    root_block_device \{
       delete_on_termination   = true|false
       iops                    = 1
       volume_size             = 1
       volume_type             = ""
-    }
+    \}
     ebs_optimized                = true|false
     iam_instance_profile         = ""
     ami                          = ""
@@ -5596,19 +5655,19 @@ resource "aws_spot_fleet_request" "${1:name}" {
     weighted_capacity            = ""
     subnet_id                    = ""
     availability_zone            = ""
-  }
+  \}
   target_capacity      = 1
   spot_price           = ""
-}
+\}
 endsnippet
 
 snippet frAwsSpotFleetRequest
-resource "aws_spot_fleet_request" "${1:name}" {
+resource "aws_spot_fleet_request" "${1:name}" \{
   iam_fleet_role                      = ""
-  launch_specification {
+  launch_specification \{
     vpc_security_group_ids       = [""]
     associate_public_ip_address  = true|false
-    ebs_block_device {
+    ebs_block_device \{
       delete_on_termination   = true|false
       device_name             = ""
       encrypted               = true|false
@@ -5616,17 +5675,17 @@ resource "aws_spot_fleet_request" "${1:name}" {
       snapshot_id             = ""
       volume_size             = 1
       volume_type             = ""
-    }
-    ephemeral_block_device {
+    \}
+    ephemeral_block_device \{
       device_name    = ""
       virtual_name   = ""
-    }
-    root_block_device {
+    \}
+    root_block_device \{
       delete_on_termination   = true|false
       iops                    = 1
       volume_size             = 1
       volume_type             = ""
-    }
+    \}
     ebs_optimized                = true|false
     iam_instance_profile         = ""
     ami                          = ""
@@ -5639,7 +5698,7 @@ resource "aws_spot_fleet_request" "${1:name}" {
     weighted_capacity            = ""
     subnet_id                    = ""
     availability_zone            = ""
-  }
+  \}
   target_capacity                     = 1
   spot_price                          = ""
   replace_unhealthy_instances         = true|false
@@ -5648,32 +5707,32 @@ resource "aws_spot_fleet_request" "${1:name}" {
   terminate_instances_with_expiration = true|false
   valid_from                          = ""
   valid_until                         = ""
-}
+\}
 endsnippet
 
 snippet srAwsSpotInstanceRequest
-resource "aws_spot_instance_request" "${1:name}" {
+resource "aws_spot_instance_request" "${1:name}" \{
   spot_price = ""
-}
+\}
 endsnippet
 
 snippet frAwsSpotInstanceRequest
-resource "aws_spot_instance_request" "${1:name}" {
+resource "aws_spot_instance_request" "${1:name}" \{
   spot_price             = ""
   spot_type              = ""
   wait_for_fulfillment   = true|false
   block_duration_minutes = 1
-}
+\}
 endsnippet
 
 snippet srAwsSqsQueue
-resource "aws_sqs_queue" "${1:name}" {
+resource "aws_sqs_queue" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsSqsQueue
-resource "aws_sqs_queue" "${1:name}" {
+resource "aws_sqs_queue" "${1:name}" \{
   name                        = ""
   delay_seconds               = 1
   max_message_size            = 1
@@ -5684,463 +5743,463 @@ resource "aws_sqs_queue" "${1:name}" {
   redrive_policy              = ""
   fifo_queue                  = true|false
   content_based_deduplication = true|false
-}
+\}
 endsnippet
 
 snippet srAwsSqsQueuePolicy
-resource "aws_sqs_queue_policy" "${1:name}" {
+resource "aws_sqs_queue_policy" "${1:name}" \{
   queue_url = ""
   policy    = ""
-}
+\}
 endsnippet
 
 snippet frAwsSqsQueuePolicy
-resource "aws_sqs_queue_policy" "${1:name}" {
+resource "aws_sqs_queue_policy" "${1:name}" \{
   queue_url = ""
   policy    = ""
-}
+\}
 endsnippet
 
 snippet srAwsSsmActivation
-resource "aws_ssm_activation" "${1:name}" {
+resource "aws_ssm_activation" "${1:name}" \{
   iam_role = ""
-}
+\}
 endsnippet
 
 snippet frAwsSsmActivation
-resource "aws_ssm_activation" "${1:name}" {
+resource "aws_ssm_activation" "${1:name}" \{
   iam_role           = ""
   name               = ""
   description        = ""
   expiration_date    = ""
   registration_limit = 1
-}
+\}
 endsnippet
 
 snippet srAwsSsmAssociation
-resource "aws_ssm_association" "${1:name}" {
+resource "aws_ssm_association" "${1:name}" \{
   instance_id = ""
   name        = ""
-}
+\}
 endsnippet
 
 snippet frAwsSsmAssociation
-resource "aws_ssm_association" "${1:name}" {
+resource "aws_ssm_association" "${1:name}" \{
   instance_id = ""
   name        = ""
-  parameters {
-      key = "${var.SOMEVAL}"
-  }
-}
+  parameters \{
+      key = "\$\{var.SOMEVAL\}"
+  \}
+\}
 endsnippet
 
 snippet srAwsSsmDocument
-resource "aws_ssm_document" "${1:name}" {
+resource "aws_ssm_document" "${1:name}" \{
   name          = ""
   content       = ""
   document_type = ""
-}
+\}
 endsnippet
 
 snippet frAwsSsmDocument
-resource "aws_ssm_document" "${1:name}" {
+resource "aws_ssm_document" "${1:name}" \{
   name            = ""
   content         = ""
   document_type   = ""
-  permissions {
-      key = "${var.SOMEVAL}"
-  }
-}
+  permissions \{
+      key = "\$\{var.SOMEVAL\}"
+  \}
+\}
 endsnippet
 
 snippet srAwsSubnet
-resource "aws_subnet" "${1:name}" {
+resource "aws_subnet" "${1:name}" \{
   vpc_id     = ""
   cidr_block = ""
-}
+\}
 endsnippet
 
 snippet frAwsSubnet
-resource "aws_subnet" "${1:name}" {
+resource "aws_subnet" "${1:name}" \{
   vpc_id                          = ""
   cidr_block                      = ""
   ipv6_cidr_block                 = ""
   availability_zone               = ""
   map_public_ip_on_launch         = true|false
   assign_ipv6_address_on_creation = true|false
-}
+\}
 endsnippet
 
 snippet srAwsVolumeAttachment
-resource "aws_volume_attachment" "${1:name}" {
+resource "aws_volume_attachment" "${1:name}" \{
   device_name = ""
   instance_id = ""
   volume_id   = ""
-}
+\}
 endsnippet
 
 snippet frAwsVolumeAttachment
-resource "aws_volume_attachment" "${1:name}" {
+resource "aws_volume_attachment" "${1:name}" \{
   device_name  = ""
   instance_id  = ""
   volume_id    = ""
   force_detach = true|false
   skip_destroy = true|false
-}
+\}
 endsnippet
 
 snippet srAwsVpc
-resource "aws_vpc" "${1:name}" {
+resource "aws_vpc" "${1:name}" \{
   cidr_block = ""
-}
+\}
 endsnippet
 
 snippet frAwsVpc
-resource "aws_vpc" "${1:name}" {
+resource "aws_vpc" "${1:name}" \{
   cidr_block                       = ""
   instance_tenancy                 = ""
   enable_dns_hostnames             = true|false
   enable_dns_support               = true|false
   enable_classiclink               = true|false
   assign_generated_ipv6_cidr_block = true|false
-}
+\}
 endsnippet
 
 snippet srAwsVpcDhcpOptions
-resource "aws_vpc_dhcp_options" "${1:name}" {
-}
+resource "aws_vpc_dhcp_options" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsVpcDhcpOptions
-resource "aws_vpc_dhcp_options" "${1:name}" {
+resource "aws_vpc_dhcp_options" "${1:name}" \{
   domain_name          = ""
   domain_name_servers  = [""]
   ntp_servers          = [""]
   netbios_node_type    = ""
   netbios_name_servers = [""]
-  tags {
-      key = "${var.SOMEVAL}"
-  }
-}
+  tags \{
+      key = "\$\{var.SOMEVAL\}"
+  \}
+\}
 endsnippet
 
 snippet srAwsVpcDhcpOptionsAssociation
-resource "aws_vpc_dhcp_options_association" "${1:name}" {
+resource "aws_vpc_dhcp_options_association" "${1:name}" \{
   vpc_id          = ""
   dhcp_options_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsVpcDhcpOptionsAssociation
-resource "aws_vpc_dhcp_options_association" "${1:name}" {
+resource "aws_vpc_dhcp_options_association" "${1:name}" \{
   vpc_id          = ""
   dhcp_options_id = ""
-}
+\}
 endsnippet
 
 snippet srAwsVpcEndpoint
-resource "aws_vpc_endpoint" "${1:name}" {
+resource "aws_vpc_endpoint" "${1:name}" \{
   vpc_id       = ""
   service_name = ""
-}
+\}
 endsnippet
 
 snippet frAwsVpcEndpoint
-resource "aws_vpc_endpoint" "${1:name}" {
+resource "aws_vpc_endpoint" "${1:name}" \{
   vpc_id          = ""
   service_name    = ""
   policy          = ""
   route_table_ids = [""]
-}
+\}
 endsnippet
 
 snippet srAwsVpcEndpointRouteTableAssociation
-resource "aws_vpc_endpoint_route_table_association" "${1:name}" {
+resource "aws_vpc_endpoint_route_table_association" "${1:name}" \{
   vpc_endpoint_id = ""
   route_table_id  = ""
-}
+\}
 endsnippet
 
 snippet frAwsVpcEndpointRouteTableAssociation
-resource "aws_vpc_endpoint_route_table_association" "${1:name}" {
+resource "aws_vpc_endpoint_route_table_association" "${1:name}" \{
   vpc_endpoint_id = ""
   route_table_id  = ""
-}
+\}
 endsnippet
 
 snippet srAwsVpcPeeringConnection
-resource "aws_vpc_peering_connection" "${1:name}" {
+resource "aws_vpc_peering_connection" "${1:name}" \{
   peer_vpc_id = ""
   vpc_id      = ""
-}
+\}
 endsnippet
 
 snippet frAwsVpcPeeringConnection
-resource "aws_vpc_peering_connection" "${1:name}" {
+resource "aws_vpc_peering_connection" "${1:name}" \{
   peer_vpc_id   = ""
   vpc_id        = ""
   peer_owner_id = ""
   auto_accept   = true|false
-  accepter {
+  accepter \{
     allow_remote_vpc_dns_resolution   = true|false
     allow_classic_link_to_remote_vpc  = true|false
     allow_vpc_to_remote_classic_link  = true|false
-  }
-  requester {
+  \}
+  requester \{
     allow_remote_vpc_dns_resolution   = true|false
     allow_classic_link_to_remote_vpc  = true|false
     allow_vpc_to_remote_classic_link  = true|false
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsVpcPeeringConnectionAccepter
-resource "aws_vpc_peering_connection_accepter" "${1:name}" {
+resource "aws_vpc_peering_connection_accepter" "${1:name}" \{
   vpc_peering_connection_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsVpcPeeringConnectionAccepter
-resource "aws_vpc_peering_connection_accepter" "${1:name}" {
+resource "aws_vpc_peering_connection_accepter" "${1:name}" \{
   vpc_peering_connection_id = ""
   auto_accept               = true|false
-  accepter {
+  accepter \{
     allow_remote_vpc_dns_resolution   = true|false
     allow_classic_link_to_remote_vpc  = true|false
     allow_vpc_to_remote_classic_link  = true|false
-  }
-  requester {
+  \}
+  requester \{
     allow_remote_vpc_dns_resolution   = true|false
     allow_classic_link_to_remote_vpc  = true|false
     allow_vpc_to_remote_classic_link  = true|false
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsVpnConnection
-resource "aws_vpn_connection" "${1:name}" {
+resource "aws_vpn_connection" "${1:name}" \{
   vpn_gateway_id      = ""
   customer_gateway_id = ""
   type                = ""
-}
+\}
 endsnippet
 
 snippet frAwsVpnConnection
-resource "aws_vpn_connection" "${1:name}" {
+resource "aws_vpn_connection" "${1:name}" \{
   vpn_gateway_id                 = ""
   customer_gateway_id            = ""
   type                           = ""
   static_routes_only             = true|false
   customer_gateway_configuration = ""
-  routes {
+  routes \{
     destination_cidr_block  = ""
     source                  = ""
     state                   = ""
-  }
-  vgw_telemetry {
+  \}
+  vgw_telemetry \{
     accepted_route_count  = 1
     last_status_change    = ""
     outside_ip_address    = ""
     status                = ""
     status_message        = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsVpnConnectionRoute
-resource "aws_vpn_connection_route" "${1:name}" {
+resource "aws_vpn_connection_route" "${1:name}" \{
   destination_cidr_block = ""
   vpn_connection_id      = ""
-}
+\}
 endsnippet
 
 snippet frAwsVpnConnectionRoute
-resource "aws_vpn_connection_route" "${1:name}" {
+resource "aws_vpn_connection_route" "${1:name}" \{
   destination_cidr_block = ""
   vpn_connection_id      = ""
-}
+\}
 endsnippet
 
 snippet srAwsVpnGateway
-resource "aws_vpn_gateway" "${1:name}" {
-}
+resource "aws_vpn_gateway" "${1:name}" \{
+\}
 endsnippet
 
 snippet frAwsVpnGateway
-resource "aws_vpn_gateway" "${1:name}" {
+resource "aws_vpn_gateway" "${1:name}" \{
   availability_zone = ""
   vpc_id            = ""
-}
+\}
 endsnippet
 
 snippet srAwsVpnGatewayAttachment
-resource "aws_vpn_gateway_attachment" "${1:name}" {
+resource "aws_vpn_gateway_attachment" "${1:name}" \{
   vpc_id         = ""
   vpn_gateway_id = ""
-}
+\}
 endsnippet
 
 snippet frAwsVpnGatewayAttachment
-resource "aws_vpn_gateway_attachment" "${1:name}" {
+resource "aws_vpn_gateway_attachment" "${1:name}" \{
   vpc_id         = ""
   vpn_gateway_id = ""
-}
+\}
 endsnippet
 
 snippet srAwsWafByteMatchSet
-resource "aws_waf_byte_match_set" "${1:name}" {
+resource "aws_waf_byte_match_set" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsWafByteMatchSet
-resource "aws_waf_byte_match_set" "${1:name}" {
+resource "aws_waf_byte_match_set" "${1:name}" \{
   name              = ""
-  byte_match_tuples {
-    field_to_match {
+  byte_match_tuples \{
+    field_to_match \{
       data   = ""
       type   = ""
-    }
+    \}
     positional_constraint  = ""
     target_string          = ""
     text_transformation    = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsWafIPSet
-resource "aws_waf_i_p_set" "${1:name}" {
+resource "aws_waf_i_p_set" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsWafIPSet
-resource "aws_waf_i_p_set" "${1:name}" {
+resource "aws_waf_i_p_set" "${1:name}" \{
   name               = ""
-  ip_set_descriptors {
+  ip_set_descriptors \{
     type   = ""
     value  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsWafRule
-resource "aws_waf_rule" "${1:name}" {
+resource "aws_waf_rule" "${1:name}" \{
   name        = ""
   metric_name = ""
-}
+\}
 endsnippet
 
 snippet frAwsWafRule
-resource "aws_waf_rule" "${1:name}" {
+resource "aws_waf_rule" "${1:name}" \{
   name        = ""
   metric_name = ""
-  predicates {
+  predicates \{
     negated  = true|false
     data_id  = ""
     type     = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsWafSizeConstraintSet
-resource "aws_waf_size_constraint_set" "${1:name}" {
+resource "aws_waf_size_constraint_set" "${1:name}" \{
   name             = ""
-  size_constraints {
-    field_to_match {
+  size_constraints \{
+    field_to_match \{
       data   = ""
       type   = ""
-    }
+    \}
     comparison_operator  = ""
     size                 = 1
     text_transformation  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet frAwsWafSizeConstraintSet
-resource "aws_waf_size_constraint_set" "${1:name}" {
+resource "aws_waf_size_constraint_set" "${1:name}" \{
   name             = ""
-  size_constraints {
-    field_to_match {
+  size_constraints \{
+    field_to_match \{
       data   = ""
       type   = ""
-    }
+    \}
     comparison_operator  = ""
     size                 = 1
     text_transformation  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsWafSqlInjectionMatchSet
-resource "aws_waf_sql_injection_match_set" "${1:name}" {
+resource "aws_waf_sql_injection_match_set" "${1:name}" \{
   name = ""
-}
+\}
 endsnippet
 
 snippet frAwsWafSqlInjectionMatchSet
-resource "aws_waf_sql_injection_match_set" "${1:name}" {
+resource "aws_waf_sql_injection_match_set" "${1:name}" \{
   name                       = ""
-  sql_injection_match_tuples {
-    field_to_match {
+  sql_injection_match_tuples \{
+    field_to_match \{
       data   = ""
       type   = ""
-    }
+    \}
     text_transformation  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsWafWebAcl
-resource "aws_waf_web_acl" "${1:name}" {
+resource "aws_waf_web_acl" "${1:name}" \{
   name           = ""
-  default_action {
+  default_action \{
     type  = ""
-  }
+  \}
   metric_name    = ""
-}
+\}
 endsnippet
 
 snippet frAwsWafWebAcl
-resource "aws_waf_web_acl" "${1:name}" {
+resource "aws_waf_web_acl" "${1:name}" \{
   name           = ""
-  default_action {
+  default_action \{
     type  = ""
-  }
+  \}
   metric_name    = ""
-  rules {
-    action {
+  rules \{
+    action \{
       type   = ""
-    }
+    \}
     priority  = 1
     rule_id   = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet srAwsWafXssMatchSet
-resource "aws_waf_xss_match_set" "${1:name}" {
+resource "aws_waf_xss_match_set" "${1:name}" \{
   name             = ""
-  xss_match_tuples {
-    field_to_match {
+  xss_match_tuples \{
+    field_to_match \{
       data   = ""
       type   = ""
-    }
+    \}
     text_transformation  = ""
-  }
-}
+  \}
+\}
 endsnippet
 
 snippet frAwsWafXssMatchSet
-resource "aws_waf_xss_match_set" "${1:name}" {
+resource "aws_waf_xss_match_set" "${1:name}" \{
   name             = ""
-  xss_match_tuples {
-    field_to_match {
+  xss_match_tuples \{
+    field_to_match \{
       data   = ""
       type   = ""
-    }
+    \}
     text_transformation  = ""
-  }
-}
+  \}
+\}
 endsnippet
