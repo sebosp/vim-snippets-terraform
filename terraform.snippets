@@ -1,7 +1,5 @@
 snippet svar "Short variable definition" b
 variable "${1:name}" {
-  description = ""
-  type        = ""
   default     = ""
 }
 endsnippet
@@ -17,7 +15,7 @@ endsnippet
 snippet varString "String variable definition" b
 variable "${1:name}" {
   description = ""
-  type        = ""
+  type        = "string"
   default     = ""
 }
 endsnippet
@@ -77,6 +75,7 @@ provider "aws" {
   secret_key                  = "${var.aws_secret_key}"
   region                      = "${var.aws_region}"
   profile                     = ""
+  alias                       = ""
   assume_role {
     role_arn     = "arn:aws:iam::ACCOUNT_ID:role/ROLE_NAME"
     session_name = "SESSION_NAME"
@@ -107,10 +106,30 @@ provider "aws" {
 }
 endsnippet
 
-snippet var "Depends on explicit dependency" w
-depends_on = [""]
+# Meta parameters available to all resources 
+snippet depends "Explicit dependency" w
+depends_on = ["${1:dependency}"]
 endsnippet
 
+snippet provider "Provider alias reference" w
+provider = ["${1:provider.alias}"]
+endsnippet
+
+# Pretty pointless...
+snippet count "Count" w
+count = ${1:count}
+endsnippet
+
+snippet lifecycle "Lifecycle control" b
+lifecycle {
+  create_before_destroy = true|false
+  prevent_destroy       = true|false
+  ignore_changes        = [""]
+}
+endsnippet
+# XXX: Add connector
+
+# Data source section
 snippet sdAwsAcm "Certificate Manager ARN" b
 data "aws_acm_certificate" "${1:name}" {
   domain = ""
@@ -552,7 +571,6 @@ data "aws_route53_zone" "${1:name}" {
 }
 endsnippet
 
-# XXX: Use either zone_id or name
 snippet fdAwsRoute53Zone "HostedZoneId for a Route53 Hosted Zone" b
 data "aws_route53_zone" "${1:name}" {
   zone_id      = ""
@@ -762,6 +780,7 @@ data "aws_vpn_gateway" "${1:name}" {
 }
 endsnippet
 
+# Resource snippets
 snippet srAWSInspectorAssessmentTarget "Inspector Assessment Target" b
 resource "aws_inspector_assessment_target" "${1:name}" {
   name               = ""
@@ -1166,24 +1185,24 @@ resource "aws_api_gateway_deployment" "${1:name}" {
 }
 endsnippet
 
-snippet srAwsApiGatewayDomainName
+snippet srAwsApiGatewayDomainName "Custom DNS for API Gateway" b
 resource "aws_api_gateway_domain_name" "${1:name}" {
   domain_name = ""
 }
 endsnippet
 
-snippet frAwsApiGatewayDomainName
+snippet frAwsApiGatewayDomainName "Custom DNS for API Gateway" b
 resource "aws_api_gateway_domain_name" "${1:name}" {
   domain_name             = ""
-  certificate_body        = ""
-  certificate_chain       = ""
-  certificate_name        = ""
-  certificate_private_key = ""
   certificate_arn         = ""
+  certificate_name        = "" # Conflicts with certificate_arn
+  certificate_body        = "${file("example.com/example.crt")}" # Conflicts with certificate_arn
+  certificate_chain       = "${file("example.com/example.ca")}" # Conflicts with certificate_arn
+  certificate_private_key = "${file("example.com/example.key")}" # Conflicts with certificate_arn
 }
 endsnippet
 
-snippet srAwsApiGatewayIntegration
+snippet srAwsApiGatewayIntegration "HTTP method Integration for API Gateway" b
 resource "aws_api_gateway_integration" "${1:name}" {
   rest_api_id = ""
   resource_id = ""
@@ -1192,28 +1211,27 @@ resource "aws_api_gateway_integration" "${1:name}" {
 }
 endsnippet
 
-snippet frAwsApiGatewayIntegration
+snippet frAwsApiGatewayIntegration "HTTP method Integration for API Gateway" b
 resource "aws_api_gateway_integration" "${1:name}" {
-  rest_api_id                = ""
-  resource_id                = ""
-  http_method                = ""
-  type                       = ""
-  uri                        = ""
-  credentials                = ""
-  integration_http_method    = ""
+  rest_api_id             = ""
+  resource_id             = ""
+  http_method             = ""
+  type                    = ""
+  uri                     = ""
+  credentials             = ""
+  integration_http_method = ""
   request_templates {
       key = "${var.SOMEVAL}"
   }
-  request_parameters_in_json = ""
-  content_handling           = ""
-  passthrough_behavior       = ""
+  content_handling        = ""
+  passthrough_behavior    = ""
   request_parameters {
       key = "${var.SOMEVAL}"
   }
 }
 endsnippet
 
-snippet srAwsApiGatewayIntegrationResponse
+snippet srAwsApiGatewayIntegrationResponse "HTTP method Integration Response for API Gateway" b
 resource "aws_api_gateway_integration_response" "${1:name}" {
   rest_api_id = ""
   resource_id = ""
@@ -1222,25 +1240,24 @@ resource "aws_api_gateway_integration_response" "${1:name}" {
 }
 endsnippet
 
-snippet frAwsApiGatewayIntegrationResponse
+snippet frAwsApiGatewayIntegrationResponse "HTTP method Integration Response for API Gateway" b
 resource "aws_api_gateway_integration_response" "${1:name}" {
-  rest_api_id                 = ""
-  resource_id                 = ""
-  http_method                 = ""
-  status_code                 = ""
-  selection_pattern           = ""
+  rest_api_id       = ""
+  resource_id       = ""
+  http_method       = ""
+  status_code       = ""
+  selection_pattern = ""
   response_templates {
       key = "${var.SOMEVAL}"
   }
-  response_parameters_in_json = ""
-  content_handling            = ""
+  content_handling  = ""
   response_parameters {
       key = "${var.SOMEVAL}"
   }
 }
 endsnippet
 
-snippet srAwsApiGatewayMethod
+snippet srAwsApiGatewayMethod "HTTP method for API Gateway" b
 resource "aws_api_gateway_method" "${1:name}" {
   rest_api_id   = ""
   resource_id   = ""
@@ -1249,25 +1266,24 @@ resource "aws_api_gateway_method" "${1:name}" {
 }
 endsnippet
 
-snippet frAwsApiGatewayMethod
+snippet frAwsApiGatewayMethod "HTTP method for API Gateway" b
 resource "aws_api_gateway_method" "${1:name}" {
-  rest_api_id                = ""
-  resource_id                = ""
-  http_method                = ""
-  authorization              = ""
-  authorizer_id              = ""
-  api_key_required           = true|false
+  rest_api_id      = ""
+  resource_id      = ""
+  http_method      = ""
+  authorization    = ""
+  authorizer_id    = ""
+  api_key_required = true|false
   request_models {
       key = "${var.SOMEVAL}"
   }
-  request_parameters_in_json = ""
   request_parameters {
       key = "${var.SOMEVAL}"
   }
 }
 endsnippet
 
-snippet srAwsApiGatewayMethodResponse
+snippet srAwsApiGatewayMethodResponse "HTTP method response for API Gateway" b
 resource "aws_api_gateway_method_response" "${1:name}" {
   rest_api_id = ""
   resource_id = ""
@@ -1276,19 +1292,24 @@ resource "aws_api_gateway_method_response" "${1:name}" {
 }
 endsnippet
 
-snippet frAwsApiGatewayMethodResponse
+snippet frAwsApiGatewayMethodResponse "HTTP method response for API Gateway" b
 resource "aws_api_gateway_method_response" "${1:name}" {
-  rest_api_id                 = ""
-  resource_id                 = ""
-  http_method                 = ""
-  status_code                 = ""
+  rest_api_id = ""
+  resource_id = ""
+  http_method = ""
+  status_code = ""
   response_models {
       key = "${var.SOMEVAL}"
   }
-  response_parameters_in_json = ""
   response_parameters {
       key = "${var.SOMEVAL}"
   }
+}
+endsnippet
+
+# XXX: continue.
+snippet srAwsApiGatewayMethodSetting "Method setting for API Gateway" b
+resource "aws_api_gateway_method_setting" "${1:name}" {
 }
 endsnippet
 
@@ -6123,5 +6144,3 @@ resource "aws_waf_xss_match_set" "${1:name}" {
   }
 }
 endsnippet
-
-# vim:ft=snippets:
