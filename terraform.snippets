@@ -1,6 +1,6 @@
 snippet svar "Short variable definition" b
 variable "${1:name}" \{
-  default     = ""
+  default     = "${2}"
 \}
 endsnippet
 
@@ -8,7 +8,7 @@ snippet fvar "Full variable definition" b
 variable "${1:name}" \{
   description = ""
   type        = ""
-  default     = ""
+  default     = "${2}"
 \}
 endsnippet
 
@@ -16,7 +16,7 @@ snippet varString "String variable definition" b
 variable "${1:name}" \{
   description = ""
   type        = "string"
-  default     = ""
+  default     = "${2}"
 \}
 endsnippet
 
@@ -24,7 +24,7 @@ snippet varList "List variable definition" b
 variable "${1:name}" \{
   description = ""
   type        = "list"
-  default     = [""]
+  default     = ["${2}"]
 \}
 endsnippet
 
@@ -33,14 +33,14 @@ variable "${1:name}" \{
   description = ""
   type        = "map"
   default     = \{
-    "key" = "val"
+    "${2:key}" = "${3:val}"
   \}
 \}
 endsnippet
 
 snippet output "Output definition" b
 output "${1:name}" \{
-  value = ""
+  value = "\$\{${2}\}"
 \}
 endsnippet
 
@@ -63,13 +63,13 @@ snippet gitHttp "Git HTTP(s) reference" i
 github.com/account/example.git//subdir
 endsnippet
 
-snippet spaws "Provider AWS" b
+snippet spAws "Provider AWS" b
 provider "aws" \{
-  region     = "\$\{var.aws_region\}"
+  region = "\$\{var.aws_region\}"
 \}
 endsnippet
 
-snippet fpaws "Provider AWS" b
+snippet fpAws "Provider AWS" b
 provider "aws" \{
   access_key                  = "\$\{var.aws_access_key\}"
   secret_key                  = "\$\{var.aws_secret_key\}"
@@ -108,16 +108,16 @@ endsnippet
 
 # Meta parameters available to all resources 
 snippet depends "Explicit dependency" w
-depends_on = ["\$\{1:dependency\}"]
+depends_on = ["\$\{${1:dependency}\}"]
 endsnippet
 
 snippet provider "Provider alias reference" w
-provider = ["\$\{1:provider.alias\}"]
+provider = ["\$\{${1:alias}\}"]
 endsnippet
 
 # Pretty pointless...
 snippet count "Count" w
-count = \$\{1:count\}
+count = ${1:count}
 endsnippet
 
 snippet lifecycle "Lifecycle control" b
@@ -675,13 +675,13 @@ data "aws_subnet" "${1:name}" \{
 endsnippet
 
 snippet sdAwsSubnetIDs "List of Subnets for a VPC" b
-data "aws_subnet_i_ds" "${1:name}" \{
+data "aws_subnet_ids" "${1:name}" \{
   vpc_id = ""
 \}
 endsnippet
 
 snippet fdAwsSubnetIDs "List of Subnets for a VPC" b
-data "aws_subnet_i_ds" "${1:name}" \{
+data "aws_subnet_ids" "${1:name}" \{
   vpc_id = ""
 \}
 endsnippet
@@ -1236,7 +1236,7 @@ endsnippet
 snippet srAwsApiGatewayIntegrationResponse "HTTP method Integration Response for API Gateway" b
 resource "aws_api_gateway_integration_response" "${1:name}" \{
   rest_api_id = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
-  resource_id = "\\${aws_api_gateway_resource.${3:bar}.id\}"
+  resource_id = "\$\{aws_api_gateway_resource.${3:bar}.id\}"
   http_method = "\$\{aws_api_gateway_method.${4:baz}.http_method\}"
   status_code = "\$\{aws_api_gateway_method_response.${5:qux}.status_code\}"
 \}
@@ -1245,7 +1245,7 @@ endsnippet
 snippet frAwsApiGatewayIntegrationResponse "HTTP method Integration Response for API Gateway" b
 resource "aws_api_gateway_integration_response" "${1:name}" \{
   rest_api_id       = "\$\{aws_api_gateway_rest_api.${2:foo}.id\}"
-  resource_id       = "\\${aws_api_gateway_resource.${3:bar}.id\}"
+  resource_id       = "\$\{aws_api_gateway_resource.${3:bar}.id\}"
   http_method       = "\$\{aws_api_gateway_method.${4:baz}.http_method\}"
   status_code       = "\$\{aws_api_gateway_method_response.${5:qux}.status_code\}"
   selection_pattern = ""
@@ -1460,123 +1460,127 @@ resource "aws_api_gateway_usage_plan_key" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsAppCookieStickinessPolicy
+snippet srAwsAppCookieStickinessPolicy "App Cookie Stickiness Policy for ELB" b
 resource "aws_app_cookie_stickiness_policy" "${1:name}" \{
-  name          = ""
-  load_balancer = ""
-  lb_port       = 1
+  name          = "${1}"
+  load_balancer = "\$\{aws_elb.${2:foo}.name\}"
+  lb_port       = 80
+  cookie_name   = "${3:bar}"
+\}
+endsnippet
+
+snippet frAwsAppCookieStickinessPolicy "App Cookie Stickiness Policy for ELB" b
+resource "aws_app_cookie_stickiness_policy" "${1:name}" \{
+  name          = "${1}"
+  load_balancer = "\$\{aws_elb.${2:foo}.name\}"
+  lb_port       = 80
   cookie_name   = ""
 \}
 endsnippet
 
-snippet frAwsAppCookieStickinessPolicy
-resource "aws_app_cookie_stickiness_policy" "${1:name}" \{
-  name          = ""
-  load_balancer = ""
-  lb_port       = 1
-  cookie_name   = ""
+snippet srAwsAppautoscalingPolicy "App Autoscaling Policy" b
+resource "aws_appautoscaling_policy" "${1:name}" \{
+  name                    = "${1}"
+  resource_id             = "${2:bar}"
+  scalable_dimension      = "${3:baz}"
+  service_namespace       = "${4:qux}"
+  adjustment_type         = "${5:quux}"
+  cooldown                = 60
+  metric_aggregation_type = "${6:quz}"
 \}
 endsnippet
 
-snippet srAwsAppautoscalingPolicy
+snippet frAwsAppautoscalingPolicy "App Autoscaling Policy" b
 resource "aws_appautoscaling_policy" "${1:name}" \{
-  name                    = ""
-  resource_id             = ""
-  scalable_dimension      = ""
-  service_namespace       = ""
-  adjustment_type         = ""
-  cooldown                = 1
-  metric_aggregation_type = ""
-\}
-endsnippet
-
-snippet frAwsAppautoscalingPolicy
-resource "aws_appautoscaling_policy" "${1:name}" \{
-  name                     = ""
-  resource_id              = ""
-  scalable_dimension       = ""
-  service_namespace        = ""
-  adjustment_type          = ""
-  cooldown                 = 1
-  metric_aggregation_type  = ""
+  name                     = "${1}"
+  resource_id              = "${2:bar}"
+  scalable_dimension       = "${3:baz}"
+  service_namespace        = "${4:qux}"
+  adjustment_type          = "${5:quux}"
+  cooldown                 = 60
+  metric_aggregation_type  = "${6:quz}"
   policy_type              = ""
   min_adjustment_magnitude = 1
   alarms                   = [""]
   step_adjustment \{
-    metric_interval_lower_bound  = ""
-    metric_interval_upper_bound  = ""
-    scaling_adjustment           = 1
+    metric_interval_lower_bound  = 1.0
+    metric_interval_upper_bound  = 2.0
+    scaling_adjustment           = -1
   \}
 \}
 endsnippet
 
-snippet srAwsAppautoscalingTarget
+snippet srAwsAppautoscalingTarget "App Autoscaling Scalable Target" b
 resource "aws_appautoscaling_target" "${1:name}" \{
   max_capacity       = 1
   min_capacity       = 1
   resource_id        = ""
-  role_arn           = ""
+  role_arn           = "\$\{aws_iam_role.${2:foo}.arn\}"
   scalable_dimension = ""
   service_namespace  = ""
 \}
 endsnippet
 
-snippet frAwsAppautoscalingTarget
+snippet frAwsAppautoscalingTarget "App Autoscaling Scalable Target" b
 resource "aws_appautoscaling_target" "${1:name}" \{
   max_capacity       = 1
   min_capacity       = 1
   resource_id        = ""
-  role_arn           = ""
+  role_arn           = "\$\{aws_iam_role.${2:foo}.arn\}"
   scalable_dimension = ""
   service_namespace  = ""
 \}
 endsnippet
 
-snippet srAwsAutoscalingAttachment
+snippet srAwsAutoscalingAttachment "Autoscaling Attachment" b
+// Note: use either separate attachment or inline attachment, not both at the same time.
 resource "aws_autoscaling_attachment" "${1:name}" \{
-  autoscaling_group_name = ""
+  autoscaling_group_name = "\$\{aws_autoscaling_group.${2:foo}.id\}"
 \}
 endsnippet
 
-snippet frAwsAutoscalingAttachment
+snippet frAwsAutoscalingAttachment "Autoscaling Attachment" b
+// Note: use either separate attachment or inline attachment, not both at the same time.
 resource "aws_autoscaling_attachment" "${1:name}" \{
-  autoscaling_group_name = ""
-  elb                    = ""
-  alb_target_group_arn   = ""
+  autoscaling_group_name = "\$\{aws_autoscaling_group.${2:foo}.id\}"
+  elb                    = "\$\{aws_elb.${3:bar}.id\}"
+  alb_target_group_arn   = "\$\{aws_alb_target_group.${4:baz}.arn\}"
 \}
 endsnippet
 
-snippet srAwsAutoscalingGroup
+snippet srAwsAutoscalingGroup "Autoscaling Group" b
+// Note: use either separate attachment or inline attachment, not both at the same time.
 resource "aws_autoscaling_group" "${1:name}" \{
-  launch_configuration = ""
+  launch_configuration = "\$\{aws_launch_configuration.${2:foo}.name\}"
   min_size             = 1
   max_size             = 1
 \}
 endsnippet
 
-snippet frAwsAutoscalingGroup
+snippet frAwsAutoscalingGroup "Autoscaling Group" b
+// Note: use either separate attachment or inline attachment, not both at the same time.
 resource "aws_autoscaling_group" "${1:name}" \{
-  launch_configuration      = ""
+  launch_configuration      = "\$\{aws_launch_configuration.${2:foo}.name\}"
   min_size                  = 1
   max_size                  = 1
-  name                      = ""
+  name                      = "${1}" # Conflicts with name_prefix
   name_prefix               = ""
   desired_capacity          = 1
   min_elb_capacity          = 1
   default_cooldown          = 1
   force_delete              = true|false
-  health_check_grace_period = 1
+  health_check_grace_period = 300
   health_check_type         = ""
   availability_zones        = [""]
-  placement_group           = ""
-  load_balancers            = [""]
+  placement_group           = "\$\{aws_placement_group.${3:bar}.id\}"
+  #load_balancers            = [""] #Provided as separate resource below
   vpc_zone_identifier       = [""]
   termination_policies      = [""]
-  wait_for_capacity_timeout = ""
+  wait_for_capacity_timeout = "10m"
   wait_for_elb_capacity     = 1
   enabled_metrics           = [""]
   suspended_processes       = [""]
-  metrics_granularity       = ""
+  metrics_granularity       = "1Minute"
   protect_from_scale_in     = true|false
   target_group_arns         = [""]
   initial_lifecycle_hook \{
@@ -1586,7 +1590,7 @@ resource "aws_autoscaling_group" "${1:name}" \{
     lifecycle_transition     = ""
     notification_metadata    = ""
     notification_target_arn  = ""
-    role_arn                 = ""
+    role_arn           = "\$\{aws_iam_role.${2:foo}.arn\}"
   \}
   tag \{
     key                  = ""
@@ -1594,121 +1598,128 @@ resource "aws_autoscaling_group" "${1:name}" \{
     propagate_at_launch  = true|false
   \}
 \}
+# Attachment to avoid using 'load_balancers' inline (see docs)
+resource "aws_autoscaling_attachment" "${1}_attachment" \{
+  autoscaling_group_name = "\$\{aws_autoscaling_group.${1}.id\}"
+  elb                    = "\$\{aws_elb.${4:qux}.id\}"
+  alb_target_group_arn   = "\$\{aws_alb_target_group.${5:quz}.arn\}"
+}
 endsnippet
 
-snippet srAwsAutoscalingLifecycleHook
+snippet srAwsAutoscalingLifecycleHook "Autoscaling Lifecycle hook" b
 resource "aws_autoscaling_lifecycle_hook" "${1:name}" \{
-  name                   = ""
-  autoscaling_group_name = ""
+  name                   = "${1}"
+  autoscaling_group_name = "\$\{aws_autoscaling_group.${2:foo}.name\}"
   lifecycle_transition   = ""
 \}
 endsnippet
 
-snippet frAwsAutoscalingLifecycleHook
+snippet frAwsAutoscalingLifecycleHook "Autoscaling Lifecycle hook" b
 resource "aws_autoscaling_lifecycle_hook" "${1:name}" \{
-  name                    = ""
-  autoscaling_group_name  = ""
+  name                    = "${1}"
+  autoscaling_group_name  = "\$\{aws_autoscaling_group.${2:foo}.name\}"
   lifecycle_transition    = ""
   default_result          = ""
   heartbeat_timeout       = 1
   notification_metadata   = ""
-  notification_target_arn = ""
-  role_arn                = ""
+  notification_target_arn = "arn:aws:sqs:region:XXX:queue1*"
+  role_arn                = "\$\{aws_iam_role.${2:foo}.arn\}"
 \}
 endsnippet
 
-snippet srAwsAutoscalingNotification
+snippet srAwsAutoscalingNotification "Autoscaling Group Notification" b
 resource "aws_autoscaling_notification" "${1:name}" \{
-  topic_arn     = ""
-  group_names   = [""]
-  notifications = [""]
+  topic_arn     = "\$\{aws_sns_topic.${2:foo}.arn\}"
+  group_names   = ["\$\{aws_autoscaling_group.${3:bar}.name\}"]
+  notifications = ["autoscaling:EC2_INSTANCE_"]
 \}
 endsnippet
 
-snippet frAwsAutoscalingNotification
+snippet frAwsAutoscalingNotification "Autoscaling Group Notification" b
 resource "aws_autoscaling_notification" "${1:name}" \{
-  topic_arn     = ""
-  group_names   = [""]
-  notifications = [""]
+  topic_arn     = "\$\{aws_sns_topic.${2:foo}.arn\}"
+  group_names   = ["\$\{aws_autoscaling_group.${3:bar}.name\}"]
+  notifications = ["autoscaling:EC2_INSTANCE_"]
 \}
 endsnippet
 
-snippet srAwsAutoscalingPolicy
+snippet srAwsAutoscalingPolicy "Autoscaling Policy" b
 resource "aws_autoscaling_policy" "${1:name}" \{
-  name                   = ""
+  name                   = "${1:name}"
   adjustment_type        = ""
-  autoscaling_group_name = ""
+  autoscaling_group_name = "\$\{aws_autoscaling_group.${2:foo}.name\}"
 \}
 endsnippet
 
-snippet frAwsAutoscalingPolicy
+snippet frAwsAutoscalingPolicy "Autoscaling Policy" b
 resource "aws_autoscaling_policy" "${1:name}" \{
-  name                      = ""
+  name                      = "${1}"
   adjustment_type           = ""
-  autoscaling_group_name    = ""
-  policy_type               = ""
-  estimated_instance_warmup = 1
-  metric_aggregation_type   = ""
-  min_adjustment_magnitude  = 1
-  min_adjustment_step       = 1
-  scaling_adjustment        = 1
-  step_adjustment \{
-    metric_interval_lower_bound  = ""
-    metric_interval_upper_bound  = ""
+  autoscaling_group_name    = "\$\{aws_autoscaling_group.${2:foo}.name\}"
+  policy_type               = "SimpleScaling"|"StepScaling"
+  cooldown                  = 300 # SimpleScaling Only
+  scaling_adjustment        = 1   # SimpleScaling Only
+  metric_aggregation_type   = ""  # StepScaling Only
+  estimated_instance_warmup = 200 # StepScaling Only
+  step_adjustment \{              # StepScaling Only
+    metric_interval_lower_bound  = 2.0
+    metric_interval_upper_bound  = 3.0
     scaling_adjustment           = 1
   \}
+  #min_adjustment_step       = 1 # Use min_adjustment_magnitude instead
+  min_adjustment_magnitude  = 1
 \}
 endsnippet
 
-snippet srAwsAutoscalingSchedule
+snippet srAwsAutoscalingSchedule "Autoscaling Schedule" b
 resource "aws_autoscaling_schedule" "${1:name}" \{
-  scheduled_action_name  = ""
-  autoscaling_group_name = ""
+  scheduled_action_name  = "${1}"
+  autoscaling_group_name = "\$\{aws_autoscaling_group.${2:foo}.name\}"
 \}
 endsnippet
 
-snippet frAwsAutoscalingSchedule
+snippet frAwsAutoscalingSchedule "Autoscaling Schedule" b
 resource "aws_autoscaling_schedule" "${1:name}" \{
-  scheduled_action_name  = ""
-  autoscaling_group_name = ""
+  scheduled_action_name  = "${1}"
+  autoscaling_group_name = "\$\{aws_autoscaling_group.${2:foo}.name\}"
   start_time             = ""
   end_time               = ""
-  recurrence             = ""
+  recurrence             = "0 * * * *"
   min_size               = 1
   max_size               = 1
   desired_capacity       = 1
 \}
 endsnippet
 
-snippet srAwsCloudFormationStack
+snippet srAwsCloudFormationStack "CloudFormation Stack" b
 resource "aws_cloud_formation_stack" "${1:name}" \{
-  name = ""
+  name = "${1}"
 \}
 endsnippet
 
-snippet frAwsCloudFormationStack
+snippet frAwsCloudFormationStack "CloudFormation Stack" b
 resource "aws_cloud_formation_stack" "${1:name}" \{
-  name               = ""
+  name               = "${1}"
   template_body      = ""
   template_url       = ""
   capabilities       = [""]
   disable_rollback   = true|false
-  notification_arns  = [""]
+  notification_arns  = ["\$\{aws_sns_topic.${2:foo}.arn\}"]
   on_failure         = ""
   parameters \{
-      key = "\$\{var.SOMEVAL\}"
+    key = "\$\{var.SOMEVAL\}"
   \}
   policy_body        = ""
-  policy_url         = ""
+  policy_url         = "" # Conflicts with policy_body
   timeout_in_minutes = 1
   tags \{
-      key = "\$\{var.SOMEVAL\}"
+    key = "\$\{var.SOMEVAL\}"
   \}
   iam_role_arn       = ""
 \}
 endsnippet
 
-snippet srAwsCloudFrontDistribution
+snippet srAwsCloudFrontDistribution "CloudFront Web distribution" b
 resource "aws_cloud_front_distribution" "${1:name}" \{
   default_cache_behavior \{
     allowed_methods              = [""]
@@ -1743,7 +1754,7 @@ resource "aws_cloud_front_distribution" "${1:name}" \{
       origin_protocol_policy   = ""
       origin_ssl_protocols     = [""]
     \}
-    domain_name           = ""
+    domain_name           = "\$\{aws_s3_bucket.${2:foo}.bucket_domain_name\}"
     custom_header \{
       name    = ""
       value   = ""
@@ -1770,7 +1781,7 @@ resource "aws_cloud_front_distribution" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsCloudFrontDistribution
+snippet frAwsCloudFrontDistribution "CloudFront Web distribution" b
 resource "aws_cloud_front_distribution" "${1:name}" \{
   default_cache_behavior \{
     allowed_methods              = [""]
@@ -1805,7 +1816,7 @@ resource "aws_cloud_front_distribution" "${1:name}" \{
       origin_protocol_policy   = ""
       origin_ssl_protocols     = [""]
     \}
-    domain_name           = ""
+    domain_name           = "\$\{aws_s3_bucket.${2:foo}.bucket_domain_name\}"
     custom_header \{
       name    = ""
       value   = ""
@@ -1877,28 +1888,28 @@ resource "aws_cloud_front_distribution" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsCloudFrontOriginAccessIdentity
+snippet srAwsCloudFrontOriginAccessIdentity "CloudFront Origin Access Identity" b
 resource "aws_cloud_front_origin_access_identity" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsCloudFrontOriginAccessIdentity
+snippet frAwsCloudFrontOriginAccessIdentity "CloudFront Origin Access Identity" b
 resource "aws_cloud_front_origin_access_identity" "${1:name}" \{
-  comment                         = ""
+  comment = ""
 \}
 endsnippet
 
-snippet srAwsCloudTrail
+snippet srAwsCloudTrail "CloudTrail" b
 resource "aws_cloud_trail" "${1:name}" \{
-  name           = ""
-  s3_bucket_name = ""
+  name           = "${1}"
+  s3_bucket_name = "\$\{aws_s3_bucket.${2:foo}.id\}"
 \}
 endsnippet
 
-snippet frAwsCloudTrail
+snippet frAwsCloudTrail "CloudTrail" b
 resource "aws_cloud_trail" "${1:name}" \{
-  name                          = ""
-  s3_bucket_name                = ""
+  name                          = "${1}"
+  s3_bucket_name                = "\$\{aws_s3_bucket.${2:foo}.id\}"
   enable_logging                = true|false
   s3_key_prefix                 = ""
   cloud_watch_logs_role_arn     = ""
@@ -1911,126 +1922,149 @@ resource "aws_cloud_trail" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsCloudWatchEventRule
+snippet srAwsCloudWatchEventRule "CloudWatch Event Rule" b
 resource "aws_cloud_watch_event_rule" "${1:name}" \{
-  name = ""
+  name = "${1}"
 \}
 endsnippet
 
-snippet frAwsCloudWatchEventRule
+snippet frAwsCloudWatchEventRule "CloudWatch Event Rule" b
 resource "aws_cloud_watch_event_rule" "${1:name}" \{
-  name                = ""
-  schedule_expression = ""
+  name                = "${1}"
+  schedule_expression = "rate(5 minutes)"
   event_pattern       = ""
   description         = ""
-  role_arn            = ""
+  role_arn            = "\$\{aws_iam_role.${2:foo}.arn\}"
   is_enabled          = true|false
 \}
 endsnippet
 
-snippet srAwsCloudWatchEventTarget
+snippet srAwsCloudWatchEventTarget "CloudWatch Event Target" b
 resource "aws_cloud_watch_event_target" "${1:name}" \{
-  rule = ""
-  arn  = ""
+  rule = "\$\{aws_cloudwatch_event_rule.${2:foo}.name\}"
+  arn  = "\$\{aws_sns_topic.${3:bar}.arn\}"
 \}
 endsnippet
 
-snippet frAwsCloudWatchEventTarget
+snippet frAwsCloudWatchEventTarget "CloudWatch Event Target" b
 resource "aws_cloud_watch_event_target" "${1:name}" \{
-  rule       = ""
-  arn        = ""
-  target_id  = ""
-  input      = ""
+  target_id  = "${1}"
+  rule       = "\$\{aws_cloudwatch_event_rule.${2:foo}.name\}"
+  arn        = "\$\{aws_sns_topic.${3:bar}.arn\}"
+  input      = "" # Conflicts with input_path
   input_path = ""
 \}
 endsnippet
 
-snippet srAwsCloudWatchLogDestination
+snippet srAwsCloudWatchLogDestination "CloudWatch Log Destination" b
 resource "aws_cloud_watch_log_destination" "${1:name}" \{
-  name       = ""
-  role_arn   = ""
-  target_arn = ""
+  name       = "${1}"
+  role_arn   = "\$\{aws_iam_role.${2:foo}.arn\}"
+  target_arn = "\$\{aws_kinesis_stream.${3:bar}.arn\}"
 \}
 endsnippet
 
-snippet frAwsCloudWatchLogDestination
+snippet frAwsCloudWatchLogDestination "CloudWatch Log Destination" b
 resource "aws_cloud_watch_log_destination" "${1:name}" \{
-  name       = ""
-  role_arn   = ""
-  target_arn = ""
+  name       = "${1}"
+  role_arn   = "\$\{aws_iam_role.${2:foo}.arn\}"
+  target_arn = "\$\{aws_kinesis_stream.${3:bar}.arn\}"
 \}
 endsnippet
 
-snippet srAwsCloudWatchLogDestinationPolicy
+snippet srAwsCloudWatchLogDestinationPolicy "CloudWatch Log Destination Policy" b
 resource "aws_cloud_watch_log_destination_policy" "${1:name}" \{
-  destination_name = ""
-  access_policy    = ""
+  destination_name = "\$\{aws_cloudwatch_log_destination.${2:foo}.name\}"
+  access_policy    = "\$\{data.aws_iam_policy_document.${3:bar}.json\}"
 \}
 endsnippet
 
-snippet frAwsCloudWatchLogDestinationPolicy
+snippet frAwsCloudWatchLogDestinationPolicy "CloudWatch Log Destination Policy" b
 resource "aws_cloud_watch_log_destination_policy" "${1:name}" \{
-  destination_name = ""
-  access_policy    = ""
+  destination_name = "\$\{aws_cloudwatch_log_destination.${2:foo}.name\}"
+  access_policy    = "\$\{data.aws_iam_policy_document.${3:bar}.json\}"
 \}
 endsnippet
 
-snippet srAwsCloudWatchLogGroup
+snippet srAwsCloudWatchLogGroup "CloudWatch Log Group" b
 resource "aws_cloud_watch_log_group" "${1:name}" \{
-  name = ""
+  name = "${1}"
 \}
 endsnippet
 
-snippet frAwsCloudWatchLogGroup
+snippet frAwsCloudWatchLogGroup "CloudWatch Log Group" b
 resource "aws_cloud_watch_log_group" "${1:name}" \{
-  name              = ""
+  name              = "${1}" # Conflicts with name_prefix
+  name_prefix       = ""
   retention_in_days = 1
-\}
-endsnippet
-
-snippet srAwsCloudWatchLogMetricFilter
-resource "aws_cloud_watch_log_metric_filter" "${1:name}" \{
-  name                  = ""
-  pattern               = ""
-  log_group_name        = ""
-  metric_transformation \{
-    name       = ""
-    namespace  = ""
-    value      = ""
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
   \}
 \}
 endsnippet
 
-snippet frAwsCloudWatchLogMetricFilter
+snippet srAwsCloudWatchLogMetricFilter "CloudWatch Log Metric Filter" b
 resource "aws_cloud_watch_log_metric_filter" "${1:name}" \{
-  name                  = ""
+  name                  = "${1}"
   pattern               = ""
-  log_group_name        = ""
+  log_group_name        = "\$\{aws_cloudwatch_log_group.${2:foo}.name\}"
   metric_transformation \{
     name       = ""
     namespace  = ""
-    value      = ""
+    value      = 1
   \}
 \}
 endsnippet
 
-snippet srAwsCloudWatchLogStream
-resource "aws_cloud_watch_log_stream" "${1:name}" \{
-  name           = ""
-  log_group_name = ""
+snippet frAwsCloudWatchLogMetricFilter "CloudWatch Log Metric Filter" b
+resource "aws_cloud_watch_log_metric_filter" "${1:name}" \{
+  name                  = "${1}"
+  pattern               = ""
+  log_group_name        = "\$\{aws_cloudwatch_log_group.${2:foo}.name\}"
+  metric_transformation \{
+    name       = ""
+    namespace  = ""
+    value      = 1
+  \}
 \}
 endsnippet
 
-snippet frAwsCloudWatchLogStream
+snippet srAwsCloudWatchLogStream "CloudWatch Log Stream" b
 resource "aws_cloud_watch_log_stream" "${1:name}" \{
-  name           = ""
-  log_group_name = ""
+  name           = "${1}"
+  log_group_name = "\$\{aws_cloudwatch_log_group.${2:foo}.name\}"
 \}
 endsnippet
 
-snippet srAwsCloudWatchMetricAlarm
+snippet frAwsCloudWatchLogStream "CloudWatch Log Stream" b
+resource "aws_cloud_watch_log_stream" "${1:name}" \{
+  name           = "${1}"
+  log_group_name = "\$\{aws_cloudwatch_log_group.${2:foo}.name\}"
+\}
+endsnippet
+
+snippet srAwsCloudWatchLogSubscriptionFilter "CloudWatch Log Subscription Filter" b
+resource "aws_cloud_watch_log_subscription_filter" "${1:name}" \{
+  name            = "${1}"
+  destination_arn = "\$\{aws_kinesis_stream.${3:bar}.arn\}"
+  filter_pattern  = ""
+  log_group_name  = "\$\{aws_cloudwatch_log_group.${2:foo}.name\}"
+\}
+endsnippet
+
+snippet frAwsCloudWatchLogSubscriptionFilter "CloudWatch Log Subscription Filter" b
+resource "aws_cloud_watch_log_subscription_filter" "${1:name}" \{
+  name            = "${1}"
+  destination_arn = "\$\{aws_kinesis_stream.${3:bar}.arn\}"
+  filter_pattern  = ""
+  log_group_name  = "\$\{aws_cloudwatch_log_group.${2:foo}.name\}"
+  role_arn        = "\$\{aws_iam_role.${2:foo}.arn\}"
+\}
+endsnippet
+
+snippet srAwsCloudWatchMetricAlarm "CloudWatch Metric Alarm" b
 resource "aws_cloud_watch_metric_alarm" "${1:name}" \{
-  alarm_name          = ""
+  alarm_name          = "${1}"
   comparison_operator = ""
   evaluation_periods  = 1
   metric_name         = ""
@@ -2040,16 +2074,16 @@ resource "aws_cloud_watch_metric_alarm" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsCloudWatchMetricAlarm
+snippet frAwsCloudWatchMetricAlarm "CloudWatch Metric Alarm" b
 resource "aws_cloud_watch_metric_alarm" "${1:name}" \{
-  alarm_name                            = ""
+  alarm_name                            = "${1}"
   comparison_operator                   = ""
   evaluation_periods                    = 1
   metric_name                           = ""
   namespace                             = ""
   period                                = 1
   threshold                             = 1.0
-  statistic                             = ""
+  statistic                             = "" # Conflicts with extended_statistic
   actions_enabled                       = true|false
   alarm_actions                         = [""]
   alarm_description                     = ""
@@ -2065,27 +2099,9 @@ resource "aws_cloud_watch_metric_alarm" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsCloudwatchLogSubscriptionFilter
-resource "aws_cloudwatch_log_subscription_filter" "${1:name}" \{
-  name            = ""
-  destination_arn = ""
-  filter_pattern  = ""
-  log_group_name  = ""
-\}
-endsnippet
-
-snippet frAwsCloudwatchLogSubscriptionFilter
-resource "aws_cloudwatch_log_subscription_filter" "${1:name}" \{
-  name            = ""
-  destination_arn = ""
-  filter_pattern  = ""
-  log_group_name  = ""
-  role_arn        = ""
-\}
-endsnippet
-
-snippet srAwsCodeBuildProject
+snippet srAwsCodeBuildProject "CodeBuild Project" b
 resource "aws_code_build_project" "${1:name}" \{
+  name        = "${1}"
   artifacts \{
     name            = ""
     location        = ""
@@ -2095,19 +2111,18 @@ resource "aws_code_build_project" "${1:name}" \{
     type            = ""
   \}
   environment \{
-    compute_type          = ""
+    compute_type = ""
     environment_variable \{
-      name    = ""
-      value   = ""
+      name  = ""
+      value = ""
     \}
-    image                 = ""
-    type                  = ""
+    image        = ""
+    type         = ""
   \}
-  name        = ""
   source \{
     auth \{
-      resource   = ""
-      type       = ""
+      resource = ""
+      type     = ""
     \}
     buildspec  = ""
     location   = ""
@@ -2116,8 +2131,9 @@ resource "aws_code_build_project" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsCodeBuildProject
+snippet frAwsCodeBuildProject "CodeBuild Project" b
 resource "aws_code_build_project" "${1:name}" \{
+  name           = "${1}"
   artifacts \{
     name            = ""
     location        = ""
@@ -2127,19 +2143,18 @@ resource "aws_code_build_project" "${1:name}" \{
     type            = ""
   \}
   environment \{
-    compute_type          = ""
+    compute_type = ""
     environment_variable \{
-      name    = ""
-      value   = ""
+      name  = ""
+      value = ""
     \}
-    image                 = ""
-    type                  = ""
+    image        = ""
+    type         = ""
   \}
-  name           = ""
   source \{
     auth \{
-      resource   = ""
-      type       = ""
+      resource = ""
+      type     = ""
     \}
     buildspec  = ""
     location   = ""
@@ -2148,30 +2163,31 @@ resource "aws_code_build_project" "${1:name}" \{
   description    = ""
   encryption_key = ""
   service_role   = ""
-  build_timeout  = 1
+  build_timeout  = 60
 \}
 endsnippet
 
-snippet srAwsCodeCommitRepository
+snippet srAwsCodeCommitRepository "CodeCommit Repository" b
 resource "aws_code_commit_repository" "${1:name}" \{
-  repository_name = ""
+  repository_name = "${1}"
 \}
 endsnippet
 
-snippet frAwsCodeCommitRepository
+snippet frAwsCodeCommitRepository "CodeCommit Repository" b
 resource "aws_code_commit_repository" "${1:name}" \{
-  repository_name = ""
+  repository_name = "${1}"
   description     = ""
   default_branch  = ""
 \}
 endsnippet
 
-snippet srAwsCodeCommitTrigger
+snippet srAwsCodeCommitTrigger "CodeCommit Trigger" b
 resource "aws_code_commit_trigger" "${1:name}" \{
+  name            = "${1}"
   repository_name = ""
   trigger \{
     name             = ""
-    destination_arn  = ""
+    destination_arn  = "\$\{aws_sns_topic.${2:foo}.arn\}"
     custom_data      = ""
     branches         = [""]
     events           = [""]
@@ -2179,12 +2195,13 @@ resource "aws_code_commit_trigger" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsCodeCommitTrigger
+snippet frAwsCodeCommitTrigger "CodeCommit Trigger" b
 resource "aws_code_commit_trigger" "${1:name}" \{
-  repository_name  = ""
+  name            = "${1}"
+  repository_name = "${1}"
   trigger \{
     name             = ""
-    destination_arn  = ""
+    destination_arn  = "\$\{aws_sns_topic.${2:foo}.arn\}"
     custom_data      = ""
     branches         = [""]
     events           = [""]
@@ -2192,52 +2209,52 @@ resource "aws_code_commit_trigger" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsCodeDeployApp
+snippet srAwsCodeDeployApp "CodeDeploy App" b
 resource "aws_code_deploy_app" "${1:name}" \{
-  name = ""
+  name = "${1}"
 \}
 endsnippet
 
-snippet frAwsCodeDeployApp
+snippet frAwsCodeDeployApp "CodeDeploy App" b
 resource "aws_code_deploy_app" "${1:name}" \{
-  name      = ""
+  name = "${1}"
   unique_id = ""
 \}
 endsnippet
 
-snippet srAwsCodeDeployDeploymentConfig
+snippet srAwsCodeDeployDeploymentConfig "CodeDeploy Deployment Config" b
 resource "aws_code_deploy_deployment_config" "${1:name}" \{
   deployment_config_name = ""
   minimum_healthy_hosts \{
-    type   = ""
-    value  = 1
+    type  = ""
+    value = 1
   \}
 \}
 endsnippet
 
-snippet frAwsCodeDeployDeploymentConfig
+snippet frAwsCodeDeployDeploymentConfig "CodeDeploy Deployment Config" b
 resource "aws_code_deploy_deployment_config" "${1:name}" \{
   deployment_config_name = ""
   minimum_healthy_hosts \{
-    type   = ""
-    value  = 1
+    type  = ""
+    value = 1
   \}
 \}
 endsnippet
 
-snippet srAwsCodeDeployDeploymentGroup
+snippet srAwsCodeDeployDeploymentGroup "CodeDeploy Deployment Group" b
 resource "aws_code_deploy_deployment_group" "${1:name}" \{
-  app_name              = ""
-  deployment_group_name = ""
-  service_role_arn      = ""
+  app_name              = "\$\{aws_codedeploy_app.${2:foo}.name\}"
+  deployment_group_name = "${1}"
+  service_role_arn      = "\$\{aws_iam_role.${3:bar}.arn\}"
 \}
 endsnippet
 
-snippet frAwsCodeDeployDeploymentGroup
+snippet frAwsCodeDeployDeploymentGroup "CodeDeploy Deployment Group" b
 resource "aws_code_deploy_deployment_group" "${1:name}" \{
-  app_name                        = ""
-  deployment_group_name           = ""
-  service_role_arn                = ""
+  app_name                        = "\$\{aws_codedeploy_app.${2:foo}.name\}"
+  deployment_group_name           = "${1}"
+  service_role_arn                = "\$\{aws_iam_role.${3:bar}.arn\}"
   alarm_configuration \{
     alarms                     = [""]
     enabled                    = true|false
@@ -2267,10 +2284,10 @@ resource "aws_code_deploy_deployment_group" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsCodePipeline
+snippet srAwsCodePipeline "CodePipeLine" b
 resource "aws_code_pipeline" "${1:name}" \{
-  name           = ""
-  role_arn       = ""
+  name           = "${1}"
+  role_arn       = "\$\{aws_iam_role.${2:foo}.arn\}"
   artifact_store \{
     location        = ""
     type            = ""
@@ -2285,13 +2302,13 @@ resource "aws_code_pipeline" "${1:name}" \{
       configuration \{
           key = "\$\{var.SOMEVAL\}"
       \}
+      name               = ""
       category           = ""
       owner              = ""
       provider           = ""
       version            = ""
       input_artifacts    = [""]
       output_artifacts   = [""]
-      name               = ""
       role_arn           = ""
       run_order          = 1
     \}
@@ -2299,10 +2316,10 @@ resource "aws_code_pipeline" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsCodePipeline
+snippet frAwsCodePipeline "CodePipeLine" b
 resource "aws_code_pipeline" "${1:name}" \{
-  name           = ""
-  role_arn       = ""
+  name           = "${1}"
+  role_arn       = "\$\{aws_iam_role.${2:foo}.arn\}"
   artifact_store \{
     location        = ""
     type            = ""
@@ -2317,13 +2334,13 @@ resource "aws_code_pipeline" "${1:name}" \{
       configuration \{
           key = "\$\{var.SOMEVAL\}"
       \}
+      name               = ""
       category           = ""
       owner              = ""
       provider           = ""
       version            = ""
       input_artifacts    = [""]
       output_artifacts   = [""]
-      name               = ""
       role_arn           = ""
       run_order          = 1
     \}
@@ -2331,9 +2348,10 @@ resource "aws_code_pipeline" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsConfigConfigRule
+snippet srAwsConfigConfigRule "Config Rule" b
 resource "aws_config_config_rule" "${1:name}" \{
-  name   = ""
+  name       = "${1}"
+  depends_on = ["aws_config_configuration_recorder.${2:foo}"]
   source \{
     owner              = ""
     source_detail \{
@@ -2346,9 +2364,10 @@ resource "aws_config_config_rule" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsConfigConfigRule
+snippet frAwsConfigConfigRule "Config Rule" b
 resource "aws_config_config_rule" "${1:name}" \{
-  name                        = ""
+  name                        = "${1}"
+  depends_on                  = ["aws_config_configuration_recorder.${2:foo}"]
   source \{
     owner              = ""
     source_detail \{
@@ -2370,16 +2389,16 @@ resource "aws_config_config_rule" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsConfigConfigurationRecorder
+snippet srAwsConfigConfigurationRecorder "Config Configuration Recorder" b
 resource "aws_config_configuration_recorder" "${1:name}" \{
-  role_arn = ""
+  role_arn = "\$\{aws_iam_role.${2:foo}.arn\}"
 \}
 endsnippet
 
-snippet frAwsConfigConfigurationRecorder
+snippet frAwsConfigConfigurationRecorder "Config Configuration Recorder" b
 resource "aws_config_configuration_recorder" "${1:name}" \{
-  role_arn        = ""
-  name            = ""
+  role_arn        = "\$\{aws_iam_role.${2:foo}.arn\}"
+  name            = "${1}"
   recording_group \{
     all_supported                  = true|false
     include_global_resource_types  = true|false
@@ -2388,82 +2407,89 @@ resource "aws_config_configuration_recorder" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsConfigConfigurationRecorderStatus
+snippet srAwsConfigConfigurationRecorderStatus "Config Configuration Recorder Status" b
 resource "aws_config_configuration_recorder_status" "${1:name}" \{
-  name       = ""
+  name       = "${1}"
+  depends_on = ["aws_config_delivery_channel.${2:foo}"]
   is_enabled = true|false
 \}
 endsnippet
 
-snippet frAwsConfigConfigurationRecorderStatus
+snippet frAwsConfigConfigurationRecorderStatus "Config Configuration Recorder Status" b
 resource "aws_config_configuration_recorder_status" "${1:name}" \{
-  name       = ""
+  name       = "${1}"
+  depends_on = ["aws_config_delivery_channel.${2:foo}"]
   is_enabled = true|false
 \}
 endsnippet
 
-snippet srAwsConfigDeliveryChannel
+snippet srAwsConfigDeliveryChannel "Config Delivery Channel" b
 resource "aws_config_delivery_channel" "${1:name}" \{
-  s3_bucket_name = ""
+  s3_bucket_name = "\$\{aws_s3_bucket.${2:foo}.bucket\}"
+  depends_on     = ["aws_config_configuration_recorder.${3:bar}"]
 \}
 endsnippet
 
-snippet frAwsConfigDeliveryChannel
+snippet frAwsConfigDeliveryChannel "Config Delivery Channel" b
 resource "aws_config_delivery_channel" "${1:name}" \{
-  s3_bucket_name               = ""
-  name                         = ""
-  s3_key_prefix                = ""
-  sns_topic_arn                = ""
+  s3_bucket_name = "\$\{aws_s3_bucket.${2:foo}.bucket\}"
+  depends_on     = ["aws_config_configuration_recorder.${3:bar}"]
+  name           = "${1}"
+  s3_key_prefix  = ""
+  sns_topic_arn  = "\$\{aws_sns_topic.${4:baz}.arn\}"
   snapshot_delivery_properties \{
     delivery_frequency  = ""
   \}
 \}
 endsnippet
 
-snippet srAwsCustomerGateway
+snippet srAwsCustomerGateway "Customer Gateway in a VPC" b
 resource "aws_customer_gateway" "${1:name}" \{
   bgp_asn    = 1
   ip_address = ""
-  type       = ""
+  type       = "ipsec.1"
 \}
 endsnippet
 
-snippet frAwsCustomerGateway
+snippet frAwsCustomerGateway "Customer Gateway in a VPC" b
 resource "aws_customer_gateway" "${1:name}" \{
   bgp_asn    = 1
   ip_address = ""
-  type       = ""
+  type       = "ipsec.1"
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
 \}
 endsnippet
 
-snippet srAwsDbEventSubscription
+snippet srAwsDbEventSubscription "DB Event Subscription" b
 resource "aws_db_event_subscription" "${1:name}" \{
-  name      = ""
-  sns_topic = ""
+  name      = "${1:name}"
+  sns_topic = "\$\{aws_sns_topic.${2:foo}.arn\}"
 \}
 endsnippet
 
-snippet frAwsDbEventSubscription
+snippet frAwsDbEventSubscription "DB Event Subscription" b
 resource "aws_db_event_subscription" "${1:name}" \{
-  name             = ""
-  sns_topic        = ""
+  name             = "${1:name}"
+  sns_topic        = "\$\{aws_sns_topic.${2:foo}.arn\}"
   event_categories = [""]
-  source_ids       = [""]
+  source_ids       = ["\$\{aws_db_instance.${3:bar}.id\}"]
   source_type      = ""
   enabled          = true|false
 \}
 endsnippet
 
-snippet srAwsDbInstance
+snippet srAwsDbInstance "RDS DB Instance" b
 resource "aws_db_instance" "${1:name}" \{
   instance_class = ""
 \}
 endsnippet
 
-snippet frAwsDbInstance
+snippet frAwsDbInstance "RDS DB Instance" b
 resource "aws_db_instance" "${1:name}" \{
   instance_class              = ""
-  name                        = ""
+  name                        = "${2:foo}"
   username                    = ""
   password                    = ""
   engine                      = ""
@@ -2473,7 +2499,7 @@ resource "aws_db_instance" "${1:name}" \{
   allocated_storage           = 1
   storage_type                = ""
   identifier                  = ""
-  identifier_prefix           = ""
+  identifier_prefix           = "" # Conflicts with identifier
   availability_zone           = ""
   backup_retention_period     = 1
   backup_window               = ""
@@ -2500,21 +2526,24 @@ resource "aws_db_instance" "${1:name}" \{
   option_group_name           = ""
   kms_key_id                  = ""
   timezone                    = ""
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
 \}
 endsnippet
 
-snippet srAwsDbOptionGroup
+snippet srAwsDbOptionGroup "RDS DB Option Group" b
 resource "aws_db_option_group" "${1:name}" \{
   engine_name          = ""
   major_engine_version = ""
 \}
 endsnippet
 
-snippet frAwsDbOptionGroup
+snippet frAwsDbOptionGroup "RDS DB Option Group" b
 resource "aws_db_option_group" "${1:name}" \{
   engine_name              = ""
   major_engine_version     = ""
-  name                     = ""
+  name                     = "${1:name}" # Conflicts with name_prefix
   name_prefix              = ""
   option_group_description = ""
   option \{
@@ -2527,19 +2556,22 @@ resource "aws_db_option_group" "${1:name}" \{
     db_security_group_memberships   = [""]
     vpc_security_group_memberships  = [""]
   \}
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
 \}
 endsnippet
 
-snippet srAwsDbParameterGroup
+snippet srAwsDbParameterGroup "RDS DB Parameter Group" b
 resource "aws_db_parameter_group" "${1:name}" \{
   family = ""
 \}
 endsnippet
 
-snippet frAwsDbParameterGroup
+snippet frAwsDbParameterGroup "RDS DB Parameter Group" b
 resource "aws_db_parameter_group" "${1:name}" \{
   family      = ""
-  name        = ""
+  name        = "${1:name}" # Conflicts with name_prefix
   name_prefix = ""
   description = ""
   parameter \{
@@ -2547,12 +2579,16 @@ resource "aws_db_parameter_group" "${1:name}" \{
     value         = ""
     apply_method  = ""
   \}
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
 \}
 endsnippet
 
-snippet srAwsDbSecurityGroup
+snippet srAwsDbSecurityGroup "RDS Security Group" b
+# Note: For instances inside a VPC, use aws_db_instance.vpc_security_group_ids
 resource "aws_db_security_group" "${1:name}" \{
-  name    = ""
+  name = "${1:name}"
   ingress \{
     cidr                     = ""
     security_group_name      = ""
@@ -2562,9 +2598,10 @@ resource "aws_db_security_group" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsDbSecurityGroup
+snippet frAwsDbSecurityGroup "RDS Security Group" b
+# Note: For instances inside a VPC, use aws_db_instance.vpc_security_group_ids
 resource "aws_db_security_group" "${1:name}" \{
-  name        = ""
+  name        = "${1}"
   ingress \{
     cidr                     = ""
     security_group_name      = ""
@@ -2575,28 +2612,31 @@ resource "aws_db_security_group" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsDbSubnetGroup
+snippet srAwsDbSubnetGroup "RDS Subnet Group" b
 resource "aws_db_subnet_group" "${1:name}" \{
-  subnet_ids = [""]
+  subnet_ids = ["\$\{aws_subnet.${2:foo}.id\}"]
 \}
 endsnippet
 
-snippet frAwsDbSubnetGroup
+snippet frAwsDbSubnetGroup "RDS Subnet Group" b
 resource "aws_db_subnet_group" "${1:name}" \{
-  subnet_ids  = [""]
-  name        = ""
+  name        = "${1:name}" # Conflicts with name_prefix
+  subnet_ids  = ["\$\{aws_subnet.${2:foo}.id\}"]
   name_prefix = ""
   description = ""
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
 \}
 endsnippet
 
-snippet srAwsDefaultNetworkAcl
+snippet srAwsDefaultNetworkAcl "Default Network ACL" b
 resource "aws_default_network_acl" "${1:name}" \{
   default_network_acl_id = ""
 \}
 endsnippet
 
-snippet frAwsDefaultNetworkAcl
+snippet frAwsDefaultNetworkAcl "Default Network ACL" b
 resource "aws_default_network_acl" "${1:name}" \{
   default_network_acl_id = ""
   subnet_ids             = [""]
@@ -2851,7 +2891,7 @@ resource "aws_dynamo_db_table" "${1:name}" \{
 endsnippet
 
 snippet srAwsEMRCluster
-resource "aws_e_m_r_cluster" "${1:name}" \{
+resource "aws_emr_cluster" "${1:name}" \{
   name                 = ""
   release_label        = ""
   master_instance_type = ""
@@ -2860,7 +2900,7 @@ resource "aws_e_m_r_cluster" "${1:name}" \{
 endsnippet
 
 snippet frAwsEMRCluster
-resource "aws_e_m_r_cluster" "${1:name}" \{
+resource "aws_emr_cluster" "${1:name}" \{
   name                              = ""
   release_label                     = ""
   master_instance_type              = ""
@@ -2893,14 +2933,14 @@ resource "aws_e_m_r_cluster" "${1:name}" \{
 endsnippet
 
 snippet srAwsEMRInstanceGroup
-resource "aws_e_m_r_instance_group" "${1:name}" \{
+resource "aws_emr_instance_group" "${1:name}" \{
   cluster_id    = ""
   instance_type = ""
 \}
 endsnippet
 
 snippet frAwsEMRInstanceGroup
-resource "aws_e_m_r_instance_group" "${1:name}" \{
+resource "aws_emr_instance_group" "${1:name}" \{
   cluster_id             = ""
   instance_type          = ""
   instance_count         = 1
@@ -3545,14 +3585,14 @@ resource "aws_glacier_vault" "${1:name}" \{
 endsnippet
 
 snippet srAwsIAMServerCertificate
-resource "aws_i_a_m_server_certificate" "${1:name}" \{
+resource "aws_iam_server_certificate" "${1:name}" \{
   certificate_body = ""
   private_key      = ""
 \}
 endsnippet
 
 snippet frAwsIAMServerCertificate
-resource "aws_i_a_m_server_certificate" "${1:name}" \{
+resource "aws_iam_server_certificate" "${1:name}" \{
   certificate_body  = ""
   private_key       = ""
   certificate_chain = ""
@@ -4051,7 +4091,7 @@ resource "aws_kms_key" "${1:name}" \{
 endsnippet
 
 snippet srAwsLBCookieStickinessPolicy
-resource "aws_l_b_cookie_stickiness_policy" "${1:name}" \{
+resource "aws_lb_cookie_stickiness_policy" "${1:name}" \{
   name          = ""
   load_balancer = ""
   lb_port       = 1
@@ -4059,7 +4099,7 @@ resource "aws_l_b_cookie_stickiness_policy" "${1:name}" \{
 endsnippet
 
 snippet frAwsLBCookieStickinessPolicy
-resource "aws_l_b_cookie_stickiness_policy" "${1:name}" \{
+resource "aws_lb_cookie_stickiness_policy" "${1:name}" \{
   name                     = ""
   load_balancer            = ""
   lb_port                  = 1
@@ -4068,7 +4108,7 @@ resource "aws_l_b_cookie_stickiness_policy" "${1:name}" \{
 endsnippet
 
 snippet srAwsLBSSLNegotiationPolicy
-resource "aws_l_b_s_s_l_negotiation_policy" "${1:name}" \{
+resource "aws_lb_ssl_negotiation_policy" "${1:name}" \{
   name          = ""
   load_balancer = ""
   lb_port       = 1
@@ -4076,7 +4116,7 @@ resource "aws_l_b_s_s_l_negotiation_policy" "${1:name}" \{
 endsnippet
 
 snippet frAwsLBSSLNegotiationPolicy
-resource "aws_l_b_s_s_l_negotiation_policy" "${1:name}" \{
+resource "aws_lb_ssl_negotiation_policy" "${1:name}" \{
   name          = ""
   load_balancer = ""
   lb_port       = 1
@@ -4799,12 +4839,12 @@ resource "aws_proxy_protocol_policy" "${1:name}" \{
 endsnippet
 
 snippet srAwsRDSCluster
-resource "aws_r_d_s_cluster" "${1:name}" \{
+resource "aws_rds_cluster" "${1:name}" \{
 \}
 endsnippet
 
 snippet frAwsRDSCluster
-resource "aws_r_d_s_cluster" "${1:name}" \{
+resource "aws_rds_cluster" "${1:name}" \{
   availability_zones              = [""]
   cluster_identifier              = ""
   cluster_identifier_prefix       = ""
@@ -4830,14 +4870,14 @@ resource "aws_r_d_s_cluster" "${1:name}" \{
 endsnippet
 
 snippet srAwsRDSClusterInstance
-resource "aws_r_d_s_cluster_instance" "${1:name}" \{
+resource "aws_rds_cluster_instance" "${1:name}" \{
   cluster_identifier = ""
   instance_class     = ""
 \}
 endsnippet
 
 snippet frAwsRDSClusterInstance
-resource "aws_r_d_s_cluster_instance" "${1:name}" \{
+resource "aws_rds_cluster_instance" "${1:name}" \{
   cluster_identifier           = ""
   instance_class               = ""
   identifier                   = ""
@@ -4856,13 +4896,13 @@ resource "aws_r_d_s_cluster_instance" "${1:name}" \{
 endsnippet
 
 snippet srAwsRDSClusterParameterGroup
-resource "aws_r_d_s_cluster_parameter_group" "${1:name}" \{
+resource "aws_rds_cluster_parameter_group" "${1:name}" \{
   family = ""
 \}
 endsnippet
 
 snippet frAwsRDSClusterParameterGroup
-resource "aws_r_d_s_cluster_parameter_group" "${1:name}" \{
+resource "aws_rds_cluster_parameter_group" "${1:name}" \{
   family      = ""
   name        = ""
   name_prefix = ""
@@ -5531,13 +5571,13 @@ resource "aws_sfn_state_machine" "${1:name}" \{
 endsnippet
 
 snippet srAwsSimpleDBDomain
-resource "aws_simple_d_b_domain" "${1:name}" \{
+resource "aws_simpledb_domain" "${1:name}" \{
   name = ""
 \}
 endsnippet
 
 snippet frAwsSimpleDBDomain
-resource "aws_simple_d_b_domain" "${1:name}" \{
+resource "aws_simpledb_domain" "${1:name}" \{
   name = ""
 \}
 endsnippet
@@ -6068,13 +6108,13 @@ resource "aws_waf_byte_match_set" "${1:name}" \{
 endsnippet
 
 snippet srAwsWafIPSet
-resource "aws_waf_i_p_set" "${1:name}" \{
+resource "aws_waf_ipset" "${1:name}" \{
   name = ""
 \}
 endsnippet
 
 snippet frAwsWafIPSet
-resource "aws_waf_i_p_set" "${1:name}" \{
+resource "aws_waf_ipset" "${1:name}" \{
   name               = ""
   ip_set_descriptors \{
     type   = ""
