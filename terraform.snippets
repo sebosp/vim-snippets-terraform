@@ -2631,217 +2631,250 @@ resource "aws_db_subnet_group" "${1:name}" \{
 endsnippet
 
 snippet srAwsDefaultNetworkAcl "Default Network ACL" b
+// XXX: Advanced resource, please read the docs.
 resource "aws_default_network_acl" "${1:name}" \{
-  default_network_acl_id = ""
+  default_network_acl_id = "\$\{aws_vpc.${2:foo}.default_network_acl_id\}"
 \}
 endsnippet
 
 snippet frAwsDefaultNetworkAcl "Default Network ACL" b
+// XXX: Advanced resource, please read the docs.
 resource "aws_default_network_acl" "${1:name}" \{
-  default_network_acl_id = ""
+  default_network_acl_id = "\$\{aws_vpc.${2:foo}.default_network_acl_id\}"
   subnet_ids             = [""]
   ingress \{
-    from_port   = 1
-    to_port     = 1
-    rule_no     = 1
-    action      = ""
-    protocol    = ""
-    cidr_block  = ""
-    icmp_type   = 1
-    icmp_code   = 1
+    from_port  = 0
+    to_port    = 0
+    rule_no    = 100
+    action     = "allow"
+    protocol   = -1
+    cidr_block = ""
+    icmp_type  = 0
+    icmp_code  = 0
   \}
   egress \{
-    from_port   = 1
-    to_port     = 1
-    rule_no     = 1
-    action      = ""
-    protocol    = ""
-    cidr_block  = ""
-    icmp_type   = 1
-    icmp_code   = 1
+    from_port  = 0
+    to_port    = 0
+    rule_no    = 100
+    action     = "allow"
+    protocol   = -1
+    cidr_block = "0.0.0.0/0"
+    icmp_type  = 0
+    icmp_code  = 0
   \}
 \}
 endsnippet
 
-snippet srAwsDefaultRouteTable
+snippet srAwsDefaultRouteTable "Default VPC Routing Table" b
+// XXX: Advanced resource, please read the docs.
+// XXX: Recommended not to use with aws_main_route_table_association
 resource "aws_default_route_table" "${1:name}" \{
-  default_route_table_id = ""
+  default_route_table_id = "\$\{aws_vpc.${2:foo}.default_route_table_id\}"
 \}
 endsnippet
 
-snippet frAwsDefaultRouteTable
+snippet frAwsDefaultRouteTable "Default VPC Routing Table" b
+// XXX: Advanced resource, please read the docs.
+// XXX: Recommended not to use with aws_main_route_table_association
 resource "aws_default_route_table" "${1:name}" \{
-  default_route_table_id = ""
+  default_route_table_id = "\$\{aws_vpc.${2:foo}.default_route_table_id\}"
   propagating_vgws       = [""]
   route \{
-    cidr_block                 = ""
-    ipv6_cidr_block            = ""
-    egress_only_gateway_id     = ""
-    gateway_id                 = ""
-    instance_id                = ""
-    nat_gateway_id             = ""
-    vpc_peering_connection_id  = ""
-    network_interface_id       = ""
+    cidr_block                = ""
+    ipv6_cidr_block           = ""
+    egress_only_gateway_id    = ""
+    gateway_id                = ""
+    instance_id               = ""
+    nat_gateway_id            = ""
+    vpc_peering_connection_id = ""
+    network_interface_id      = ""
+  \}
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
   \}
 \}
 endsnippet
 
-snippet srAwsDefaultSecurityGroup
+snippet srAwsDefaultSecurityGroup "Default Security Group" b
+// XXX: Advanced resource, please read the docs.
 resource "aws_default_security_group" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsDefaultSecurityGroup
+snippet frAwsDefaultSecurityGroup "Default Security Group" b
+// XXX: Advanced resource, please read the docs.
 resource "aws_default_security_group" "${1:name}" \{
+  name        = "${1}"
+  vpc_id      = "\$\{aws_vpc.${2:foo}.vpc\}"
+  ingress \{
+    from_port         = 1
+    to_port           = 1
+    protocol          = ""
+    cidr_blocks       = [""]
+    ipv6_cidr_blocks  = [""]
+    security_groups   = [""]
+    self              = true|false
+  \}
+  egress \{
+    from_port         = 1
+    to_port           = 1
+    protocol          = ""
+    cidr_blocks       = [""]
+    ipv6_cidr_blocks  = [""]
+    prefix_list_ids   = [""]
+    security_groups   = [""]
+    self              = true|false
+  \}
+\}
 \}
 endsnippet
 
-snippet srAwsDirectoryServiceDirectory
+snippet srAwsDirectoryServiceDirectory "Microsoft Directory in AWS Directory Service" b
 resource "aws_directory_service_directory" "${1:name}" \{
-  name     = ""
-  password = ""
+  name     = "${2:fqdn}"
+  password = "${3:foo}"
 \}
 endsnippet
 
-snippet frAwsDirectoryServiceDirectory
+snippet frAwsDirectoryServiceDirectory "Microsoft Directory in AWS Directory Service" b
 resource "aws_directory_service_directory" "${1:name}" \{
-  name             = ""
-  password         = ""
+  name             = "${2:fqdn}"
+  password         = "${3:foo}"
   size             = ""
   alias            = ""
   description      = ""
   short_name       = ""
   vpc_settings \{
-    subnet_ids  = [""]
-    vpc_id      = ""
+    vpc_id      = "\$\{aws_vpc.${4:bar}.id\}"
+    subnet_ids  = ["\$\{aws_subnet.${5:baz}.id\}"]
   \}
   connect_settings \{
+    vpc_id             = "\$\{aws_vpc.${4:bar}.id\}"
+    subnet_ids         = ["\$\{aws_subnet.${5}.id\}"]
     customer_username  = ""
     customer_dns_ips   = [""]
-    subnet_ids         = [""]
-    vpc_id             = ""
   \}
   enable_sso       = true|false
-  type             = ""
+  type             = "SimpleAD"|"MicrosoftAD"
 \}
 endsnippet
 
-snippet srAwsDmsCertificate
+snippet srAwsDmsCertificate "Data Migration Service Certificate" b
 resource "aws_dms_certificate" "${1:name}" \{
-  certificate_id = ""
+  certificate_id = "${2:foo}"
 \}
 endsnippet
 
-snippet frAwsDmsCertificate
+snippet frAwsDmsCertificate "Data Migration Service Certificate" b
 resource "aws_dms_certificate" "${1:name}" \{
-  certificate_id     = ""
+  certificate_id     = "${2:foo}"
   certificate_pem    = ""
   certificate_wallet = ""
 \}
 endsnippet
 
-snippet srAwsDmsEndpoint
+snippet srAwsDmsEndpoint "Data Migration Service endpoint" b
 resource "aws_dms_endpoint" "${1:name}" \{
-  endpoint_id   = ""
-  endpoint_type = ""
-  engine_name   = ""
-  password      = ""
+  endpoint_id   = "${1}"
+  endpoint_type = "source"|"target"
+  engine_name   = "${2:foo}"
+  password      = "${3:bar}"
   port          = 1
-  server_name   = ""
-  username      = ""
+  server_name   = "${4:baz}"
+  username      = "${5:qux}"
 \}
 endsnippet
 
-snippet frAwsDmsEndpoint
+snippet frAwsDmsEndpoint "Data Migration Service endpoint" b
 resource "aws_dms_endpoint" "${1:name}" \{
-  endpoint_id                 = ""
-  endpoint_type               = ""
-  engine_name                 = ""
-  password                    = ""
+  endpoint_id   = "${1}"
+  endpoint_type = "source"|"target"
+  engine_name                 = "${2:foo}"
+  password                    = "${3:bar}"
   port                        = 1
-  server_name                 = ""
-  username                    = ""
+  server_name                 = "${4:baz}"
+  username                    = "${5:qux}"
   certificate_arn             = ""
   database_name               = ""
   extra_connection_attributes = ""
   kms_key_arn                 = ""
   ssl_mode                    = ""
   tags \{
-      key = "\$\{var.SOMEVAL\}"
+    key = "\$\{var.SOMEVAL\}"
   \}
 \}
 endsnippet
 
-snippet srAwsDmsReplicationInstance
+snippet srAwsDmsReplicationInstance "Data Migration Service Instance" b
 resource "aws_dms_replication_instance" "${1:name}" \{
   replication_instance_class = ""
-  replication_instance_id    = ""
+  replication_instance_id = "${1}"
 \}
 endsnippet
 
-snippet frAwsDmsReplicationInstance
+snippet frAwsDmsReplicationInstance "Data Migration Service Instance" b
 resource "aws_dms_replication_instance" "${1:name}" \{
-  replication_instance_class       = ""
-  replication_instance_id          = ""
-  allocated_storage                = 1
-  apply_immediately                = true|false
-  auto_minor_version_upgrade       = true|false
-  availability_zone                = ""
-  engine_version                   = ""
-  kms_key_arn                      = ""
-  multi_az                         = true|false
-  preferred_maintenance_window     = ""
-  publicly_accessible              = true|false
-  replication_subnet_group_id      = ""
+  replication_instance_class   = ""
+  replication_instance_id      = "${1}"
+  allocated_storage            = 50
+  apply_immediately            = true|false
+  auto_minor_version_upgrade   = true|false
+  availability_zone            = ""
+  engine_version               = ""
+  kms_key_arn                  = ""
+  multi_az                     = true|false
+  preferred_maintenance_window = "sun:10:30-sun:14:30"
+  publicly_accessible          = true|false
+  replication_subnet_group_id  = "\$\{aws_dms_replication_subnet_group.${2:foo}}"
   tags \{
-      key = "\$\{var.SOMEVAL\}"
+    key = "\$\{var.SOMEVAL\}"
   \}
-  vpc_security_group_ids           = [""]
+  vpc_security_group_ids       = ["\$\{aws_vpc.${3:bar}.id\}"]
 \}
 endsnippet
 
-snippet srAwsDmsReplicationSubnetGroup
+snippet srAwsDmsReplicationSubnetGroup "Data Migration Service subnet group" b
 resource "aws_dms_replication_subnet_group" "${1:name}" \{
-  replication_subnet_group_description = ""
-  replication_subnet_group_id          = ""
-  subnet_ids                           = [""]
+  replication_subnet_group_description = "${2:foo}"
+  replication_subnet_group_id          = "${1}"
+  subnet_ids                           = ["\$\{aws_subnet.${3:bar}.id\}"]
 \}
 endsnippet
 
-snippet frAwsDmsReplicationSubnetGroup
+snippet frAwsDmsReplicationSubnetGroup "Data Migration Service subnet group" b
 resource "aws_dms_replication_subnet_group" "${1:name}" \{
-  replication_subnet_group_description = ""
-  replication_subnet_group_id          = ""
-  subnet_ids                           = [""]
+  replication_subnet_group_description = "${2:foo}"
+  replication_subnet_group_id          = "${1}"
+  subnet_ids                           = ["\$\{aws_subnet.${3:bar}.id\}"]
   tags \{
-      key = "\$\{var.SOMEVAL\}"
+    key = "\$\{var.SOMEVAL\}"
   \}
 \}
 endsnippet
 
-snippet srAwsDmsReplicationTask
+snippet srAwsDmsReplicationTask "Data Migration Service Replication Task" b
 resource "aws_dms_replication_task" "${1:name}" \{
   migration_type           = ""
-  replication_instance_arn = ""
-  replication_task_id      = ""
-  source_endpoint_arn      = ""
+  replication_instance_arn  = "\$\{aws_dms_replication_instance.${2:foo}.replication_instance_arn\}"
+  replication_task_id       = "${1}"
+  source_endpoint_arn       = "\$\{aws_dms_endpoint.${3:bar}.endpoint_arn\}"
   table_mappings           = ""
-  target_endpoint_arn      = ""
+  target_endpoint_arn       = "\$\{aws_dms_endpoint.${4:baz}.endpoint_arn\}"
 \}
 endsnippet
 
-snippet frAwsDmsReplicationTask
+snippet frAwsDmsReplicationTask "Data Migration Service Replication Task" b
 resource "aws_dms_replication_task" "${1:name}" \{
   migration_type            = ""
-  replication_instance_arn  = ""
-  replication_task_id       = ""
-  source_endpoint_arn       = ""
+  replication_instance_arn  = "\$\{aws_dms_replication_instance.${2:foo}.replication_instance_arn\}"
+  replication_task_id       = "${1}"
+  source_endpoint_arn       = "\$\{aws_dms_endpoint.${3:bar}.endpoint_arn\}"
   table_mappings            = ""
-  target_endpoint_arn       = ""
+  target_endpoint_arn       = "\$\{aws_dms_endpoint.${4:baz}.endpoint_arn\}"
   cdc_start_time            = ""
   replication_task_settings = ""
   tags \{
-      key = "\$\{var.SOMEVAL\}"
+    key = "\$\{var.SOMEVAL\}"
   \}
 \}
 endsnippet

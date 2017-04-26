@@ -5,7 +5,7 @@ Compatible with Terraform 0.9.3
 You need to have vim-snippets and UltiSnips installed which in turn means you need python2 or python3 and vim compiled with your python version.
 
 
-## Status 42% complete
+## Status 45% complete
 This is a very early stage, if you are a brave soul and find inconsistencies please let me know.
 As you might suspect, this is not me typing the snippets, a script provides general scaffolding and structure of the different resources or data. For every snippet I have gone through the docs to verify the use and try to be as close to docs as possible (which is mostly the reason to do this, get acquainted with the code and read the docs).
 
