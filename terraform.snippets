@@ -3442,32 +3442,54 @@ resource "aws_elastic_transcoder_preset" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsElasticacheCluster
+snippet srAwsElasticacheCluster "ElastiCache Cluster" b
 resource "aws_elasticache_cluster" "${1:name}" \{
-  cluster_id      = ""
-  num_cache_nodes = 1
+  cluster_id           = "${1}"
+  engine               = "${2:foo}"
+  node_type            = "${3:bar}"
+  num_cache_nodes      = 1
+  port                 = 11211
 \}
 endsnippet
 
-snippet frAwsElasticacheCluster
+snippet frAwsElasticacheCluster "ElastiCache Cluster" b
 resource "aws_elasticache_cluster" "${1:name}" \{
-  cluster_id             = ""
-  num_cache_nodes        = 1
-  az_mode                = ""
-  availability_zone      = ""
+  cluster_id               = "${1}"
+  engine                   = "${2:foo}"
+  engine_version           = ""
+  node_type                = "${3:bar}"
+  parameter_group_name     = "${4:baz}"
+  subnet_group_name        = ""
+  port                     = 11211
+  num_cache_nodes          = 1
+  az_mode                  = ""
+  availability_zones       = [""]
+  subnet_group_name        = ""   # VPC Only
+  security_group_names     = [""] # EC2 Classic Only
+  security_group_ids       = [""] # VPC Only (one element only).
+  snapshot_arns            = [""]
+  snapshot_window          = "05:00-09:00"
+  snapshot_name            = ""
+  maintenance_window       = "sun:05:00-sun:09:00" # Minimum 60 mins range.
+  notification_topic_arn   = ""
+  snapshot_retention_limit = 15
+  apply_immediately        = true|false
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
 \}
 endsnippet
 
-snippet srAwsElasticacheParameterGroup
+snippet srAwsElasticacheParameterGroup "ElastiCache Parameter Group" b
 resource "aws_elasticache_parameter_group" "${1:name}" \{
-  name   = ""
+  name   = "${1}"
   family = ""
 \}
 endsnippet
 
-snippet frAwsElasticacheParameterGroup
+snippet frAwsElasticacheParameterGroup "ElastiCache Parameter Group" b
 resource "aws_elasticache_parameter_group" "${1:name}" \{
-  name        = ""
+  name        = "${1}"
   family      = ""
   description = ""
   parameter \{
@@ -3477,55 +3499,76 @@ resource "aws_elasticache_parameter_group" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsElasticacheReplicationGroup
+snippet srAwsElasticacheReplicationGroup "ElastiCache Replication Group" b
 resource "aws_elasticache_replication_group" "${1:name}" \{
-  replication_group_id          = ""
-  replication_group_description = ""
+  replication_group_id          = "${2:foo}"
+  replication_group_description = "${3:bar}"
+  node_type                     = ""
   number_cache_clusters         = 1
+  port                 = 11211
 \}
 endsnippet
 
-snippet frAwsElasticacheReplicationGroup
+snippet frAwsElasticacheReplicationGroup "ElastiCache Replication Group" b
 resource "aws_elasticache_replication_group" "${1:name}" \{
-  replication_group_id           = ""
-  replication_group_description  = ""
-  number_cache_clusters          = 1
-  automatic_failover_enabled     = true|false
-  auto_minor_version_upgrade     = true|false
+  replication_group_id          = "${2:foo}"
+  replication_group_description = "${3:bar}"
+  node_type                     = ""
+  number_cache_clusters         = 1
+  availability_zones            = [""]
+  engine                        = ""
+  engine_version                = ""
+  parameter_group_name          = ""
+  subnet_group_name             = ""
+  security_group_names          = [""] # EC2 Classic Only
+  security_group_ids            = [""] # VPC Only
+  snapshot_arns                 = [""] # One element only.
+  snapshot_name                 = ""
+  snapshot_window               = "05:00-09:00"
+  maintenance_window            = "sun:05:00-sun:09:00" # Minimum 60 mins range.
+  port                          = 11211
+  notification_topic_arn        = ""
+  snapshot_retention_limit      = 15
+  apply_immediately             = true|false
+  automatic_failover_enabled    = true|false
+  auto_minor_version_upgrade    = true|false
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
 \}
 endsnippet
 
-snippet srAwsElasticacheSecurityGroup
+snippet srAwsElasticacheSecurityGroup "ElastiCache Security Group" b
 resource "aws_elasticache_security_group" "${1:name}" \{
-  name                 = ""
-  security_group_names = [""]
+  name                 = "${1}"
+  security_group_names = ["\$\{aws_security_group.${2:foo}.name\}"]
 \}
 endsnippet
 
-snippet frAwsElasticacheSecurityGroup
+snippet frAwsElasticacheSecurityGroup "ElastiCache Security Group" b
 resource "aws_elasticache_security_group" "${1:name}" \{
-  name                 = ""
-  security_group_names = [""]
+  name                 = "${1}"
+  security_group_names = ["\$\{aws_security_group.${2:foo}.name\}"]
   description          = ""
 \}
 endsnippet
 
-snippet srAwsElasticacheSubnetGroup
+snippet srAwsElasticacheSubnetGroup "ElastiCache Subnet Group" b
 resource "aws_elasticache_subnet_group" "${1:name}" \{
-  name       = ""
-  subnet_ids = [""]
+  name       = "${1}"
+  subnet_ids = ["\$\{aws_subnet.${2:foo}.id\}"]
 \}
 endsnippet
 
-snippet frAwsElasticacheSubnetGroup
+snippet frAwsElasticacheSubnetGroup "ElastiCache Subnet Group" b
 resource "aws_elasticache_subnet_group" "${1:name}" \{
-  name        = ""
-  subnet_ids  = [""]
+  name        = "${1}"
+  subnet_ids = ["\$\{aws_subnet.${2:foo}.id\}"]
   description = ""
 \}
 endsnippet
 
-snippet srAwsElb
+snippet srAwsElb "Elastic Load Balancer" b
 resource "aws_elb" "${1:name}" \{
   listener \{
     instance_port       = 1
@@ -3534,33 +3577,34 @@ resource "aws_elb" "${1:name}" \{
     lb_protocol         = ""
     ssl_certificate_id  = ""
   \}
+  subnets = [""] # Required for VPC ELB
 \}
 endsnippet
 
-snippet frAwsElb
+snippet frAwsElb "Elastic Load Balancer" b
 resource "aws_elb" "${1:name}" \{
   listener \{
     instance_port       = 1
     instance_protocol   = ""
     lb_port             = 1
     lb_protocol         = ""
-    ssl_certificate_id  = ""
+    ssl_certificate_id  = "arn:aws:iam::123456789012:server-certificate/certName"
   \}
-  name                        = ""
+  name                        = "${1}" # Conflicts with name_prefix
   name_prefix                 = ""
   internal                    = true|false
   cross_zone_load_balancing   = true|false
   availability_zones          = [""]
-  instances                   = [""]
-  security_groups             = [""]
+  #instances                   = ["\$\{aws_instance.nono.id\}"] # Provided as attachment below
+  security_groups             = [""] # VPC Only
   source_security_group       = ""
-  subnets                     = [""]
-  idle_timeout                = 1
+  subnets                     = [""] # Required for VPC ELB
+  idle_timeout                = 60
   connection_draining         = true|false
-  connection_draining_timeout = 1
+  connection_draining_timeout = 300
   access_logs \{
-    interval       = 1
-    bucket         = ""
+    interval       = 60
+    bucket         = "\$\{aws_s3_bucket.${2:foo}.bucket\}"
     bucket_prefix  = ""
     enabled        = true|false
   \}
@@ -3571,100 +3615,110 @@ resource "aws_elb" "${1:name}" \{
     interval             = 1
     timeout              = 1
   \}
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
+\}
+resource "aws_elb_attachment" "${1}" \{
+  elb      = "\$\{aws_elb.${1}.name\}"
+  instance = "\$\{aws_instance.${3:bar}.id\}"
 \}
 endsnippet
 
-snippet srAwsElbAttachment
+snippet srAwsElbAttachment "Elastic Load Balancer instance Attachment" b
 resource "aws_elb_attachment" "${1:name}" \{
-  elb      = ""
-  instance = ""
+  elb      = "\$\{aws_elb.${2:foo}.name\}"
+  instance = "\$\{aws_instance.${3:bar}.id\}"
 \}
 endsnippet
 
-snippet frAwsElbAttachment
+snippet frAwsElbAttachment "Elastic Load Balancer instance Attachment" b
 resource "aws_elb_attachment" "${1:name}" \{
-  elb      = ""
-  instance = ""
+  elb      = "\$\{aws_elb.${2:foo}.name\}"
+  instance = "\$\{aws_instance.${3:bar}.id\}"
 \}
 endsnippet
 
-snippet srAwsFlowLog
+snippet srAwsFlowLog "Network Flow Log Capture" b
 resource "aws_flow_log" "${1:name}" \{
-  iam_role_arn   = ""
-  log_group_name = ""
-  traffic_type   = ""
+  iam_role_arn   = "\$\{aws_iam_role.${2:foo}.arn\}"
+  log_group_name = "\$\{aws_cloudwatch_log_group.${3:bar}.name\}"
+  traffic_type   = "ACCEPT"|"REJECT"|"ALL"
 \}
 endsnippet
 
-snippet frAwsFlowLog
+snippet frAwsFlowLog "Network Flow Log Capture" b
 resource "aws_flow_log" "${1:name}" \{
-  iam_role_arn   = ""
-  log_group_name = ""
-  traffic_type   = ""
-  vpc_id         = ""
+  iam_role_arn   = "\$\{aws_iam_role.${2:foo}.arn\}"
+  log_group_name = "\$\{aws_cloudwatch_log_group.${3:bar}.name\}"
+  traffic_type   = "ACCEPT"|"REJECT"|"ALL"
+  vpc_id         = "\$\{aws_vpc.${4:baz}.id\}"
   subnet_id      = ""
   eni_id         = ""
 \}
 endsnippet
 
-snippet srAwsGlacierVault
+snippet srAwsGlacierVault "Glacier Vault" b
 resource "aws_glacier_vault" "${1:name}" \{
-  name = ""
+  name = "${1}"
 \}
 endsnippet
 
-snippet frAwsGlacierVault
+snippet frAwsGlacierVault "Glacier Vault" b
 resource "aws_glacier_vault" "${1:name}" \{
-  name          = ""
+  name          = "${1}"
   access_policy = ""
   notification \{
-    events     = [""]
-    sns_topic  = ""
+    events     = ["ArchiveRetrievalCompleted", "InventoryRetrievalCompleted"]
+    sns_topic  = "\$\{aws_sns_topic.${{2:foo}.arn\}"
+  \}
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
   \}
 \}
 endsnippet
 
-snippet srAwsIAMServerCertificate
+snippet srAwsIAMServerCertificate "IAM Server Certificates upload" b
 resource "aws_iam_server_certificate" "${1:name}" \{
-  certificate_body = ""
-  private_key      = ""
+  certificate_body = "\$\{file("self-ca-cert.pem")\}" # UNIX line breaks, only one cert.
+  private_key      = "\$\{file("test-key.pem")\}"     # UNIX line breaks
 \}
 endsnippet
 
-snippet frAwsIAMServerCertificate
+snippet frAwsIAMServerCertificate "IAM Server Certificate upload" b
 resource "aws_iam_server_certificate" "${1:name}" \{
-  certificate_body  = ""
-  private_key       = ""
+  certificate_body  = "\$\{file("self-ca-cert.pem")\}" # UNIX line breaks, only one cert.
+  private_key       = "\$\{file("test-key.pem")\}"     # UNIX line breaks
   certificate_chain = ""
   path              = ""
-  name              = ""
+  name              = "${1}" # Conflicts with name_prefix
   name_prefix       = ""
   arn               = ""
 \}
 endsnippet
 
-snippet srAwsIamAccessKey
+snippet srAwsIamAccessKey "IAM Access Key" b
 resource "aws_iam_access_key" "${1:name}" \{
-  user = ""
+  user = "\$\{aws_iam_user.${2:foo}.name\}"
 \}
 endsnippet
 
-snippet frAwsIamAccessKey
+snippet frAwsIamAccessKey "IAM Access Key" b
 resource "aws_iam_access_key" "${1:name}" \{
-  user              = ""
-  pgp_key           = ""
+  user    = "\$\{aws_iam_user.${2:foo}.name\}"
+  pgp_key = "keybase:${2:foo}"
 \}
 endsnippet
 
-snippet srAwsIamAccountAlias
+snippet srAwsIamAccountAlias "Account Alias" b
 resource "aws_iam_account_alias" "${1:name}" \{
-  account_alias = ""
+  account_alias = "${1}"
 \}
 endsnippet
 
-snippet frAwsIamAccountAlias
+snippet frAwsIamAccountAlias "Account Alias" b
 resource "aws_iam_account_alias" "${1:name}" \{
-  account_alias = ""
+  account_alias = "${1}"
 \}
 endsnippet
 
@@ -3687,246 +3741,247 @@ resource "aws_iam_account_password_policy" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsIamGroup
+snippet srAwsIamGroup "IAM Group" b
 resource "aws_iam_group" "${1:name}" \{
-  name = ""
+  name = "${1}"
 \}
 endsnippet
 
-snippet frAwsIamGroup
+snippet frAwsIamGroup "IAM Group" b
 resource "aws_iam_group" "${1:name}" \{
-  name      = ""
-  path      = ""
+  name = "${1}"
+  path = ""
 \}
 endsnippet
 
-snippet srAwsIamGroupMembership
+snippet srAwsIamGroupMembership "IAM Group Membership" b
 resource "aws_iam_group_membership" "${1:name}" \{
-  name  = ""
-  users = [""]
-  group = ""
+  name  = "${1}"
+  users = ["\$\{aws_iam_user.${2:foo}.name\}"]
+  group = "\$\{aws_iam_group.${3:bar}.name\}"
 \}
 endsnippet
 
-snippet frAwsIamGroupMembership
+snippet frAwsIamGroupMembership "IAM Group Membership" b
 resource "aws_iam_group_membership" "${1:name}" \{
-  name  = ""
-  users = [""]
-  group = ""
+  name  = "${1}"
+  users = ["\$\{aws_iam_user.${2:foo}.name\}"]
+  group = "\$\{aws_iam_group.${3:bar}.name\}"
 \}
 endsnippet
 
-snippet srAwsIamGroupPolicy
+snippet srAwsIamGroupPolicy "IAM Group Policy" b
 resource "aws_iam_group_policy" "${1:name}" \{
   policy = ""
-  group  = ""
+  group  = "\$\{aws_iam_group.${2:foo}.id\}"
 \}
 endsnippet
 
-snippet frAwsIamGroupPolicy
+snippet frAwsIamGroupPolicy "IAM Group Policy" b
 resource "aws_iam_group_policy" "${1:name}" \{
   policy      = ""
-  group       = ""
-  name        = ""
+  group       = "\$\{aws_iam_group.${2:foo}.id\}"
+  name        = "${1}" # Conflicts with name_prefix
   name_prefix = ""
 \}
 endsnippet
 
-snippet srAwsIamGroupPolicyAttachment
+snippet srAwsIamGroupPolicyAttachment "Attaches IAM Policy to IAM Group" b
 resource "aws_iam_group_policy_attachment" "${1:name}" \{
-  group      = ""
-  policy_arn = ""
+  group      = "\$\{aws_iam_group.${2:foo}.id\}"
+  policy_arn = "\$\{aws_iam_policy.${3:bar}.arn\}"
 \}
 endsnippet
 
-snippet frAwsIamGroupPolicyAttachment
+snippet frAwsIamGroupPolicyAttachment "Attaches IAM Policy to IAM Group" b
 resource "aws_iam_group_policy_attachment" "${1:name}" \{
-  group      = ""
-  policy_arn = ""
+  group      = "\$\{aws_iam_group.${2:foo}.id\}"
+  policy_arn = "\$\{aws_iam_policy.${3:bar}.arn\}"
 \}
 endsnippet
 
-snippet srAwsIamInstanceProfile
+snippet srAwsIamInstanceProfile "IAM instance Profile" b
 resource "aws_iam_instance_profile" "${1:name}" \{
+  role = ""
 \}
 endsnippet
 
-snippet frAwsIamInstanceProfile
+snippet frAwsIamInstanceProfile "IAM instance Profile" b
 resource "aws_iam_instance_profile" "${1:name}" \{
-  name        = ""
+  name        = "${1}" # Conflicts with name_prefix
   name_prefix = ""
-  path        = ""
-  roles       = [""]
+  path        = "/"
+  roles       = [""] # Deprecated
   role        = ""
 \}
 endsnippet
 
-snippet srAwsIamPolicy
+snippet srAwsIamPolicy "IAM policy" b
 resource "aws_iam_policy" "${1:name}" \{
-  policy = ""
+  policy = "\$\{file("policy.json")\}"
 \}
 endsnippet
 
-snippet frAwsIamPolicy
+snippet frAwsIamPolicy "IAM policy" b
 resource "aws_iam_policy" "${1:name}" \{
-  policy      = ""
+  policy      = "\$\{file("policy.json")\}"
   description = ""
-  path        = ""
-  name        = ""
+  path        = "/"
+  name        = "${1}" # Conflicts with name_prefix
   name_prefix = ""
 \}
 endsnippet
 
-snippet srAwsIamPolicyAttachment
+snippet srAwsIamPolicyAttachment "Managed IAM Policy Attachment" b
 resource "aws_iam_policy_attachment" "${1:name}" \{
-  name       = ""
-  policy_arn = ""
+  name       = "${1}"
+  policy_arn = "\$\{aws_iam_policy.${2:foo}.arn\}"
 \}
 endsnippet
 
-snippet frAwsIamPolicyAttachment
+snippet frAwsIamPolicyAttachment "Managed IAM Policy Attachment" b
 resource "aws_iam_policy_attachment" "${1:name}" \{
-  name       = ""
-  policy_arn = ""
-  users      = [""]
-  roles      = [""]
-  groups     = [""]
+  name       = "${1}"
+  policy_arn = "\$\{aws_iam_policy.${2:foo}.arn\}"
+  users      = ["\$\{aws_iam_user.${3:user}.name\}"]
+  roles      = ["\$\{aws_iam_role.${4:role}.name\}"]
+  groups     = ["\$\{aws_iam_group.${5:group}.name\}"]
 \}
 endsnippet
 
-snippet srAwsIamRole
+snippet srAwsIamRole "IAM Role" b
 resource "aws_iam_role" "${1:name}" \{
-  assume_role_policy = ""
+  assume_role_policy = "\$\{data.aws_iam_policy_document.${2:foo}.json\}"
 \}
 endsnippet
 
-snippet frAwsIamRole
+snippet frAwsIamRole "IAM Role" b
 resource "aws_iam_role" "${1:name}" \{
-  assume_role_policy = ""
-  name               = ""
+  assume_role_policy = "\$\{data.aws_iam_policy_document.${2:foo}.json\}"
+  name               = "${1}" # Conflicts with name_prefix
   name_prefix        = ""
-  path               = ""
+  path               = "/"
 \}
 endsnippet
 
-snippet srAwsIamRolePolicy
+snippet srAwsIamRolePolicy "IAM Role Policy" b
 resource "aws_iam_role_policy" "${1:name}" \{
-  policy = ""
-  role   = ""
+  policy = "\$\{file("policy.json")\}"
+  role   = "\$\{aws_iam_role.${2:foo}.id\}"
 \}
 endsnippet
 
-snippet frAwsIamRolePolicy
+snippet frAwsIamRolePolicy "IAM Role Policy" b
 resource "aws_iam_role_policy" "${1:name}" \{
-  policy      = ""
-  role        = ""
-  name        = ""
+  policy      = "\$\{file("policy.json")\}"
+  role        = "\$\{aws_iam_role.${2:foo}.id\}"
+  name        = "${1}" # Conflicts with name_prefix
   name_prefix = ""
 \}
 endsnippet
 
-snippet srAwsIamRolePolicyAttachment
+snippet srAwsIamRolePolicyAttachment "IAM Role Policy Attachment" b
 resource "aws_iam_role_policy_attachment" "${1:name}" \{
-  role       = ""
-  policy_arn = ""
+  role       = "\$\{aws_iam_role.${2:foo}.name\}"
+  policy_arn = "\$\{aws_iam_policy.${3:bar}.arn\}"
 \}
 endsnippet
 
-snippet frAwsIamRolePolicyAttachment
+snippet frAwsIamRolePolicyAttachment "IAM Role Policy Attachment" b
 resource "aws_iam_role_policy_attachment" "${1:name}" \{
-  role       = ""
-  policy_arn = ""
+  role       = "\$\{aws_iam_role.${2:foo}.name\}"
+  policy_arn = "\$\{aws_iam_policy.${3:bar}.arn\}"
 \}
 endsnippet
 
-snippet srAwsIamSamlProvider
+snippet srAwsIamSamlProvider "IAM SAML provider" b
 resource "aws_iam_saml_provider" "${1:name}" \{
-  name                   = ""
-  saml_metadata_document = ""
+  name                   = "${1}"
+  saml_metadata_document = "\$\{file("saml-metadata.xml")\}"
 \}
 endsnippet
 
-snippet frAwsIamSamlProvider
+snippet frAwsIamSamlProvider "IAM SAML provider" b
 resource "aws_iam_saml_provider" "${1:name}" \{
-  name                   = ""
-  saml_metadata_document = ""
+  name                   = "${1}"
+  saml_metadata_document = "\$\{file("saml-metadata.xml")\}"
 \}
 endsnippet
 
-snippet srAwsIamUser
+snippet srAwsIamUser "IAM user" b
 resource "aws_iam_user" "${1:name}" \{
-  name = ""
+  name = "${1}"
 \}
 endsnippet
 
-snippet frAwsIamUser
+snippet frAwsIamUser "IAM user" b
 resource "aws_iam_user" "${1:name}" \{
-  name          = ""
-  path          = ""
+  name          = "${1}"
+  path          = "/"
   force_destroy = true|false
 \}
 endsnippet
 
-snippet srAwsIamUserLoginProfile
+snippet srAwsIamUserLoginProfile "One time creation of a IAM user login profile" b
 resource "aws_iam_user_login_profile" "${1:name}" \{
-  user    = ""
-  pgp_key = ""
+  user    = "${1}"
+  pgp_key = "keybase:${2:foo}"
 \}
 endsnippet
 
-snippet frAwsIamUserLoginProfile
+snippet frAwsIamUserLoginProfile "One time creation of a IAM user login profile" b
 resource "aws_iam_user_login_profile" "${1:name}" \{
-  user                    = ""
-  pgp_key                 = ""
+  user                    = "${1}"
+  pgp_key                 = "keybase:${2:foo}"
   password_reset_required = true|false
   password_length         = 1
 \}
 endsnippet
 
-snippet srAwsIamUserPolicy
+snippet srAwsIamUserPolicy "IAM User Policy" b
 resource "aws_iam_user_policy" "${1:name}" \{
-  policy = ""
-  user   = ""
+  policy = "\$\{file("policy.json")\}"
+  user   = "\$\{aws_iam_user.${3:bar}.name\}"
 \}
 endsnippet
 
-snippet frAwsIamUserPolicy
+snippet frAwsIamUserPolicy "IAM User Policy" b
 resource "aws_iam_user_policy" "${1:name}" \{
-  policy      = ""
-  user        = ""
-  name        = ""
+  policy      = "\$\{file("policy.json")\}"
+  user        = "\$\{aws_iam_user.${3:bar}.name\}"
+  name        = "${1}" # Conflicts with name_prefix
   name_prefix = ""
 \}
 endsnippet
 
-snippet srAwsIamUserPolicyAttachment
+snippet srAwsIamUserPolicyAttachment "IAM User Policy Attachment" b
 resource "aws_iam_user_policy_attachment" "${1:name}" \{
-  user       = ""
-  policy_arn = ""
+  user       = "\$\{aws_iam_user.${2:foo}.name\}"
+  policy_arn = "\$\{aws_iam_policy.policy.arn\}"
 \}
 endsnippet
 
-snippet frAwsIamUserPolicyAttachment
+snippet frAwsIamUserPolicyAttachment "IAM User Policy Attachment" b
 resource "aws_iam_user_policy_attachment" "${1:name}" \{
-  user       = ""
-  policy_arn = ""
+  user       = "\$\{aws_iam_user.${2:foo}.name\}"
+  policy_arn = "\$\{aws_iam_policy.policy.arn\}"
 \}
 endsnippet
 
-snippet srAwsIamUserSshKey
+snippet srAwsIamUserSshKey "Upload a public SSH key for an AMI user" b
 resource "aws_iam_user_ssh_key" "${1:name}" \{
-  username   = ""
-  public_key = ""
-  encoding   = ""
+  username   = "\$\{aws_iam_user.${2:foo}.name\}"
+  public_key = "ssh-rsa ... user@host"
+  encoding   = "SSH"|"PEM"
 \}
 endsnippet
 
-snippet frAwsIamUserSshKey
+snippet frAwsIamUserSshKey "Upload a public SSH key for an AMI user" b
 resource "aws_iam_user_ssh_key" "${1:name}" \{
-  username          = ""
-  public_key        = ""
-  encoding          = ""
-  status            = ""
+  username   = "\$\{aws_iam_user.${2:foo}.name\}"
+  public_key = "ssh-rsa ... user@host"
+  encoding   = "SSH"|"PEM"
+  status     = "ACTIVE"
 \}
 endsnippet
 
