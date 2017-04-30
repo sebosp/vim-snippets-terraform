@@ -2879,9 +2879,9 @@ resource "aws_dms_replication_task" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsDynamoDbTable
+snippet srAwsDynamoDbTable "DynamoDB Table" b
 resource "aws_dynamo_db_table" "${1:name}" \{
-  name           = ""
+  name           = "${1}"
   hash_key       = ""
   write_capacity = 1
   read_capacity  = 1
@@ -2892,9 +2892,9 @@ resource "aws_dynamo_db_table" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsDynamoDbTable
+snippet frAwsDynamoDbTable "DynamoDB Table" b
 resource "aws_dynamo_db_table" "${1:name}" \{
-  name                   = ""
+  name                   = "${1}"
   hash_key               = ""
   write_capacity         = 1
   read_capacity          = 1
@@ -2923,18 +2923,18 @@ resource "aws_dynamo_db_table" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsEMRCluster
+snippet srAwsEMRCluster "Elastic MapReduce Cluster" b
 resource "aws_emr_cluster" "${1:name}" \{
-  name                 = ""
+  name                 = "{1}"
   release_label        = ""
   master_instance_type = ""
   service_role         = ""
 \}
 endsnippet
 
-snippet frAwsEMRCluster
+snippet frAwsEMRCluster "Elastic MapReduce Cluster" b
 resource "aws_emr_cluster" "${1:name}" \{
-  name                              = ""
+  name                              = "{1}"
   release_label                     = ""
   master_instance_type              = ""
   service_role                      = ""
@@ -2946,12 +2946,12 @@ resource "aws_emr_cluster" "${1:name}" \{
   keep_job_flow_alive_when_no_steps = true|false
   ec2_attributes \{
     key_name                           = ""
-    subnet_id                          = ""
+    subnet_id                          = "\$\{aws_subnet.${:2foo}.id\}"
     additional_master_security_groups  = ""
     additional_slave_security_groups   = ""
-    emr_managed_master_security_group  = ""
-    emr_managed_slave_security_group   = ""
-    instance_profile                   = ""
+    emr_managed_master_security_group  = "\$\{aws_security_group.${3:bar}.id\}"
+    emr_managed_slave_security_group   = "\$\{aws_security_group.${4:baz}.id\}"
+    instance_profile                   = "\$\{aws_iam_instance_profile.${5:qux}.arn\}"
     service_access_security_group      = ""
   \}
   bootstrap_action \{
@@ -2962,19 +2962,22 @@ resource "aws_emr_cluster" "${1:name}" \{
   configurations                    = ""
   autoscaling_role                  = ""
   visible_to_all_users              = true|false
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
 \}
 endsnippet
 
-snippet srAwsEMRInstanceGroup
+snippet srAwsEMRInstanceGroup "Elastic MarReduce Cluster Instance Group" b
 resource "aws_emr_instance_group" "${1:name}" \{
-  cluster_id    = ""
+  cluster_id    = "\$\{aws_emr_cluster.${2:foo}.id\}"
   instance_type = ""
 \}
 endsnippet
 
-snippet frAwsEMRInstanceGroup
+snippet frAwsEMRInstanceGroup "Elastic MarReduce Cluster Instance Group" b
 resource "aws_emr_instance_group" "${1:name}" \{
-  cluster_id             = ""
+  cluster_id             = "\$\{aws_emr_cluster.${2:foo}.id\}"
   instance_type          = ""
   instance_count         = 1
   name                   = ""
@@ -2988,120 +2991,127 @@ resource "aws_emr_instance_group" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsEbsSnapshot
+snippet srAwsEbsSnapshot "EBS volume snapshot" b
 resource "aws_ebs_snapshot" "${1:name}" \{
-  volume_id = ""
+  volume_id = "\$\{aws_ebs_volume.${2:foo}.id\}"
 \}
 endsnippet
 
-snippet frAwsEbsSnapshot
+snippet frAwsEbsSnapshot "EBS volume snapshot" b
 resource "aws_ebs_snapshot" "${1:name}" \{
-  volume_id              = ""
-  description            = ""
+  volume_id   = "\$\{aws_ebs_volume.${2:foo}.id\}"
+  description = ""
 \}
 endsnippet
 
-snippet srAwsEbsVolume
+snippet srAwsEbsVolume "EBS volume" b
 resource "aws_ebs_volume" "${1:name}" \{
-  availability_zone = ""
+  availability_zone = "${2:foo}"
+  size              = 40 # Either this or snapshot_id required
+  snapshot_id       = "" # Either this or size is required
 \}
 endsnippet
 
-snippet frAwsEbsVolume
+snippet frAwsEbsVolume "EBS volume" b
 resource "aws_ebs_volume" "${1:name}" \{
-  availability_zone = ""
+  availability_zone = "${2:foo}"
   encrypted         = true|false
   iops              = 1
   kms_key_id        = ""
-  size              = 1
-  snapshot_id       = ""
+  size              = 40 # Either this or snapshot_id required
+  snapshot_id       = "" # Either this or size is required
   type              = ""
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
 \}
 endsnippet
 
-snippet srAwsEcrRepository
+snippet srAwsEcrRepository "Elastic Container Registry Repository" b
 resource "aws_ecr_repository" "${1:name}" \{
-  name = ""
+  name = "${1}"
 \}
 endsnippet
 
-snippet frAwsEcrRepository
+snippet frAwsEcrRepository "Elastic Container Registry Repository" b
 resource "aws_ecr_repository" "${1:name}" \{
-  name           = ""
+  name = "${1}"
 \}
 endsnippet
 
-snippet srAwsEcrRepositoryPolicy
+snippet srAwsEcrRepositoryPolicy "Elastic Container Registry Repo Policy" b
 resource "aws_ecr_repository_policy" "${1:name}" \{
-  repository = ""
-  policy     = ""
+  repository = "${2:foo}"
+  policy     = "${3:bar}"
 \}
 endsnippet
 
-snippet frAwsEcrRepositoryPolicy
+snippet frAwsEcrRepositoryPolicy "Elastic Container Registry Repo Policy" b
 resource "aws_ecr_repository_policy" "${1:name}" \{
-  repository  = ""
-  policy      = ""
+  repository  = "${2:foo}"
+  policy      = "${3:bar}"
 \}
 endsnippet
 
-snippet srAwsEcsCluster
+snippet srAwsEcsCluster "ECS cluster" b
 resource "aws_ecs_cluster" "${1:name}" \{
-  name = ""
+  name = "${1}"
 \}
 endsnippet
 
-snippet frAwsEcsCluster
+snippet frAwsEcsCluster "ECS cluster" b
 resource "aws_ecs_cluster" "${1:name}" \{
-  name = ""
+  name = "${1}"
 \}
 endsnippet
 
-snippet srAwsEcsService
+snippet srAwsEcsService "ECS service" b
 resource "aws_ecs_service" "${1:name}" \{
-  name            = ""
-  task_definition = ""
+  depends_on      = ["aws_iam_role_policy.${2:foo}"]
+  name            = "${1}"
+  task_definition = "\$\{aws_ecs_task_definition.${3:bar}.arn\}"
 \}
 endsnippet
 
-snippet frAwsEcsService
+snippet frAwsEcsService "ECS service" b
 resource "aws_ecs_service" "${1:name}" \{
-  name                               = ""
-  task_definition                    = ""
-  cluster                            = ""
+  depends_on                         = ["aws_iam_role_policy.${2:foo}"]
+  name                               = "${1}"
+  task_definition                    = "\$\{aws_ecs_task_definition.${3:bar}.arn\}"
+  cluster                            = "${aws_ecs_cluster.${4:baz}.id}"
   desired_count                      = 1
-  iam_role                           = ""
+  iam_role                           = "\$\{aws_iam_role.${5:qux}.arn\}"
   deployment_maximum_percent         = 1
   deployment_minimum_healthy_percent = 1
   load_balancer \{
-    elb_name          = ""
-    target_group_arn  = ""
-    container_name    = ""
-    container_port    = 1
+    elb_name         = "\$\{aws_elb.${6:quz}.name\}"
+    target_group_arn = ""
+    container_name   = ""
+    container_port   = 1
   \}
   placement_strategy \{
-    type   = ""
-    field  = ""
+    type  = ""
+    field = ""
   \}
   placement_constraints \{
-    type        = ""
-    expression  = ""
+    type       = ""
+    expression = ""
   \}
 \}
 endsnippet
 
-snippet srAwsEcsTaskDefinition
+snippet srAwsEcsTaskDefinition "ECS Task Definition" b
 resource "aws_ecs_task_definition" "${1:name}" \{
-  family                = ""
-  container_definitions = ""
+  family                = "${1}"
+  container_definitions = "\$\{file("task-definitions/service.json")\}"
 \}
 endsnippet
 
-snippet frAwsEcsTaskDefinition
+snippet frAwsEcsTaskDefinition "ECS Task Definition" b
 resource "aws_ecs_task_definition" "${1:name}" \{
-  family                = ""
-  container_definitions = ""
-  task_role_arn         = ""
+  family                = "${1}"
+  container_definitions = "\$\{file("task-definitions/service.json")\}"
+  task_role_arn         = "\$\{aws_iam_role.${2:foo}.arn\}"
   network_mode          = ""
   volume \{
     name       = ""
@@ -3114,179 +3124,176 @@ resource "aws_ecs_task_definition" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsEfsFileSystem
+snippet srAwsEfsFileSystema "Elastic File System" b
 resource "aws_efs_file_system" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsEfsFileSystem
+snippet frAwsEfsFileSystema "Elastic File System" b
 resource "aws_efs_file_system" "${1:name}" \{
-  creation_token   = ""
-  reference_name   = ""
-  performance_mode = ""
+  creation_token   = "${1}"
+  #reference_name   = "" # Deprecated.
+  performance_mode = "generalPurpose"
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
 \}
 endsnippet
 
-snippet srAwsEfsMountTarget
+snippet srAwsEfsMountTarget "Elastic File System Mount Target" b
 resource "aws_efs_mount_target" "${1:name}" \{
-  file_system_id = ""
-  subnet_id      = ""
+  file_system_id = "\$\{aws_efs_file_system.${2:foo}.id\}"
+  subnet_id      = "\$\{aws_subnet.${3:bar}.id\}"
 \}
 endsnippet
 
-snippet frAwsEfsMountTarget
+snippet frAwsEfsMountTarget "Elastic File System Mount Target" b
 resource "aws_efs_mount_target" "${1:name}" \{
-  file_system_id       = ""
-  subnet_id            = ""
-  ip_address           = ""
-  security_groups      = [""]
+  file_system_id  = "\$\{aws_efs_file_system.${2:foo}.id\}"
+  subnet_id       = "\$\{aws_subnet.${3:bar}.id\}"
+  ip_address      = ""
+  security_groups = ["\$\{aws_security_group.${4:baz}.id\}"]
 \}
 endsnippet
 
-snippet srAwsEgressOnlyInternetGateway
+snippet srAwsEgressOnlyInternetGateway "IPv6 Egress-only Internet Gateway" b
 resource "aws_egress_only_internet_gateway" "${1:name}" \{
-  vpc_id = ""
+  vpc_id = "\$\{aws_vpc.${2:foo}.id\}"
 \}
 endsnippet
 
-snippet frAwsEgressOnlyInternetGateway
+snippet frAwsEgressOnlyInternetGateway "IPv6 Egress-only Internet Gateway" b
 resource "aws_egress_only_internet_gateway" "${1:name}" \{
-  vpc_id = ""
+  vpc_id = "\$\{aws_vpc.${2:foo}.id\}"
 \}
 endsnippet
 
-snippet srAwsEip
+snippet srAwsEip "Elastic IP" b
 resource "aws_eip" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsEip
+snippet frAwsEip "Elastic IP" b
 resource "aws_eip" "${1:name}" \{
   vpc                       = true|false
-  instance                  = ""
+  instance                  = "\$\{aws_instance.${2:foo}.id\}"
   network_interface         = ""
-  associate_with_private_ip = ""
+  associate_with_private_ip = "${3:bar}"
 \}
 endsnippet
 
-snippet srAwsEipAssociation
+snippet srAwsEipAssociation "EIP Association" b
 resource "aws_eip_association" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsEipAssociation
+snippet frAwsEipAssociation "EIP Association" b
 resource "aws_eip_association" "${1:name}" \{
-  allocation_id        = ""
+  allocation_id        = "\$\{aws_eip.${2:foo}.id\}"
   allow_reassociation  = true|false
-  instance_id          = ""
+  instance_id          = "\$\{aws_instance.${3:bar}.id\}"
   network_interface_id = ""
   private_ip_address   = ""
   public_ip            = ""
 \}
 endsnippet
 
-snippet srAwsElasticBeanstalkApplication
+snippet srAwsElasticBeanstalkApplication "Elastic Beanstalk Application" b
 resource "aws_elastic_beanstalk_application" "${1:name}" \{
-  name = ""
+  name = "${1}"
 \}
 endsnippet
 
-snippet frAwsElasticBeanstalkApplication
+snippet frAwsElasticBeanstalkApplication "Elastic Beanstalk Application" b
 resource "aws_elastic_beanstalk_application" "${1:name}" \{
-  name        = ""
+  name        = "${1}"
   description = ""
 \}
 endsnippet
 
-snippet srAwsElasticBeanstalkApplicationVersion
+snippet srAwsElasticBeanstalkApplicationVersion "Elastic Beanstalk Application Version" b
 resource "aws_elastic_beanstalk_application_version" "${1:name}" \{
-  application = ""
-  bucket      = ""
-  key         = ""
-  name        = ""
+  name        = "${1}"
+  application = "${2:foo}"
+  bucket      = "\$\{aws_s3_bucket.${3:bar}.id\}"
+  key         = "\$\{aws_s3_bucket_object.${4:baz}.id\}"
 \}
 endsnippet
 
-snippet frAwsElasticBeanstalkApplicationVersion
+snippet frAwsElasticBeanstalkApplicationVersion "Elastic Beanstalk Application Version" b
 resource "aws_elastic_beanstalk_application_version" "${1:name}" \{
-  application  = ""
-  bucket       = ""
-  key          = ""
-  name         = ""
+  name         = "${1}"
+  application  = "${2:foo}"
+  bucket       = "\$\{aws_s3_bucket.${3:bar}.id\}"
+  key          = "\$\{aws_s3_bucket_object.${4:baz}.id\}"
   description  = ""
   force_delete = true|false
 \}
 endsnippet
 
-snippet srAwsElasticBeanstalkConfigurationTemplate
+snippet srAwsElasticBeanstalkConfigurationTemplate "Elastic Beanstalk Configuration Template" b
 resource "aws_elastic_beanstalk_configuration_template" "${1:name}" \{
-  name        = ""
-  application = ""
+  name        = "${1}"
+  application = "\$\{aws_elastic_beanstalk_application.${2:foo}.name\}"
 \}
 endsnippet
 
-snippet frAwsElasticBeanstalkConfigurationTemplate
+snippet frAwsElasticBeanstalkConfigurationTemplate "Elastic Beanstalk Configuration Template" b
 resource "aws_elastic_beanstalk_configuration_template" "${1:name}" \{
-  name                = ""
-  application         = ""
-  description         = ""
-  environment_id      = ""
+  name           = "${1}"
+  application    = "\$\{aws_elastic_beanstalk_application.${2:foo}.name\}"
+  description    = ""
+  environment_id = ""
   setting \{
+    namespace = ""
+    name = ""
+    value = ""
+    resource = ""
   \}
   solution_stack_name = ""
 \}
 endsnippet
 
-snippet srAwsElasticBeanstalkEnvironment
+snippet srAwsElasticBeanstalkEnvironment "Elastic Beanstalk Environment" b
 resource "aws_elastic_beanstalk_environment" "${1:name}" \{
-  name        = ""
-  application = ""
+  name        = "${1}"
+  application = "\$\{aws_elastic_beanstalk_application.${2:foo}.name\}"
 \}
 endsnippet
 
-snippet frAwsElasticBeanstalkEnvironment
+snippet frAwsElasticBeanstalkEnvironment "Elastic Beanstalk Environment" b
 resource "aws_elastic_beanstalk_environment" "${1:name}" \{
-  name                   = ""
-  application            = ""
+  name                   = "${1}"
+  application            = "\$\{aws_elastic_beanstalk_application.${2:foo}.name\}"
   description            = ""
   version_label          = ""
   cname_prefix           = ""
   tier                   = ""
   setting \{
+    namespace = ""
+    name = ""
+    value = ""
+    resource = ""
   \}
   solution_stack_name    = ""
   template_name          = ""
   wait_for_ready_timeout = ""
   poll_interval          = ""
+  tags \{ # Note: cannot be updated once initialized.
+    key = "\$\{var.SOMEVAL\}"
+  \}
 \}
 endsnippet
 
-snippet srAwsElasticBeanstalkOptionSetting
-resource "aws_elastic_beanstalk_option_setting" "${1:name}" \{
-  namespace = ""
-  name      = ""
-  value     = ""
-\}
-endsnippet
-
-snippet frAwsElasticBeanstalkOptionSetting
-resource "aws_elastic_beanstalk_option_setting" "${1:name}" \{
-  namespace = ""
-  name      = ""
-  value     = ""
-  resource  = ""
-\}
-endsnippet
-
-snippet srAwsElasticSearchDomain
+snippet srAwsElasticSearchDomain "Elasticsearch Domain" b
 resource "aws_elastic_search_domain" "${1:name}" \{
-  domain_name = ""
+  domain_name = "${1}"
 \}
 endsnippet
 
-snippet frAwsElasticSearchDomain
+snippet frAwsElasticSearchDomain "Elasticsearch Domain" b
 resource "aws_elastic_search_domain" "${1:name}" \{
-  domain_name           = ""
+  domain_name           = "${1}"
   access_policies       = ""
   advanced_options \{
       key = "\$\{var.SOMEVAL\}"
@@ -3312,34 +3319,34 @@ resource "aws_elastic_search_domain" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsElasticSearchDomainPolicy
+snippet srAwsElasticSearchDomainPolicy "Elasticsearch Domain Policy" b
 resource "aws_elastic_search_domain_policy" "${1:name}" \{
-  domain_name     = ""
+  domain_name     = "\$\{aws_elasticsearch_domain.${2:foo}.domain_name\}"
   access_policies = ""
 \}
 endsnippet
 
-snippet frAwsElasticSearchDomainPolicy
+snippet frAwsElasticSearchDomainPolicy "Elasticsearch Domain Policy" b
 resource "aws_elastic_search_domain_policy" "${1:name}" \{
-  domain_name     = ""
+  domain_name     = "\$\{aws_elasticsearch_domain.${2:foo}.domain_name\}"
   access_policies = ""
 \}
 endsnippet
 
-snippet srAwsElasticTranscoderPipeline
+snippet srAwsElasticTranscoderPipeline "Elastic Transcoder pipeline" b
 resource "aws_elastic_transcoder_pipeline" "${1:name}" \{
-  input_bucket = ""
-  role         = ""
+  input_bucket = "\$\{aws_s3_bucket.${2:foo}.bucket\}"
+  role         = "\$\{aws_iam_role.${3:bar}.arn\}"
 \}
 endsnippet
 
-snippet frAwsElasticTranscoderPipeline
+snippet frAwsElasticTranscoderPipeline "Elastic Transcoder pipeline" b
 resource "aws_elastic_transcoder_pipeline" "${1:name}" \{
-  input_bucket                 = ""
-  role                         = ""
+  input_bucket                 = "\$\{aws_s3_bucket.${2:foo}.bucket\}"
+  role                         = "\$\{aws_iam_role.${3:bar}.arn\}"
   aws_kms_key_arn              = ""
   content_config \{
-    bucket         = ""
+    bucket         = "\$\{aws_s3_bucket.${4:baz}.bucket\}"
     storage_class  = ""
   \}
   content_config_permissions \{
@@ -3356,7 +3363,7 @@ resource "aws_elastic_transcoder_pipeline" "${1:name}" \{
   \}
   output_bucket                = ""
   thumbnail_config \{
-    bucket         = ""
+    bucket         = "\$\{aws_s3_bucket.${5:qux}.bucket\}"
     storage_class  = ""
   \}
   thumbnail_config_permissions \{
@@ -3367,13 +3374,13 @@ resource "aws_elastic_transcoder_pipeline" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsElasticTranscoderPreset
+snippet srAwsElasticTranscoderPreset "Elastic Transcoder Pipeline preset" b
 resource "aws_elastic_transcoder_preset" "${1:name}" \{
   container = ""
 \}
 endsnippet
 
-snippet frAwsElasticTranscoderPreset
+snippet frAwsElasticTranscoderPreset "Elastic Transcoder Pipeline preset" b
 resource "aws_elastic_transcoder_preset" "${1:name}" \{
   container           = ""
   audio \{
@@ -3389,7 +3396,7 @@ resource "aws_elastic_transcoder_preset" "${1:name}" \{
     profile    = ""
     signed     = ""
   \}
-  description         = ""
+  description         = "${1}"
   name                = ""
   thumbnails \{
     aspect_ratio    = ""
@@ -5951,7 +5958,7 @@ resource "aws_vpc_dhcp_options" "${1:name}" \{
   netbios_node_type    = ""
   netbios_name_servers = [""]
   tags \{
-      key = "\$\{var.SOMEVAL\}"
+    key = "\$\{var.SOMEVAL\}"
   \}
 \}
 endsnippet
