@@ -3985,17 +3985,17 @@ resource "aws_iam_user_ssh_key" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsInstance
+snippet srAwsInstance "EC2 instance" b
 resource "aws_instance" "${1:name}" \{
-  ami           = ""
-  instance_type = ""
+  ami           = "\$\{data.aws_ami.${2:foo}.id\}"
+  instance_type = "${3:bar}"
 \}
 endsnippet
 
-snippet frAwsInstance
+snippet frAwsInstance "EC2 instance" b
 resource "aws_instance" "${1:name}" \{
-  ami                                  = ""
-  instance_type                        = ""
+  ami                                  = "\$\{data.aws_ami.${2:foo}.id\}"
+  instance_type                        = "${3:bar}"
   associate_public_ip_address          = true|false
   availability_zone                    = ""
   placement_group                      = ""
@@ -4005,23 +4005,23 @@ resource "aws_instance" "${1:name}" \{
   source_dest_check                    = true|false
   user_data                            = ""
   security_groups                      = [""]
-  vpc_security_group_ids               = [""]
+  vpc_security_group_ids               = [""] # VPC Only
   ebs_optimized                        = true|false
   disable_api_termination              = true|false
   instance_initiated_shutdown_behavior = ""
   monitoring                           = true|false
   iam_instance_profile                 = ""
-  ipv6_address_count                   = 1
+  ipv6_address_count                   = 0
   ipv6_addresses                       = [""]
   tenancy                              = ""
   ebs_block_device \{
-    delete_on_termination  = true|false
-    device_name            = ""
-    encrypted              = true|false
-    iops                   = 1
-    snapshot_id            = ""
-    volume_size            = 1
-    volume_type            = ""
+    delete_on_termination = true|false
+    device_name           = ""
+    encrypted             = true|false
+    iops                  = 1
+    snapshot_id           = ""
+    volume_size           = 1
+    volume_type           = ""
   \}
   ephemeral_block_device \{
     device_name   = ""
@@ -4029,50 +4029,58 @@ resource "aws_instance" "${1:name}" \{
     no_device     = true|false
   \}
   root_block_device \{
-    delete_on_termination  = true|false
-    iops                   = 1
-    volume_size            = 1
-    volume_type            = ""
+    delete_on_termination = true|false
+    iops                  = 1
+    volume_size           = 1
+    volume_type           = ""
+  \}
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
   \}
 \}
 endsnippet
 
-snippet srAwsInternetGateway
+snippet srAwsInternetGateway "VPC Internet Gateway" b
+# Note: Use depends_on on the component that uses this resource.
 resource "aws_internet_gateway" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsInternetGateway
+snippet frAwsInternetGateway "VPC Internet Gateway" b
+# Note: Use depends_on on the component that uses this resource.
 resource "aws_internet_gateway" "${1:name}" \{
-  vpc_id = ""
+  vpc_id = "\$\{aws_vpc.${2:foo}.id\}"
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
 \}
 endsnippet
 
-snippet srAwsKeyPair
+snippet srAwsKeyPair "EC2 Key Pair" b
 resource "aws_key_pair" "${1:name}" \{
-  public_key = ""
+  public_key = "ssh-rsa ... user@host"
 \}
 endsnippet
 
-snippet frAwsKeyPair
+snippet frAwsKeyPair "EC2 Key Pair" b
 resource "aws_key_pair" "${1:name}" \{
-  public_key      = ""
-  key_name        = ""
+  public_key      = "ssh-rsa ... user@host"
+  key_name        = "${1}" # Conflicts with key_name_prefix
   key_name_prefix = ""
 \}
 endsnippet
 
-snippet srAwsKinesisFirehoseDeliveryStream
+snippet srAwsKinesisFirehoseDeliveryStream "Kinesis Firehose Devilery Stream" b
 resource "aws_kinesis_firehose_delivery_stream" "${1:name}" \{
-  name             = ""
-  destination      = ""
+  name             = "${1}"
+  destination      = "s3"|"redshift"|"elasticsearch"
   s3_configuration \{
-    bucket_arn                  = ""
+    bucket_arn                  = "\$\{aws_s3_bucket.${2:foo}.arn\}"
     buffer_size                 = 1
     buffer_interval             = 1
     compression_format          = ""
     kms_key_arn                 = ""
-    role_arn                    = ""
+    role_arn                    = "\$\{aws_iam_role.${3:bar}.arn\}"
     prefix                      = ""
     cloudwatch_logging_options \{
       enabled           = true|false
@@ -4083,17 +4091,17 @@ resource "aws_kinesis_firehose_delivery_stream" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsKinesisFirehoseDeliveryStream
+snippet frAwsKinesisFirehoseDeliveryStream "Kinesis Firehose Devilery Stream" b
 resource "aws_kinesis_firehose_delivery_stream" "${1:name}" \{
-  name                        = ""
-  destination                 = ""
+  name                        = "${1}"
+  destination                 = "s3"|"redshift"|"elasticsearch"
   s3_configuration \{
-    bucket_arn                  = ""
+    bucket_arn                  = "\$\{aws_s3_bucket.${2:foo}.arn\}"
     buffer_size                 = 1
     buffer_interval             = 1
     compression_format          = ""
     kms_key_arn                 = ""
-    role_arn                    = ""
+    role_arn                    = "\$\{aws_iam_role.${3:bar}.arn\}"
     prefix                      = ""
     cloudwatch_logging_options \{
       enabled           = true|false
@@ -4102,12 +4110,12 @@ resource "aws_kinesis_firehose_delivery_stream" "${1:name}" \{
     \}
   \}
   redshift_configuration \{
-    cluster_jdbcurl             = ""
+    cluster_jdbcurl             = "jdbc:redshift://\$\{aws_redshift_cluster.${4:baz}.endpoint\}/\$\{aws_redshift_cluster.${5:qux}.database_name\}"
     username                    = ""
     password                    = ""
-    role_arn                    = ""
+    role_arn                    = "\$\{aws_iam_role.${3}.arn\}"
     retry_duration              = 1
-    copy_options                = ""
+    copy_options                = "delimiter '|'"
     data_table_columns          = ""
     data_table_name             = ""
     cloudwatch_logging_options \{
@@ -4117,13 +4125,13 @@ resource "aws_kinesis_firehose_delivery_stream" "${1:name}" \{
     \}
   \}
   elasticsearch_configuration \{
-    buffering_interval          = 1
+    buffering_interval          = 300
     buffering_size              = 1
-    domain_arn                  = ""
-    index_name                  = ""
+    domain_arn                  = "\$\{aws_elasticsearch_domain.${6:quz}.arn\}"
+    index_name                  = "${7:quuz}"
     index_rotation_period       = ""
     retry_duration              = 1
-    role_arn                    = ""
+    role_arn                    = "\$\{aws_iam_role.${3}.arn\}"
     s3_backup_mode              = ""
     type_name                   = ""
     cloudwatch_logging_options \{
@@ -4138,82 +4146,85 @@ resource "aws_kinesis_firehose_delivery_stream" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsKinesisStream
+snippet srAwsKinesisStream "Kinesis Stream" b
 resource "aws_kinesis_stream" "${1:name}" \{
-  name        = ""
+  name        = "${1}"
   shard_count = 1
 \}
 endsnippet
 
-snippet frAwsKinesisStream
+snippet frAwsKinesisStream "Kinesis Stream" b
 resource "aws_kinesis_stream" "${1:name}" \{
-  name                = ""
+  name                = "${1}"
   shard_count         = 1
-  retention_period    = 1
+  retention_period    = 24
   shard_level_metrics = [""]
   arn                 = ""
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
 \}
 endsnippet
 
-snippet srAwsKmsAlias
+snippet srAwsKmsAlias "KMS Key Alias" b
 resource "aws_kms_alias" "${1:name}" \{
-  target_key_id = ""
+  target_key_id = "\$\{aws_kms_key.${2:foo}.key_id\}"
 \}
 endsnippet
 
-snippet frAwsKmsAlias
+snippet frAwsKmsAlias "KMS Key Alias" b
 resource "aws_kms_alias" "${1:name}" \{
-  target_key_id = ""
-  name          = ""
+  target_key_id = "\$\{aws_kms_key.${2:foo}.key_id\}"
+  name          = "${1}" # Conflicts with name_prefix
   name_prefix   = ""
 \}
 endsnippet
 
-snippet srAwsKmsKey
+snippet srAwsKmsKey "KMS Key" b
 resource "aws_kms_key" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsKmsKey
+snippet frAwsKmsKey "KMS Key" b
 resource "aws_kms_key" "${1:name}" \{
   description             = ""
   key_usage               = ""
   policy                  = ""
   is_enabled              = true|false
   enable_key_rotation     = true|false
-  deletion_window_in_days = 1
+  deletion_window_in_days = 301
 \}
 endsnippet
 
-snippet srAwsLBCookieStickinessPolicy
+snippet srAwsLBCookieStickinessPolicy "ELB Cookie Stickiness Policy" b
 resource "aws_lb_cookie_stickiness_policy" "${1:name}" \{
-  name          = ""
-  load_balancer = ""
+  name          = "${1}"
+  load_balancer = "\$\{aws_elb.${2:foo}.id\}"
   lb_port       = 1
 \}
 endsnippet
 
-snippet frAwsLBCookieStickinessPolicy
+snippet frAwsLBCookieStickinessPolicy "ELB Cookie Stickiness Policy" b
 resource "aws_lb_cookie_stickiness_policy" "${1:name}" \{
-  name                     = ""
-  load_balancer            = ""
+  name                     = "${1}"
+  load_balancer            = "\$\{aws_elb.${2:foo}.id\}"
   lb_port                  = 1
   cookie_expiration_period = 1
 \}
 endsnippet
 
-snippet srAwsLBSSLNegotiationPolicy
+snippet srAwsLBSSLNegotiationPolicy "ELB SSL Negotiation Policy" b
 resource "aws_lb_ssl_negotiation_policy" "${1:name}" \{
-  name          = ""
-  load_balancer = ""
+  name          = "${1}"
+  load_balancer = "\$\{aws_elb.${2:foo}.id\}"
   lb_port       = 1
 \}
 endsnippet
 
-snippet frAwsLBSSLNegotiationPolicy
+snippet frAwsLBSSLNegotiationPolicy "ELB SSL Negotiation Policy" b
 resource "aws_lb_ssl_negotiation_policy" "${1:name}" \{
-  name          = ""
-  load_balancer = ""
+  name          = "${1}"
+  load_balancer = "\$\{aws_elb.${2:foo}.id\}"
   lb_port       = 1
   attribute \{
     name   = ""
@@ -4222,57 +4233,57 @@ resource "aws_lb_ssl_negotiation_policy" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsLambdaAlias
+snippet srAwsLambdaAlias "Lambda function alias" b
 resource "aws_lambda_alias" "${1:name}" \{
-  function_name    = ""
-  function_version = ""
+  function_name    = "\$\{aws_lambda_function.${2:foo}.arn\}"
+  function_version = "\$LATEST"
   name             = ""
 \}
 endsnippet
 
-snippet frAwsLambdaAlias
+snippet frAwsLambdaAlias "Lambda function alias" b
 resource "aws_lambda_alias" "${1:name}" \{
-  function_name    = ""
-  function_version = ""
-  name             = ""
+  function_name    = "\$\{aws_lambda_function.${2:foo}.arn\}"
+  function_version = "\$LATEST"
+  name             = "${1}"
   description      = ""
 \}
 endsnippet
 
-snippet srAwsLambdaEventSourceMapping
+snippet srAwsLambdaEventSourceMapping "Lambda Event Source Mapping" b
 resource "aws_lambda_event_source_mapping" "${1:name}" \{
-  event_source_arn  = ""
-  function_name     = ""
-  starting_position = ""
+  event_source_arn  = "arn:aws:kinesis:REGION:123456789012:stream/stream_name"
+  function_name     = "arn:aws:lambda:REGION:123456789012:function:function_name"
+  starting_position = "TRIM_HORIZON"|"LATEST"
 \}
 endsnippet
 
-snippet frAwsLambdaEventSourceMapping
+snippet frAwsLambdaEventSourceMapping "Lambda Event Source Mapping" b
 resource "aws_lambda_event_source_mapping" "${1:name}" \{
-  event_source_arn        = ""
-  function_name           = ""
-  starting_position       = ""
+  event_source_arn        = "arn:aws:kinesis:REGION:123456789012:stream/stream_name"
+  function_name           = "arn:aws:lambda:REGION:123456789012:function:function_name"
+  starting_position       = "TRIM_HORIZON"|"LATEST"
   batch_size              = 1
   enabled                 = true|false
 \}
 endsnippet
 
-snippet srAwsLambdaFunction
+snippet srAwsLambdaFunction "Lambda function" b
 resource "aws_lambda_function" "${1:name}" \{
-  function_name = ""
-  handler       = ""
-  role          = ""
+  function_name = "${1}"
+  handler       = "${2:foo}"
+  role          = "\$\{aws_iam_role.${3:bar}.arn\}"
   runtime       = ""
 \}
 endsnippet
 
-snippet frAwsLambdaFunction
+snippet frAwsLambdaFunction "Lambda function" b
 resource "aws_lambda_function" "${1:name}" \{
-  function_name      = ""
-  handler            = ""
-  role               = ""
+  function_name      = "${1}"
+  handler            = "${2:foo}"
+  role               = "\$\{aws_iam_role.${3:bar}.arn\}"
   runtime            = ""
-  filename           = ""
+  filename           = "file.zip" # Conflicts with s3_bucket and s3_key
   s3_bucket          = ""
   s3_key             = ""
   s3_object_version  = ""
@@ -4280,57 +4291,63 @@ resource "aws_lambda_function" "${1:name}" \{
   dead_letter_config \{
     target_arn  = ""
   \}
-  memory_size        = 1
-  timeout            = 1
+  memory_size        = 128
+  timeout            = 3
   publish            = true|false
   vpc_config \{
     subnet_ids          = [""]
     security_group_ids  = [""]
     vpc_id              = ""
   \}
-  source_code_hash   = ""
+  source_code_hash   = "\$\{base64sha256(file("file.zip"))\}"
   environment \{
     variables \{
-        key = "\$\{var.SOMEVAL\}"
+      key = "\$\{var.SOMEVAL\}"
     \}
   \}
   kms_key_arn        = ""
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
+  \}
 \}
 endsnippet
 
-snippet srAwsLambdaPermission
+snippet srAwsLambdaPermission "Lambda Permission" b
 resource "aws_lambda_permission" "${1:name}" \{
   action        = ""
-  function_name = ""
+  function_name = "\$\{aws_lambda_function.${2:foo}.function_name\}"
   principal     = ""
   statement_id  = ""
 \}
 endsnippet
 
-snippet frAwsLambdaPermission
+snippet frAwsLambdaPermission "Lambda Permission" b
 resource "aws_lambda_permission" "${1:name}" \{
   action         = ""
-  function_name  = ""
+  function_name  = "\$\{aws_lambda_function.${2:foo}.function_name\}"
   principal      = ""
   statement_id   = ""
-  qualifier      = ""
+  qualifier      = "\$\{aws_lambda_alias.${3:bar}.name\}"
   source_account = ""
   source_arn     = ""
 \}
 endsnippet
 
-snippet srAwsLaunchConfiguration
+snippet srAwsLaunchConfiguration "Launch Configuration" b
 resource "aws_launch_configuration" "${1:name}" \{
-  image_id      = ""
+  image_id      = "\$\{data.aws_ami.${2:foo}.id\}"
   instance_type = ""
+  lifecycle \{ # Recommended
+    create_before_destroy = true
+  \}
 \}
 endsnippet
 
-snippet frAwsLaunchConfiguration
+snippet frAwsLaunchConfiguration "Launch Configuration" b
 resource "aws_launch_configuration" "${1:name}" \{
-  image_id                         = ""
+  image_id                         = "\$\{data.aws_ami.${2:foo}.id\}"
   instance_type                    = ""
-  name                             = ""
+  name                             = "${1}" # Conflicts with name_prefix
   name_prefix                      = ""
   iam_instance_profile             = ""
   key_name                         = ""
@@ -4361,6 +4378,9 @@ resource "aws_launch_configuration" "${1:name}" \{
     iops                   = 1
     volume_size            = 1
     volume_type            = ""
+  \}
+  lifecycle \{ # Recommended
+    create_before_destroy = true
   \}
 \}
 endsnippet
