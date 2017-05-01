@@ -4385,170 +4385,172 @@ resource "aws_launch_configuration" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsLightsailDomain
+snippet srAwsLightsailDomain "Lightsail Domain" b
 resource "aws_lightsail_domain" "${1:name}" \{
-  domain_name = ""
+  domain_name = "${2:foo}"
 \}
 endsnippet
 
-snippet frAwsLightsailDomain
+snippet frAwsLightsailDomain "Lightsail Domain" b
 resource "aws_lightsail_domain" "${1:name}" \{
-  domain_name = ""
+  domain_name = "${2:foo}"
 \}
 endsnippet
 
-snippet srAwsLightsailInstance
+snippet srAwsLightsailInstance "Lightsail instance" b
 resource "aws_lightsail_instance" "${1:name}" \{
-  name              = ""
-  availability_zone = ""
-  blueprint_id      = ""
-  bundle_id         = ""
+  name              = "${1}"
+  availability_zone = "us-east-1b" # Must be in us-east-1
+  blueprint_id      = "${2:foo}"
+  bundle_id         = "${3:bar}"
 \}
 endsnippet
 
-snippet frAwsLightsailInstance
+snippet frAwsLightsailInstance "Lightsail instance" b
 resource "aws_lightsail_instance" "${1:name}" \{
-  name               = ""
-  availability_zone  = ""
-  blueprint_id       = ""
-  bundle_id          = ""
+  name               = "${1}"
+  availability_zone  = "us-east-1b # Must be in us-east-1"
+  blueprint_id       = "${2:foo}"
+  bundle_id          = "${3:bar}"
   key_pair_name      = ""
   user_data          = ""
 \}
 endsnippet
 
-snippet srAwsLightsailKeyPair
+snippet srAwsLightsailKeyPair "Lightsail Key Pair" b
 resource "aws_lightsail_key_pair" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsLightsailKeyPair
+snippet frAwsLightsailKeyPair "Lightsail Key Pair" b
 resource "aws_lightsail_key_pair" "${1:name}" \{
-  name                  = ""
+  name                  = "${1}" # Conflicts with name_prefix
   name_prefix           = ""
   pgp_key               = ""
-  public_key            = ""
+  public_key            = "\$\{file("~/.ssh/id_rsa.pub")\}"
 \}
 endsnippet
 
-snippet srAwsLightsailStaticIp
+snippet srAwsLightsailStaticIp "Lightsail Static IP" b
 resource "aws_lightsail_static_ip" "${1:name}" \{
-  name = ""
+  name = "${1}"
 \}
 endsnippet
 
-snippet frAwsLightsailStaticIp
+snippet frAwsLightsailStaticIp "Lightsail Static IP" b
 resource "aws_lightsail_static_ip" "${1:name}" \{
-  name         = ""
+  name         = "${1}"
 \}
 endsnippet
 
-snippet srAwsLightsailStaticIpAttachment
+snippet srAwsLightsailStaticIpAttachment "Lightsail Static IP Attachment" b
 resource "aws_lightsail_static_ip_attachment" "${1:name}" \{
-  static_ip_name = ""
-  instance_name  = ""
+  static_ip_name = "\$\{aws_lightsail_static_ip.${2:foo}.name\}"
+  instance_name  = "\$\{aws_lightsail_instance.${3:bar}.name\}"
 \}
 endsnippet
 
-snippet frAwsLightsailStaticIpAttachment
+snippet frAwsLightsailStaticIpAttachment "Lightsail Static IP Attachment" b
 resource "aws_lightsail_static_ip_attachment" "${1:name}" \{
-  static_ip_name = ""
-  instance_name  = ""
+  static_ip_name = "\$\{aws_lightsail_static_ip.${2:foo}.name\}"
+  instance_name  = "\$\{aws_lightsail_instance.${3:bar}.name\}"
 \}
 endsnippet
 
-snippet srAwsLoadBalancerBackendServerPolicies
+snippet srAwsLoadBalancerBackendServerPolicies "LB Policy Attachment to an ELB backend server" b
 resource "aws_load_balancer_backend_server_policies" "${1:name}" \{
-  load_balancer_name = ""
+  load_balancer_name = "\$\{aws_elb.${2:foo}.name\}"
   instance_port      = 1
 \}
 endsnippet
 
-snippet frAwsLoadBalancerBackendServerPolicies
+snippet frAwsLoadBalancerBackendServerPolicies "LB Policy Attachment to an ELB backend server" b
 resource "aws_load_balancer_backend_server_policies" "${1:name}" \{
-  load_balancer_name = ""
+  load_balancer_name = "\$\{aws_elb.${2:foo}.name\}"
   instance_port      = 1
-  policy_names       = [""]
+  policy_names       = ["\$\{aws_load_balancer_policy.${3:bar}.policy_name\}"]
 \}
 endsnippet
 
-snippet srAwsLoadBalancerListenerPolicies
+snippet srAwsLoadBalancerListenerPolicies "LB Policy attachment to ELB listener" b
 resource "aws_load_balancer_listener_policies" "${1:name}" \{
-  load_balancer_name = ""
+  load_balancer_name = "\$\{aws_elb.${2:foo}.name\}"
   load_balancer_port = 1
 \}
 endsnippet
 
-snippet frAwsLoadBalancerListenerPolicies
+snippet frAwsLoadBalancerListenerPolicies "LB Policy attachment to ELB listener" b
 resource "aws_load_balancer_listener_policies" "${1:name}" \{
-  load_balancer_name = ""
+  load_balancer_name = "\$\{aws_elb.${2:foo}.name\}"
   load_balancer_port = 1
-  policy_names       = [""]
+  policy_names       = ["\$\{aws_load_balancer_policy.${3:bar}.policy_name\}"]
 \}
 endsnippet
 
-snippet srAwsLoadBalancerPolicy
+snippet srAwsLoadBalancerPolicy "Load Balancer Policy" b
 resource "aws_load_balancer_policy" "${1:name}" \{
-  load_balancer_name = ""
-  policy_name        = ""
-  policy_type_name   = ""
+  load_balancer_name = "\$\{aws_elb.${2:foo}.name\}"
+  policy_name        = "${1}"
+  policy_type_name   = "${3:bar}"
 \}
 endsnippet
 
-snippet frAwsLoadBalancerPolicy
+snippet frAwsLoadBalancerPolicy "Load Balancer Policy" b
 resource "aws_load_balancer_policy" "${1:name}" \{
-  load_balancer_name = ""
-  policy_name        = ""
-  policy_type_name   = ""
+  load_balancer_name = "\$\{aws_elb.${2:foo}.name\}"
+  policy_name        = "${1}"
+  policy_type_name   = "${3:bar}"
   policy_attribute \{
-    name   = ""
-    value  = ""
+    name  = ""
+    value = ""
   \}
 \}
 endsnippet
 
-snippet srAwsMainRouteTableAssociation
+snippet srAwsMainRouteTableAssociation "VPC Main Route Table" b
 resource "aws_main_route_table_association" "${1:name}" \{
-  vpc_id         = ""
-  route_table_id = ""
+  vpc_id         = "\$\{aws_vpc.${2:foo}.id\}"
+  route_table_id = "\$\{aws_route_table.${3:bar}.id\}"
 \}
 endsnippet
 
-snippet frAwsMainRouteTableAssociation
+snippet frAwsMainRouteTableAssociation "VPC Main Route Table" b
 resource "aws_main_route_table_association" "${1:name}" \{
-  vpc_id                  = ""
-  route_table_id          = ""
+  vpc_id         = "\$\{aws_vpc.${2:foo}.id\}"
+  route_table_id = "\$\{aws_route_table.${3:bar}.id\}"
 \}
 endsnippet
 
-snippet srAwsNatGateway
+snippet srAwsNatGateway "VPC NAT Gateway" b
 resource "aws_nat_gateway" "${1:name}" \{
-  allocation_id = ""
-  subnet_id     = ""
+  depends_on    = ["aws_internet_gateway.${2:foo}"]
+  allocation_id = "\$\{aws_eip.${3:bar}.id\}"
+  subnet_id     = "\$\{aws_subnet.${4:baz}.id\}"
 \}
 endsnippet
 
-snippet frAwsNatGateway
+snippet frAwsNatGateway "VPC NAT Gateway" b
 resource "aws_nat_gateway" "${1:name}" \{
-  allocation_id        = ""
-  subnet_id            = ""
+  depends_on           = ["aws_internet_gateway.${2:foo}"]
+  allocation_id        = "\$\{aws_eip.${3:bar}.id\}"
+  subnet_id            = "\$\{aws_subnet.${4:baz}.id\}"
   network_interface_id = ""
   private_ip           = ""
   public_ip            = ""
 \}
 endsnippet
 
-snippet srAwsNetworkAcl
+snippet srAwsNetworkAcl "Network ACL" b
 resource "aws_network_acl" "${1:name}" \{
-  vpc_id  = ""
+  vpc_id  = "\$\{aws_vpc.${2:foo}.id\}"
 \}
 endsnippet
 
-snippet frAwsNetworkAcl
+snippet frAwsNetworkAcl "Network ACL" b
 resource "aws_network_acl" "${1:name}" \{
-  vpc_id     = ""
-  subnet_id  = ""
-  subnet_ids = [""]
+  vpc_id     = "\$\{aws_vpc.${2:foo}.id\}"
+  #subnet_id  = "DEPRECATED"
+  subnet_ids = ["\$\{aws_subnet.${3:bar}.id\}"]
   ingress \{
     from_port        = 1
     to_port          = 1
@@ -4557,8 +4559,8 @@ resource "aws_network_acl" "${1:name}" \{
     protocol         = ""
     cidr_block       = ""
     ipv6_cidr_block  = ""
-    icmp_type        = 1
-    icmp_code        = 1
+    icmp_type        = 0
+    icmp_code        = 0
   \}
   egress \{
     from_port        = 1
@@ -4568,24 +4570,27 @@ resource "aws_network_acl" "${1:name}" \{
     protocol         = ""
     cidr_block       = ""
     ipv6_cidr_block  = ""
-    icmp_type        = 1
-    icmp_code        = 1
+    icmp_type        = 0
+    icmp_code        = 0
+  \}
+  tags \{
+    key = "\$\{var.SOMEVAL\}"
   \}
 \}
 endsnippet
 
-snippet srAwsNetworkAclRule
+snippet srAwsNetworkAclRule "Network ACL rule" b
 resource "aws_network_acl_rule" "${1:name}" \{
-  network_acl_id = ""
+  network_acl_id = "\$\{aws_network_acl.${2:foo}.id\}"
   rule_number    = 1
   protocol       = ""
   rule_action    = ""
 \}
 endsnippet
 
-snippet frAwsNetworkAclRule
+snippet frAwsNetworkAclRule "Network ACL rule" b
 resource "aws_network_acl_rule" "${1:name}" \{
-  network_acl_id  = ""
+  network_acl_id  = "\$\{aws_network_acl.${2:foo}.id\}"
   rule_number     = 1
   protocol        = ""
   rule_action     = ""
@@ -4599,51 +4604,50 @@ resource "aws_network_acl_rule" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsNetworkInterface
+snippet srAwsNetworkInterface "Elastic Network Interface" b
 resource "aws_network_interface" "${1:name}" \{
-  subnet_id = ""
+  subnet_id = "\$\{aws_subnet.${2:foo}.id\}"
 \}
 endsnippet
 
-snippet frAwsNetworkInterface
+snippet frAwsNetworkInterface "Elastic Network Interface" b
 resource "aws_network_interface" "${1:name}" \{
-  subnet_id         = ""
+  subnet_id         = "\$\{aws_subnet.${2:foo}.id\}"
   private_ips       = [""]
-  security_groups   = [""]
+  security_groups   = ["\$\{aws_security_group.${3:bar}.id\}"]
   source_dest_check = true|false
   description       = ""
   attachment \{
-    instance       = ""
+    instance       = "\$\{aws_instance.${4:baz}.id\}"
     device_index   = 1
-    attachment_id  = ""
   \}
 \}
 endsnippet
 
-snippet srAwsOpsworksApplication
+snippet srAwsOpsworksApplication "Opsworks Application" b
 resource "aws_opsworks_application" "${1:name}" \{
-  name     = ""
-  type     = ""
-  stack_id = ""
+  name     = "${1}"
+  type     = "${2:foo}"
+  stack_id = "\$\{aws_opsworks_stack.${3:bar}.id\}"
 \}
 endsnippet
 
-snippet frAwsOpsworksApplication
+snippet frAwsOpsworksApplication "Opsworks Application" b
 resource "aws_opsworks_application" "${1:name}" \{
-  name                      = ""
-  type                      = ""
-  stack_id                  = ""
+  name                      = "${1}"
+  type                      = "${2:foo}"
+  stack_id                  = "\$\{aws_opsworks_stack.${3:bar}.id\}"
   short_name                = ""
   document_root             = ""
   rails_env                 = ""
   auto_bundle_on_deploy     = ""
   aws_flow_ruby_settings    = ""
   app_source \{
-    type      = ""
-    url       = ""
+    type      = "git"
+    url       = "https://github.com/example.git"
     username  = ""
     password  = ""
-    revision  = ""
+    revision  = "master"
     ssh_key   = ""
   \}
   data_source_type          = ""
@@ -4658,9 +4662,9 @@ resource "aws_opsworks_application" "${1:name}" \{
   \}
   enable_ssl                = true|false
   ssl_configuration \{
-    certificate  = ""
-    private_key  = ""
-    chain        = ""
+    certificate  = "\$\{file("./foobar.crt")\}"
+    private_key  = "\$\{file("./foobar.key")\}""
+    chain        = "\$\{file("./foobar.ca")\}"
   \}
 \}
 endsnippet
