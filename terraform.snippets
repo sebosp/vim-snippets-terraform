@@ -4624,7 +4624,7 @@ resource "aws_network_interface" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsOpsworksApplication "Opsworks Application" b
+snippet srAwsOpsworksApplication "OpsWorks Application" b
 resource "aws_opsworks_application" "${1:name}" \{
   name     = "${1}"
   type     = "${2:foo}"
@@ -4632,7 +4632,7 @@ resource "aws_opsworks_application" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsOpsworksApplication "Opsworks Application" b
+snippet frAwsOpsworksApplication "OpsWorks Application" b
 resource "aws_opsworks_application" "${1:name}" \{
   name                      = "${1}"
   type                      = "${2:foo}"
@@ -4669,51 +4669,109 @@ resource "aws_opsworks_application" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsOpsworksGangliaLayer
+snippet srAwsOpsworksGangliaLayer "OpsWorks Ganglia Layer" b
 resource "aws_opsworks_ganglia_layer" "${1:name}" \{
-  password = ""
+  password = "${2:foo}"
+  stack_id = "\$\{aws_opsworks_stack.${3:bar}.id\}"
 \}
 endsnippet
 
-snippet frAwsOpsworksGangliaLayer
+snippet frAwsOpsworksGangliaLayer "OpsWorks Ganglia Layer" b
 resource "aws_opsworks_ganglia_layer" "${1:name}" \{
-  password = ""
-  url      = ""
-  username = ""
+  password                    = "${2:foo}"
+  stack_id                    = "\$\{aws_opsworks_stack.${3:bar}.id\}"
+  name                        = "${1}"
+  url                         = ""
+  username                    = ""
+  auto_assign_elastic_ips     = true|false
+  auto_assign_public_ips      = true|false
+  custom_instance_profile_arn = ""
+  elastic_load_balancer       = ""
+  custom_setup_recipes        = [""]
+  custom_configure_recipes    = [""]
+  custom_deploy_recipes       = [""]
+  custom_undeploy_recipes     = [""]
+  custom_shutdown_recipes     = [""]
+  custom_security_group_ids   = [""]
+  custom_json                 = ""
+  auto_healing                = true|false
+  install_updates_on_boot     = true|false
+  instance_shutdown_timeout   = 120
+  drain_elb_on_shutdown       = true|false
+  system_packages             = [""]
+  use_ebs_optimized_instances = true|false
+  ebs_volume \{
+    iops            = 0
+    mount_point     = ""
+    number_of_disks = 1
+    raid_level      = ""
+    size            = 1
+    type            = ""
+  \}
 \}
 endsnippet
 
-snippet srAwsOpsworksHaproxyLayer
+snippet srAwsOpsworksHaproxyLayer "OpsWorks HA Proxy Layer" b
 resource "aws_opsworks_haproxy_layer" "${1:name}" \{
-  stats_password = ""
+  stats_password = "${2:foo}"
+  stack_id       = "\$\{aws_opsworks_stack.${3:bar}.id\}"
 \}
 endsnippet
 
-snippet frAwsOpsworksHaproxyLayer
+snippet frAwsOpsworksHaproxyLayer "OpsWorks HA Proxy Layer" b
 resource "aws_opsworks_haproxy_layer" "${1:name}" \{
-  stats_password     = ""
-  stats_enabled      = true|false
-  stats_url          = ""
-  stats_user         = ""
-  healthcheck_url    = ""
-  healthcheck_method = ""
+  stats_password              = "${2:foo}"
+  stack_id                    = "\$\{aws_opsworks_stack.${3:bar}.id\}"
+  stats_enabled               = true|false
+  stats_url                   = "/haproxy?stats"
+  stats_user                  = "opsworks"
+  healthcheck_url             = "/"
+  healthcheck_method          = "OPTIONS"
+  name                        = "${1}"
+  auto_assign_elastic_ips     = true|false
+  auto_assign_public_ips      = true|false
+  custom_instance_profile_arn = ""
+  elastic_load_balancer       = ""
+  custom_setup_recipes        = [""]
+  custom_configure_recipes    = [""]
+  custom_deploy_recipes       = [""]
+  custom_undeploy_recipes     = [""]
+  custom_shutdown_recipes     = [""]
+  custom_security_group_ids   = [""]
+  custom_json                 = ""
+  auto_healing                = true|false
+  install_updates_on_boot     = true|false
+  instance_shutdown_timeout   = 120
+  drain_elb_on_shutdown       = true|false
+  system_packages             = [""]
+  use_ebs_optimized_instances = true|false
+  ebs_volume \{
+    iops            = 0
+    mount_point     = ""
+    number_of_disks = 1
+    raid_level      = ""
+    size            = 1
+    type            = ""
+  \}
 \}
 endsnippet
 
-snippet srAwsOpsworksInstance
+snippet srAwsOpsworksInstance "OpsWorks instance" b
 resource "aws_opsworks_instance" "${1:name}" \{
-  layer_ids = [""]
-  stack_id  = ""
+  layer_ids     = ["\$\{aws_opsworks_custom_layer.${2:foo}.id\}"]
+  stack_id      = "\$\{aws_opsworks_stack.${3:bar}.id\}"
+  instance_type = "${4:baz}"
 \}
 endsnippet
 
-snippet frAwsOpsworksInstance
+snippet frAwsOpsworksInstance "OpsWorks instance" b
 resource "aws_opsworks_instance" "${1:name}" \{
-  layer_ids                    = [""]
-  stack_id                     = ""
+  layer_ids                    = ["\$\{aws_opsworks_custom_layer.${2:foo}.id\}"]
+  stack_id                     = "\$\{aws_opsworks_stack.${3:bar}.id\}"
+  instance_type                = "${4:baz}"
   agent_version                = ""
-  ami_id                       = ""
-  architecture                 = ""
+  ami_id                       = "\$\{data.aws_ami.${5:foo}.id\}"
+  architecture                 = "x86_64"
   auto_scaling_type            = ""
   availability_zone            = ""
   created_at                   = ""
@@ -4746,7 +4804,7 @@ resource "aws_opsworks_instance" "${1:name}" \{
   ssh_host_dsa_key_fingerprint = ""
   ssh_host_rsa_key_fingerprint = ""
   ssh_key_name                 = ""
-  state                        = ""
+  state                        = "running"|"stopped"
   status                       = ""
   subnet_id                    = ""
   tenancy                      = ""
@@ -4772,120 +4830,261 @@ resource "aws_opsworks_instance" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsOpsworksJavaAppLayer
+snippet srAwsOpsworksJavaAppLayer "OpsWorks Java App Layer" b
 resource "aws_opsworks_java_app_layer" "${1:name}" \{
+  stack_id = "\$\{aws_opsworks_stack.${2:foo}.id\}"
 \}
 endsnippet
 
-snippet frAwsOpsworksJavaAppLayer
+snippet frAwsOpsworksJavaAppLayer "OpsWorks Java App Layer" b
 resource "aws_opsworks_java_app_layer" "${1:name}" \{
-  jvm_type           = ""
-  jvm_version        = ""
-  jvm_options        = ""
-  app_server         = ""
-  app_server_version = ""
+  stack_id                    = "\$\{aws_opsworks_stack.${2:foo}.id\}"
+  jvm_type                    = ""
+  jvm_version                 = ""
+  jvm_options                 = ""
+  app_server                  = ""
+  app_server_version          = ""
+  name                        = "${1}"
+  auto_assign_elastic_ips     = true|false
+  auto_assign_public_ips      = true|false
+  custom_instance_profile_arn = ""
+  elastic_load_balancer       = ""
+  custom_setup_recipes        = [""]
+  custom_configure_recipes    = [""]
+  custom_deploy_recipes       = [""]
+  custom_undeploy_recipes     = [""]
+  custom_shutdown_recipes     = [""]
+  custom_security_group_ids   = [""]
+  custom_json                 = ""
+  auto_healing                = true|false
+  install_updates_on_boot     = true|false
+  instance_shutdown_timeout   = 120
+  drain_elb_on_shutdown       = true|false
+  system_packages             = [""]
+  use_ebs_optimized_instances = true|false
+  ebs_volume \{
+    iops            = 0
+    mount_point     = ""
+    number_of_disks = 1
+    raid_level      = ""
+    size            = 1
+    type            = ""
+  \}
 \}
 endsnippet
 
-snippet srAwsOpsworksMemcachedLayer
+snippet srAwsOpsworksMemcachedLayer "OpsWorks Memcached Layer" b
 resource "aws_opsworks_memcached_layer" "${1:name}" \{
+  stack_id = "\$\{aws_opsworks_stack.${2:foo}.id\}"
 \}
 endsnippet
 
-snippet frAwsOpsworksMemcachedLayer
+snippet frAwsOpsworksMemcachedLayer "OpsWorks Memcached Layer" b
 resource "aws_opsworks_memcached_layer" "${1:name}" \{
-  allocated_memory = 1
+  stack_id                    = "\$\{aws_opsworks_stack.${2:foo}.id\}"
+  allocated_memory            = 1
+  name                        = "${1}"
+  auto_assign_elastic_ips     = true|false
+  auto_assign_public_ips      = true|false
+  custom_instance_profile_arn = ""
+  elastic_load_balancer       = ""
+  custom_setup_recipes        = [""]
+  custom_configure_recipes    = [""]
+  custom_deploy_recipes       = [""]
+  custom_undeploy_recipes     = [""]
+  custom_shutdown_recipes     = [""]
+  custom_security_group_ids   = [""]
+  custom_json                 = ""
+  auto_healing                = true|false
+  install_updates_on_boot     = true|false
+  instance_shutdown_timeout   = 120
+  drain_elb_on_shutdown       = true|false
+  system_packages             = [""]
+  use_ebs_optimized_instances = true|false
+  ebs_volume \{
+    iops            = 0
+    mount_point     = ""
+    number_of_disks = 1
+    raid_level      = ""
+    size            = 1
+    type            = ""
+  \}
 \}
 endsnippet
 
-snippet srAwsOpsworksMysqlLayer
+snippet srAwsOpsworksMysqlLayer "OpsWorks MySQL Layer" b
 resource "aws_opsworks_mysql_layer" "${1:name}" \{
+  stack_id = "\$\{aws_opsworks_stack.${2:foo}.id\}"
 \}
 endsnippet
 
-snippet frAwsOpsworksMysqlLayer
+snippet frAwsOpsworksMysqlLayer "OpsWorks MySQL Layer" b
 resource "aws_opsworks_mysql_layer" "${1:name}" \{
+  stack_id                       = "\$\{aws_opsworks_stack.${2:foo}.id\}"
   root_password                  = ""
   root_password_on_all_instances = true|false
+  name                           = "${1}"
+  auto_assign_elastic_ips        = true|false
+  auto_assign_public_ips         = true|false
+  custom_instance_profile_arn    = ""
+  elastic_load_balancer          = ""
+  custom_setup_recipes           = [""]
+  custom_configure_recipes       = [""]
+  custom_deploy_recipes          = [""]
+  custom_undeploy_recipes        = [""]
+  custom_shutdown_recipes        = [""]
+  custom_security_group_ids      = [""]
+  custom_json                    = ""
+  auto_healing                   = true|false
+  install_updates_on_boot        = true|false
+  instance_shutdown_timeout      = 120
+  drain_elb_on_shutdown          = true|false
+  system_packages                = [""]
+  use_ebs_optimized_instances    = true|false
+  ebs_volume \{
+    iops            = 0
+    mount_point     = ""
+    number_of_disks = 1
+    raid_level      = ""
+    size            = 1
+    type            = ""
+  \}
 \}
 endsnippet
 
-snippet srAwsOpsworksNodejsAppLayer
+snippet srAwsOpsworksNodejsAppLayer "OpsWorks NodeJS Layer" b
 resource "aws_opsworks_nodejs_app_layer" "${1:name}" \{
+  stack_id = "\$\{aws_opsworks_stack.${2:foo}.id\}"
 \}
 endsnippet
 
-snippet frAwsOpsworksNodejsAppLayer
+snippet frAwsOpsworksNodejsAppLayer "OpsWorks NodeJS Layer" b
 resource "aws_opsworks_nodejs_app_layer" "${1:name}" \{
-  nodejs_version = ""
+  stack_id                    = "\$\{aws_opsworks_stack.${2:foo}.id\}"
+  nodejs_version              = ""
+  name                        = "${1}"
+  auto_assign_elastic_ips     = true|false
+  auto_assign_public_ips      = true|false
+  custom_instance_profile_arn = ""
+  elastic_load_balancer       = ""
+  custom_setup_recipes        = [""]
+  custom_configure_recipes    = [""]
+  custom_deploy_recipes       = [""]
+  custom_undeploy_recipes     = [""]
+  custom_shutdown_recipes     = [""]
+  custom_security_group_ids   = [""]
+  custom_json                 = ""
+  auto_healing                = true|false
+  install_updates_on_boot     = true|false
+  instance_shutdown_timeout   = 120
+  drain_elb_on_shutdown       = true|false
+  system_packages             = [""]
+  use_ebs_optimized_instances = true|false
+  ebs_volume \{
+    iops            = 0
+    mount_point     = ""
+    number_of_disks = 1
+    raid_level      = ""
+    size            = 1
+    type            = ""
+  \}
 \}
 endsnippet
 
-snippet srAwsOpsworksPermission
+snippet srAwsOpsworksPermission "OpsWorks permission" b
 resource "aws_opsworks_permission" "${1:name}" \{
-  user_arn = ""
+  stack_id = "\$\{aws_opsworks_stack.${2:foo}.id\}"
+  user_arn = "\$\{aws_iam_user.${3:bar}.arn\}"
 \}
 endsnippet
 
-snippet frAwsOpsworksPermission
+snippet frAwsOpsworksPermission "OpsWorks permission" b
 resource "aws_opsworks_permission" "${1:name}" \{
-  user_arn   = ""
+  stack_id   = "\$\{aws_opsworks_stack.${2:foo}.id\}"
+  user_arn   = "\$\{aws_iam_user.${3:bar}.arn\}"
   allow_ssh  = true|false
   allow_sudo = true|false
   level      = ""
-  stack_id   = ""
 \}
 endsnippet
 
-snippet srAwsOpsworksRailsAppLayer
+snippet srAwsOpsworksRailsAppLayer "OpsWorks Ruby on Rails" b
 resource "aws_opsworks_rails_app_layer" "${1:name}" \{
+  stack_id = "\$\{aws_opsworks_stack.${2:foo}.id\}"
 \}
 endsnippet
 
-snippet frAwsOpsworksRailsAppLayer
+snippet frAwsOpsworksRailsAppLayer "OpsWorks Ruby on Rails" b
 resource "aws_opsworks_rails_app_layer" "${1:name}" \{
-  ruby_version      = ""
-  app_server        = ""
-  passenger_version = ""
-  rubygems_version  = ""
-  manage_bundler    = true|false
-  bundler_version   = ""
+  stack_id                    = "\$\{aws_opsworks_stack.${2:foo}.id\}"
+  ruby_version                = ""
+  app_server                  = ""
+  passenger_version           = ""
+  rubygems_version            = ""
+  manage_bundler              = true|false
+  bundler_version             = ""
+  name                        = "${1}"
+  auto_assign_elastic_ips     = true|false
+  auto_assign_public_ips      = true|false
+  custom_instance_profile_arn = ""
+  elastic_load_balancer       = ""
+  custom_setup_recipes        = [""]
+  custom_configure_recipes    = [""]
+  custom_deploy_recipes       = [""]
+  custom_undeploy_recipes     = [""]
+  custom_shutdown_recipes     = [""]
+  custom_security_group_ids   = [""]
+  custom_json                 = ""
+  auto_healing                = true|false
+  install_updates_on_boot     = true|false
+  instance_shutdown_timeout   = 120
+  drain_elb_on_shutdown       = true|false
+  system_packages             = [""]
+  use_ebs_optimized_instances = true|false
+  ebs_volume \{
+    iops            = 0
+    mount_point     = ""
+    number_of_disks = 1
+    raid_level      = ""
+    size            = 1
+    type            = ""
+  \}
 \}
 endsnippet
 
-snippet srAwsOpsworksRdsDbInstance
+snippet srAwsOpsworksRdsDbInstance "OpsWorks RDS DB" b
 resource "aws_opsworks_rds_db_instance" "${1:name}" \{
-  stack_id            = ""
-  rds_db_instance_arn = ""
-  db_password         = ""
-  db_user             = ""
+  stack_id            = "\$\{aws_opsworks_stack.${2:foo}.id\}"
+  rds_db_instance_arn = "\$\{aws_db_instance.${3:bar}.arn\}"
+  db_user             = "${4:baz}"
+  db_password         = "${5:qux}"
 \}
 endsnippet
 
-snippet frAwsOpsworksRdsDbInstance
+snippet frAwsOpsworksRdsDbInstance "OpsWorks RDS DB" b
 resource "aws_opsworks_rds_db_instance" "${1:name}" \{
-  stack_id            = ""
-  rds_db_instance_arn = ""
-  db_password         = ""
-  db_user             = ""
+  stack_id            = "\$\{aws_opsworks_stack.${2:foo}.id\}"
+  rds_db_instance_arn = "\$\{aws_db_instance.${3:bar}.arn\}"
+  db_user             = "${4:baz}"
+  db_password         = "${5:qux}"
 \}
 endsnippet
 
-snippet srAwsOpsworksStack
+snippet srAwsOpsworksStack "OpsWorks Stack" b
 resource "aws_opsworks_stack" "${1:name}" \{
-  name                         = ""
+  name                         = "${1}"
   region                       = ""
-  service_role_arn             = ""
-  default_instance_profile_arn = ""
+  service_role_arn             = "\$\{aws_iam_role.${2:foo}.arn\}"
+  default_instance_profile_arn = "\$\{aws_iam_instance_profile.${3:bar}.arn\}"
 \}
 endsnippet
 
-snippet frAwsOpsworksStack
+snippet frAwsOpsworksStack "OpsWorks Stack" b
 resource "aws_opsworks_stack" "${1:name}" \{
-  name                          = ""
+  name                          = "${1}"
   region                        = ""
-  service_role_arn              = ""
-  default_instance_profile_arn  = ""
+  service_role_arn              = "\$\{aws_iam_role.${2:foo}.arn\}"
+  default_instance_profile_arn  = "\$\{aws_iam_instance_profile.${3:bar}.arn\}"
   agent_version                 = ""
   color                         = ""
   configuration_manager_name    = ""
@@ -4913,62 +5112,65 @@ resource "aws_opsworks_stack" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsOpsworksUserProfile
+snippet srAwsOpsworksUserProfile "OpsWorks User Profile" b
 resource "aws_opsworks_user_profile" "${1:name}" \{
-  user_arn     = ""
-  ssh_username = ""
+  user_arn     = "\$\{aws_iam_user.${2:foo}.arn\}"
+  ssh_username = "${3:bar}"
 \}
 endsnippet
 
-snippet frAwsOpsworksUserProfile
+snippet frAwsOpsworksUserProfile "OpsWorks User Profile" b
 resource "aws_opsworks_user_profile" "${1:name}" \{
-  user_arn              = ""
-  ssh_username          = ""
+  user_arn              = "\$\{aws_iam_user.${2:foo}.arn\}"
+  ssh_username          = "${3:bar}"
   allow_self_management = true|false
   ssh_public_key        = ""
 \}
 endsnippet
 
-snippet srAwsPlacementGroup
+snippet srAwsPlacementGroup "EC2 Placement Group" b
 resource "aws_placement_group" "${1:name}" \{
-  name     = ""
-  strategy = ""
+  name     = "${1}"
+  strategy = "${2:bar}"
 \}
 endsnippet
 
-snippet frAwsPlacementGroup
+snippet frAwsPlacementGroup "EC2 Placement Group" b
 resource "aws_placement_group" "${1:name}" \{
-  name     = ""
-  strategy = ""
+  name     = "${1}"
+  strategy = "${2:bar}"
 \}
 endsnippet
 
-snippet srAwsProxyProtocolPolicy
+snippet srAwsProxyProtocolPolicy "ELB Proxy Protocol" b
 resource "aws_proxy_protocol_policy" "${1:name}" \{
-  load_balancer  = ""
-  instance_ports = [""]
+  load_balancer  = "\$\{aws_elb.${2:foo}.name\}"
+  instance_ports = ["${3:bar}"]
 \}
 endsnippet
 
-snippet frAwsProxyProtocolPolicy
+snippet frAwsProxyProtocolPolicy "ELB Proxy Protocol" b
 resource "aws_proxy_protocol_policy" "${1:name}" \{
-  load_balancer  = ""
-  instance_ports = [""]
+  load_balancer  = "\$\{aws_elb.${2:foo}.name\}"
+  instance_ports = ["${3:bar}"]
 \}
 endsnippet
 
-snippet srAwsRDSCluster
+snippet srAwsRDSCluster "Aurora RDS Cluster" b
 resource "aws_rds_cluster" "${1:name}" \{
+  snapshot_identifier = ""
+  master_username     = "" # Conflicts with snapshot_identifier.
+  master_password     = "" # Conflicts with snapshot_identifier.
 \}
 endsnippet
 
-snippet frAwsRDSCluster
+snippet frAwsRDSCluster "Aurora RDS Cluster" b
 resource "aws_rds_cluster" "${1:name}" \{
   availability_zones              = [""]
-  cluster_identifier              = ""
+  cluster_identifier              = "${1}"
   cluster_identifier_prefix       = ""
   cluster_members                 = [""]
-  database_name                   = ""
+  database_name                   = "${1}"
   db_subnet_group_name            = ""
   db_cluster_parameter_group_name = ""
   storage_encrypted               = true|false
@@ -4988,18 +5190,18 @@ resource "aws_rds_cluster" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsRDSClusterInstance
+snippet srAwsRDSClusterInstance "Aurora RDS Cluster Instance" b
 resource "aws_rds_cluster_instance" "${1:name}" \{
-  cluster_identifier = ""
-  instance_class     = ""
+  cluster_identifier = "\$\{aws_rds_cluster.${2:foo}.id\}"
+  instance_class     = "${3:bar}"
 \}
 endsnippet
 
-snippet frAwsRDSClusterInstance
+snippet frAwsRDSClusterInstance "Aurora RDS Cluster Instance" b
 resource "aws_rds_cluster_instance" "${1:name}" \{
-  cluster_identifier           = ""
-  instance_class               = ""
-  identifier                   = ""
+  cluster_identifier           = "\$\{aws_rds_cluster.${2:foo}.id\}"
+  instance_class               = "${3:bar}"
+  identifier                   = "${1}"
   identifier_prefix            = ""
   db_subnet_group_name         = ""
   publicly_accessible          = true|false
@@ -5014,16 +5216,16 @@ resource "aws_rds_cluster_instance" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsRDSClusterParameterGroup
+snippet srAwsRDSClusterParameterGroup "RDS Cluster Parameter Group" b
 resource "aws_rds_cluster_parameter_group" "${1:name}" \{
   family = ""
 \}
 endsnippet
 
-snippet frAwsRDSClusterParameterGroup
+snippet frAwsRDSClusterParameterGroup "RDS Cluster Parameter Group" b
 resource "aws_rds_cluster_parameter_group" "${1:name}" \{
   family      = ""
-  name        = ""
+  name        = "${1}" # Conflicts with name_prefix
   name_prefix = ""
   description = ""
   parameter \{
