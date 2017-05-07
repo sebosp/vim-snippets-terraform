@@ -6,7 +6,7 @@ You need to have vim-snippets and UltiSnips installed which in turn means you ne
 
 ## Example
 
-![Asciinema](https://asciinema.org/a/119550 "See it live")
+[![tvl asciicast](https://asciinema.org/a/119550.png)](https://asciinema.org/a/119550)
 
 ## Status 100% Complete
 This is a very early stage, if you are a brave soul and find inconsistencies please let me know.
