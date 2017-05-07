@@ -3722,12 +3722,12 @@ resource "aws_iam_account_alias" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsIamAccountPasswordPolicy
+snippet srAwsIamAccountPasswordPolicy "Aws IAM Account Password Policy" b
 resource "aws_iam_account_password_policy" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsIamAccountPasswordPolicy
+snippet frAwsIamAccountPasswordPolicy "Aws IAM Account Password Policy" b
 resource "aws_iam_account_password_policy" "${1:name}" \{
   allow_users_to_change_password = true|false
   hard_expiry                    = true|false
@@ -6251,13 +6251,13 @@ resource "aws_volume_attachment" "${1:name}" \{
 \}
 endsnippet
 
-snippet srAwsVpc "Virtual Private Circuit" b
+snippet srAwsVpc "Virtual Private Cloud" b
 resource "aws_vpc" "${1:name}" \{
   cidr_block = "10.0.0.0/16"
 \}
 endsnippet
 
-snippet frAwsVpc "Virtual Private Circuit" b
+snippet frAwsVpc "Virtual Private Cloud" b
 resource "aws_vpc" "${1:name}" \{
   cidr_block                       = "10.0.0.0/16"
   instance_tenancy                 = ""
@@ -6282,7 +6282,7 @@ resource "aws_vpc_dhcp_options" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsVpcDhcpOption "VPC DHCP Options" bs
+snippet frAwsVpcDhcpOptions "VPC DHCP Options" b
 resource "aws_vpc_dhcp_options" "${1:name}" \{
   domain_name          = "mydomain"
   domain_name_servers  = ["8.8.8.8","4.2.2.2"]
@@ -6447,7 +6447,7 @@ resource "aws_vpn_gateway" "${1:name}" \{
 \}
 endsnippet
 
-snippet frAwsVpnGatewa "VPN VPC Gateway" by
+snippet frAwsVpnGateway "VPN VPC Gateway" b
 resource "aws_vpn_gateway" "${1:name}" \{
   availability_zone = ""
   vpc_id            = "\$\{aws_vpc.${2:foo}.id\}"
