@@ -1,0 +1,35 @@
+Elasticsearch Domain has no h2 description.
+aws_elasticache_cluster:
+- parameter_group_name seems Optional
+aws_elasticache_replication_group:
+- no `engine` param (should be Optional)
+aws_instance:
+- '//' breaks the syntax hilight
+aws_kinesis_stream
+- arn parameter missing
+aws_lightsail_key_pair
+- name_prefix missing
+aws_nat_gateway
+- Missing params
+  - network_interface_id
+  - private_ip
+  - public_ip
+aws_opsworks_application
+- short_name is Optional
+aws_opsworks_instance
+- Missing params:
+  - reported_agent_version
+  - reported_os_family
+  - reported_os_name
+  - reported_os_version
+aws_vpc_peering_connection
+- param peer_owner_id is Optional from the code.
+aws_vpc_peering_connection_accepter
+- single-quotes break the hilight.
+aws_vpn_connection:
+- Missing vgw_telemetry and routes sets.
+
+- For vim-snippets-terraform:
+* added eip and networking_interface utils on 0.9.4
+* added opsworks_php_layer
+* added opsworks_static_web_layer

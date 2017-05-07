@@ -1462,7 +1462,7 @@ endsnippet
 
 snippet srAwsAppCookieStickinessPolicy "App Cookie Stickiness Policy for ELB" b
 resource "aws_app_cookie_stickiness_policy" "${1:name}" \{
-  name          = "${1}"
+  name          = "$1"
   load_balancer = "\$\{aws_elb.${2:foo}.name\}"
   lb_port       = 80
   cookie_name   = "${3:bar}"
@@ -1471,7 +1471,7 @@ endsnippet
 
 snippet frAwsAppCookieStickinessPolicy "App Cookie Stickiness Policy for ELB" b
 resource "aws_app_cookie_stickiness_policy" "${1:name}" \{
-  name          = "${1}"
+  name          = "$1"
   load_balancer = "\$\{aws_elb.${2:foo}.name\}"
   lb_port       = 80
   cookie_name   = ""
@@ -3078,7 +3078,7 @@ resource "aws_ecs_service" "${1:name}" \{
   depends_on                         = ["aws_iam_role_policy.${2:foo}"]
   name                               = "${1}"
   task_definition                    = "\$\{aws_ecs_task_definition.${3:bar}.arn\}"
-  cluster                            = "${aws_ecs_cluster.${4:baz}.id}"
+  cluster                            = "\$\{aws_ecs_cluster.${4:baz}.id\}"
   desired_count                      = 1
   iam_role                           = "\$\{aws_iam_role.${5:qux}.arn\}"
   deployment_maximum_percent         = 1
@@ -4663,7 +4663,7 @@ resource "aws_opsworks_application" "${1:name}" \{
   enable_ssl                = true|false
   ssl_configuration \{
     certificate = "\$\{file("./foobar.crt")\}"
-    private_key = "\$\{file("./foobar.key")\}""
+    private_key = "\$\{file("./foobar.key")\}"
     chain       = "\$\{file("./foobar.ca")\}"
   \}
 \}
@@ -6438,7 +6438,7 @@ endsnippet
 snippet frAwsVpnConnectionRoute "VPN Connection to Customer Gateway Static Route" b
 resource "aws_vpn_connection_route" "${1:name}" \{
   destination_cidr_block = "192.168.10.0/24"
-  vpn_connection_id      = \$\{aws_vpn_connection.${2:foo}.id\}""
+  vpn_connection_id      = "\$\{aws_vpn_connection.${2:foo}.id\}"
 \}
 endsnippet
 
