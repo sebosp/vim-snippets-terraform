@@ -26,6 +26,6 @@ Snippets can be located by following this simple combination:
   * `AwsAlbTargetGroup` triggers the data|resource "aws_alb_target_group"
 
 ## Docker Image
-This is included as part of (sebosp/tvl)[https://hub.docker.com/r/sebosp/tvl/]:0.0.9
-See [tvl repo](https://github.com/sebosp/tvl)
+This is included as part of [sebosp/tvl](https://hub.docker.com/r/sebosp/tvl/):0.0.9
+See [tvl repo](https://github.com/sebosp/tvl) for usage.
 
